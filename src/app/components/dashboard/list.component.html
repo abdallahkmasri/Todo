@@ -1,0 +1,56 @@
+<div style="background-color: white">
+  <mat-card class="dashboard-card">
+    <mat-card-content>
+      <nav>
+        <img src="assets/images/Dashboard.png" class="dashboard-image" />
+        <form [formGroup]="search" class="right-align">
+          <mat-form-field appearance="outline">
+            <input
+              matInput
+              formControlName="item"
+              placeholder="Search your task here..."
+            />
+            <mat-icon matSuffix class="icon" fontIcon="search"></mat-icon>
+          </mat-form-field>
+        </form>
+        <div class="right-align">
+          <mat-icon
+            class="icon"
+            aria-label="notifications"
+            fontIcon="notifications_none"
+          ></mat-icon>
+          <mat-icon
+            class="icon"
+            aria-label="calendar"
+            fontIcon="calendar_today"
+          ></mat-icon>
+        </div>
+      </nav>
+    </mat-card-content>
+  </mat-card>
+
+    <mat-card>
+      <mat-card-title>Welcome back, {{ userName }}</mat-card-title>
+    </mat-card>
+
+  <mat-grid-list cols="2">
+
+    <mat-grid-tile [rowspan]="2">
+      <mat-accordion>
+        <h3>Tasks</h3>
+    </mat-accordion>
+    </mat-grid-tile>
+
+    <mat-grid-tile>
+      <mat-card>
+        <h3>Task Status</h3>
+      </mat-card>
+    </mat-grid-tile>
+
+    <mat-grid-tile>
+      <mat-list>
+        <h3>completed tasks</h3>
+    </mat-list>
+    </mat-grid-tile>
+  </mat-grid-list>
+</div>

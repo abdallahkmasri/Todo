@@ -1,0 +1,128 @@
+<div style="display: flex; flex-direction: column; justify-content: center; align-items: center;" class="background">
+  <mat-card class="Card">
+    <mat-card-content>
+      <mat-grid-list cols="3" rowHeight="767px">
+        <mat-grid-tile colspan="1">
+          <img src="assets/images/register.png" width="250px" height="600px" />
+        </mat-grid-tile>
+        <mat-grid-tile colspan="2">
+          <form [formGroup]="signupForm" (ngSubmit)="Submit()">
+            <h3>Sign Up</h3>
+            <p>
+              <mat-form-field appearance="outline">
+                <mat-label>Enter First Name</mat-label>
+                <input matInput formControlName="firstName" required />
+                <mat-icon fontIcon="person" matPrefix></mat-icon>
+                <mat-error
+                  *ngIf="signupForm.get('firstName').hasError('required')"
+                >
+                  First name is required
+                </mat-error>
+              </mat-form-field>
+            </p>
+            <p>
+              <mat-form-field appearance="outline">
+                <mat-label>Enter Last Name</mat-label>
+                <input matInput formControlName="lastName" required />
+                <mat-icon fontIcon="person_outline" matPrefix></mat-icon>
+                <mat-error
+                  *ngIf="signupForm.get('lastName').hasError('required')"
+                >
+                  Last name is required
+                </mat-error>
+              </mat-form-field>
+            </p>
+            <p>
+              <mat-form-field appearance="outline">
+                <mat-label>Enter Username</mat-label>
+                <input matInput formControlName="username" required />
+                <mat-icon fontIcon="person_add" matPrefix></mat-icon>
+                <mat-error
+                  *ngIf="signupForm.get('username').hasError('required')"
+                >
+                  Username is required
+                </mat-error>
+              </mat-form-field>
+            </p>
+            <p>
+              <mat-form-field appearance="outline">
+                <mat-label>Enter Email</mat-label>
+                <input matInput type="email" formControlName="email" required />
+                <mat-icon fontIcon="email" matPrefix></mat-icon>
+                <mat-error *ngIf="signupForm.get('email').hasError('required')">
+                  Email is required
+                </mat-error>
+                <mat-error *ngIf="signupForm.get('email').hasError('email')">
+                  Please enter a valid email address
+                </mat-error>
+              </mat-form-field>
+            </p>
+            <p>
+              <mat-form-field appearance="outline">
+                <mat-label>Enter Password</mat-label>
+                <input
+                  matInput
+                  type="password"
+                  formControlName="password"
+                  required
+                />
+                <mat-icon fontIcon="lock" matPrefix=""></mat-icon>
+                <mat-error
+                  *ngIf="signupForm.get('password').hasError('required')"
+                >
+                  Password is required
+                </mat-error>
+              </mat-form-field>
+            </p>
+            <p>
+              <mat-form-field appearance="outline">
+                <mat-label>Confirm Password</mat-label>
+                <input
+                  matInput
+                  type="password"
+                  formControlName="confirmPassword"
+                  required
+                />
+                <mat-icon fontIcon="lock_outline" matPrefix=""></mat-icon>
+                <mat-error
+                  *ngIf="signupForm.get('confirmPassword').hasError('required')"
+                >
+                  Confirm password is required
+                </mat-error>
+                <mat-error
+                  *ngIf="
+                    signupForm.get('confirmPassword').value !==
+                    signupForm.get('password').value
+                  "
+                >
+                  Passwords do not match
+                </mat-error>
+              </mat-form-field>
+            </p>
+            <p>
+              <mat-checkbox formControlName="agreeToTerms"
+                >I agree to all terms</mat-checkbox
+              >
+              <mat-error
+                *ngIf="
+                  signupForm.get('agreeToTerms').hasError('required') && submit
+                "
+                >Please agree to the terms</mat-error
+              >
+            </p>
+            <p>
+              <button
+                class="button-container"
+                mat-raised-button
+                color="primary"
+              >
+                Register
+              </button>
+            </p>
+            <p>Already have an account? <a routerLink="/signin">Sign in</a></p>
+          </form>
+        </mat-grid-tile>
+      </mat-grid-list>
+    </mat-card-content>
+  </mat-card>
+</div>

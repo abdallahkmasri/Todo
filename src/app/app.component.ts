@@ -1,10 +1,21 @@
-import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  standalone: true,
+  imports: [CommonModule, RouterModule],
 })
-export class AppComponent {
+export class AppComponent implements OnInit{
   title = 'TodoApp';
+
+  constructor(private router: Router){}
+
+  ngOnInit(): void {
+    
+    this.router.navigateByUrl('/signin');
+  }
+
 }

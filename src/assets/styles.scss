@@ -1,0 +1,143 @@
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+@use "@angular/material" as mat;
+// Plus imports for other components in your app.
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat.core();
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://material.io/design/color/
+
+$TodoApp-primary-palette: (
+  50: #ff6767,
+  100: #ff6767,
+  200: #ff6767,
+  300: #ff6767,
+  400: #ff6767,
+  500: #ff6767,
+  600: #ff6767,
+  700: #ff6767,
+  800: #ff6767,
+  900: #ff6767,
+  contrast: (
+    50: #fff,
+    100: #fff,
+    200: #fff,
+    300: #fff,
+    400: #fff,
+    500: #fff,
+    600: #fff,
+    700: #000,
+    800: #000,
+    900: #000,
+  ),
+);
+
+$TodoApp-primary: mat.define-palette($TodoApp-primary-palette);
+$TodoApp-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
+
+// The warn palette is optional (defaults to red).
+$TodoApp-warn: mat.define-palette(mat.$red-palette);
+
+// Create the theme object. A theme consists of configurations for individual
+// theming systems such as "color" or "typography".
+$TodoApp-theme: mat.define-light-theme(
+  (
+    color: (
+      primary: $TodoApp-primary,
+      accent: $TodoApp-accent,
+      warn: $TodoApp-warn,
+    ),
+  )
+);
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include mat.all-component-themes($TodoApp-theme);
+
+/* You can add global styles to this file, and also import other style files */
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  background-color: #ff6767;
+}
+
+.background {
+  background-image: url("images/background.png");
+  width: 100%;
+  height: 130vh;
+  background-size: cover;
+  background-repeat: repeat;
+  margin-bottom: 50px;
+}
+
+.Card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 1000px;
+  margin-top: 50px;
+}
+
+mat-card {
+  width: 100%;
+}
+
+nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Style for the card */
+.dashboard-card {
+  padding: 20px;
+}
+
+/* Flex container for horizontal layout */
+.card-content {
+  display: flex;
+  flex-direction: row;
+  justify-items: center;
+  align-items: center; /* Vertically align items */
+  gap: 16px; /* Space between elements */
+}
+
+/* Style for the image */
+.dashboard-image {
+  margin: 10px 10px 10px 50px; /* Adjust margin as needed */
+  width: 150px; /* Set a fixed width for consistency */
+  height: auto;
+}
+
+/* Style for the form */
+.search-form {
+  flex: 1; /* Allow the form to grow and fill available space */
+}
+
+
+
+
+/* Style for icons */
+.icon {
+  margin: 0 8px;
+  cursor: pointer;
+  background-color: #ff6767;
+  color: #FFF;
+  border-radius: 10%;
+}
+
+.right-align {
+  margin-left: auto;
+}
+
