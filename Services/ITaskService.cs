@@ -1,0 +1,14 @@
+﻿using TodoApp.Models;
+
+namespace TodoApp.Services
+{
+    public interface ITaskService
+    {
+        Task<IEnumerable<TaskModel>> GetUserTaskAsync(int userId);
+        Task<TaskModel> GetTaskByIdAsync(int id);
+       Task AddTaskAsync(TaskModel todoItem);
+        Task UpdateTaskAsync(TaskModel todoItem);
+        Task DeleteTaskAsync(int id);
+        Task MarkTaskAsCompletedAsync(int id);
+    }
+}
