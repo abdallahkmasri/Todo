@@ -1,0 +1,23 @@
+<div class="task-cards">
+    <div *ngIf="tasks$ | async as tasks">
+    <mat-card class="task-card" *ngFor="let task of tasks">
+      <div mat-card-content>
+        <div class="task-header">
+          <mat-icon>circle</mat-icon>
+          <span class="task-title">{{ task.title }}</span>
+          <mat-icon class="more-options">more_vert</mat-icon>
+        </div>
+        <div class="task-body">
+          <p>{{ task.description }}</p>
+        </div>
+        <div class="task-footer">
+          <span>Priority: <strong>{{ task.priority }}</strong></span>
+          <span>Status: <strong>{{ task.status }}</strong></span>
+        </div>
+        <div class="task-footer created-date">
+          Created on: {{ task.dueDate| date: 'dd/MM/yyyy' }}
+        </div>
+      </div>
+    </mat-card>
+</div>
+  </div>

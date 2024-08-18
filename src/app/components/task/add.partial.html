@@ -1,0 +1,37 @@
+<h1 mat-dialog-title>Add New Task</h1>
+<form [formGroup]="taskForm" (ngSubmit)="onSubmit()">
+  <div mat-dialog-content>
+    <p>
+      <mat-form-field>
+        <mat-label>Title</mat-label>
+        <input matInput formControlName="title" />
+      </mat-form-field>
+    </p>
+    <p>
+      <mat-form-field>
+        <mat-label>Date</mat-label>
+        <input matInput [matDatepicker]="picker" formControlName="dueDate" />
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker startView="month"></mat-datepicker>
+      </mat-form-field>
+    </p>
+    <p>
+      <mat-label>Priority</mat-label>
+    </p>
+    <mat-radio-group formControlName="priority">
+        <mat-radio-button [value]="extreme">Extreme</mat-radio-button>
+        <mat-radio-button [value]="moderate">Moderate</mat-radio-button>
+        <mat-radio-button [value]="low">Low</mat-radio-button>
+      </mat-radio-group>
+    <p>
+      <mat-form-field>
+        <mat-label>Description</mat-label>
+        <textarea matInput formControlName="description"></textarea>
+      </mat-form-field>
+    </p>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-button type="button" (click)="onNoClick()">Cancel</button>
+    <button mat-button type="submit">Done</button>
+  </div>
+</form>

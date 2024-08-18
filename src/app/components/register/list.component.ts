@@ -17,7 +17,6 @@ import { Router, RouterModule } from '@angular/router';
 import { RegisterService } from 'src/app/services/register.service';
 
 @Component({
-  selector: 'grid-list-overview-example',
   templateUrl: 'list.component.html',
   standalone: true,
   imports: [
@@ -74,7 +73,7 @@ export class RegisterComponent {
         next: (response) => {
           // Handle successful registration
           console.log('Registration successful', response);
-          this.router.navigate(['/signin']);
+          this.router.navigateByUrl('/')
         },
         error: (error) => {
           // Handle registration error

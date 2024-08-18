@@ -3,7 +3,7 @@ export interface ITask {
     title: string;
     description: string;
     dueDate: Date;
-    status: string;
+    status?: string;
     priority: string;
-    isComplete: boolean;
+    isComplete?: boolean;
   }

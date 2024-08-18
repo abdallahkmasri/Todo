@@ -9,7 +9,7 @@ import { IRegister } from "../models/register.model";
 })
 
 export class RegisterService {
-    private _url = `${enviroment.url}/Users/register`;
+    private _url = `${enviroment.url}/Users`;
 
     constructor(private http: HttpClient){}
 

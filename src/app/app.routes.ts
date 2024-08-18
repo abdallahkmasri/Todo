@@ -3,6 +3,7 @@ import {
   provideRouter,
   withComponentInputBinding,
 } from '@angular/router';
+import { AuthGuard } from './services/auth.service';
 
 const routes: Routes = [
   {
@@ -10,12 +11,13 @@ const routes: Routes = [
     loadChildren: () => import('./routes/register.route').then((r) => r.RegisterRoutes)
   },
   {
-    path: 'signin',
+    path: '',
     loadChildren: () => import('./routes/signin.route').then((r) => r.SignInRoutes)
   },
   {
     path: 'dashboard',
-    loadChildren: () => import('./routes/dashboard.route').then((r) => r.DashboardRoute)
+    loadChildren: () => import('./routes/dashboard.route').then((r) => r.DashboardRoute),
+    canActivate: [AuthGuard]
   }
 ];
 

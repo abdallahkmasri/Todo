@@ -8,14 +8,7 @@ import { Router, RouterModule } from '@angular/router';
   standalone: true,
   imports: [CommonModule, RouterModule],
 })
-export class AppComponent implements OnInit{
+export class AppComponent{
   title = 'TodoApp';
-
-  constructor(private router: Router){}
-
-  ngOnInit(): void {
-    
-    this.router.navigateByUrl('/signin');
-  }
 
 }

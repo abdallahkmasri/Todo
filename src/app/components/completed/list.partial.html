@@ -1,0 +1,21 @@
+<div class="completed-task-cards">
+    <mat-card class="task-card" *ngFor="let task of completedTasks">
+      <div mat-card-content>
+        <div class="task-header">
+          <mat-icon>circle</mat-icon>
+          <span class="task-title">{{ task.title }}</span>
+          <mat-icon class="more-options">more_vert</mat-icon>
+        </div>
+        <div class="task-body">
+          <p>{{ task.description }}</p>
+        </div>
+        <div class="task-footer">
+          Status: <strong class="completed-status">{{ task.status }}</strong>
+        </div>
+        <div class="task-footer completed-date">
+          Completed {{ task.completedDate | date: 'dd/MM/yyyy' }}
+        </div>
+      </div>
+    </mat-card>
+  </div>
+  
