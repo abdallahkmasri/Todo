@@ -4,7 +4,6 @@ import { ITask } from '../models/task.model';
 import { enviroment } from 'src/enviroments/enviroment';
 import { Observable } from 'rxjs';
 import { SigninService } from './signin.service';
-import { formatDate } from '@angular/common';
 
 @Injectable({
   providedIn: 'root',
@@ -25,10 +24,12 @@ export class TaskService {
     const added = {
         title: task.title,
         description: task.description,
-        dueDate: formatDate(new Date(task.dueDate), 'yyyy-MM-ddTHH:mm:ss', 'en-US'),
+        dueDate: task.dueDate,
         status: task.status,
         priority: task.priority,
         isComplete: task.isComplete,
+        userId: this.signinService.getUserId,
+        user: this.signinService.getUserName,
     }
 
     return this.http.post(`${this._url}`, added, { headers });

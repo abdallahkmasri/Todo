@@ -60,7 +60,6 @@ export class TaskAddComponent {
     }
   
     onSubmit(): void {
-        debugger
       if (this.taskForm.valid) {
         this.taskService.addTask(this.taskForm.value).subscribe({
             next: (res) => {
