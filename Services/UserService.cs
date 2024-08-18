@@ -1,4 +1,8 @@
-﻿using TodoApp.Models;
+﻿using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
+using TodoApp.Models;
 using TodoApp.Repositories;
 
 namespace TodoApp.Services
@@ -12,10 +16,8 @@ namespace TodoApp.Services
             _userRepository = userRepository;
         }
 
-        public async Task<bool> RegisterUserAsync(UserModel user, string confirmPassword)
+        public async Task<bool> RegisterUserAsync(UserModel user)
         {
-            if (user.Password != confirmPassword)
-                return false;
 
             var existingUser = await _userRepository.GetUserByUsernameAsync(user.UserName);
             if (existingUser != null)
@@ -36,5 +38,29 @@ namespace TodoApp.Services
             }
             return null;
         }
+
+        public string GenerateJwtToken(UserModel user)
+        {
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.ASCII.GetBytes("My Secret Key For Todo App using JWT");
+            var issuer = "http://localhost:5218";
+            var audience = "http://localhost:5218";
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(new[]
+                {
+            new Claim(ClaimTypes.Name, user.UserName),
+            new Claim(ClaimTypes.NameIdentifier, user.ID.ToString())
+        }),
+                Expires = DateTime.UtcNow.AddHours(1),
+                Issuer = issuer,
+                Audience = audience,
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256)
+            };
+
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+            return tokenHandler.WriteToken(token);
+        }
+
     }
 }

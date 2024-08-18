@@ -11,7 +11,10 @@ using Microsoft.IdentityModel.Tokens;
 var builder = WebApplication.CreateBuilder(args);
 
 // JWT configuration
-var key = Encoding.ASCII.GetBytes("SecretKey");
+// Hardcoded key and issuer settings
+var key = Encoding.ASCII.GetBytes("My Secret Key For Todo App using JWT");
+var issuer = "http://localhost:5218";
+var audience = "http://localhost:5218";
 
 builder.Services.AddAuthentication(options =>
 {
@@ -24,8 +27,10 @@ builder.Services.AddAuthentication(options =>
     {
         ValidateIssuerSigningKey = true,
         IssuerSigningKey = new SymmetricSecurityKey(key),
-        ValidateIssuer = false,
-        ValidateAudience = false,
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidIssuer = issuer,
+        ValidAudience = audience,
         ValidateLifetime = true,
         ClockSkew = TimeSpan.Zero // Optional: Reduce the default clock skew of 5 minutes
     };
@@ -43,7 +48,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAngularApp", builder =>
     {
-        builder.WithOrigins("*") // Allow the Angular app
+        builder.AllowAnyOrigin()
                .AllowAnyHeader()
                .AllowAnyMethod();
     });

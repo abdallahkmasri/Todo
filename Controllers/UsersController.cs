@@ -15,8 +15,9 @@ namespace TodoApp.Controllers
             _userService = userService;
         }
 
-        [HttpPost("register")]
-        public async Task<IActionResult> Register([FromBody] RegisterRequest request)
+        // POST: api/users
+        [HttpPost]
+        public async Task<IActionResult> Register([FromBody] RegisterModel request)
         {
             var user = new UserModel
             {
@@ -27,37 +28,26 @@ namespace TodoApp.Controllers
                 Password = request.Password
             };
 
-            var result = await _userService.RegisterUserAsync(user, request.ConfirmPassword);
+            var result = await _userService.RegisterUserAsync(user);
             if (result != false)
                 return Ok(user);
 
             return BadRequest("Registration failed.");
         }
 
+        // POST: api/users/login
         [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] LoginRequest request)
+        public async Task<IActionResult> Login([FromBody] LoginModel request)
         {
             var user = await _userService.AuthenticateUserAsync(request.UserName, request.Password);
             if (user != null)
-                return Ok("Login successful.");
+            {
+                // Generate JWT token
+                var token = _userService.GenerateJwtToken(user);
+                return Ok(new { Token = token, UserId = user.ID, UserName = user.UserName });
+            }
 
             return Unauthorized("Invalid username or password.");
-        }
-
-        public class RegisterRequest
-        {
-            public string FirstName { get; set; }
-            public string LastName { get; set; }
-            public string UserName { get; set; }
-            public string Email { get; set; }
-            public string Password { get; set; }
-            public string ConfirmPassword { get; set; }
-        }
-
-        public class LoginRequest
-        {
-            public string UserName { get; set; }
-            public string Password { get; set; }
         }
     }
 }
