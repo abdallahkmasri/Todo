@@ -110,6 +110,7 @@ nav {
 /* Style for the card */
 .dashboard-card {
   padding: 20px;
+  background-color: transparent;
 }
 
 /* Flex container for horizontal layout */
@@ -124,7 +125,7 @@ nav {
 /* Style for the image */
 .dashboard-image {
   margin: 10px 10px 10px 50px; /* Adjust margin as needed */
-  width: 150px; /* Set a fixed width for consistency */
+  width: 180px; /* Set a fixed width for consistency */
   height: auto;
 }
 
@@ -206,4 +207,11 @@ mat-card {
 
 mat-button {
   text-decoration: underline;
+}
+
+mat-dialog-content {
+  border: 2px solid #ccc; /* Adjust the border color and width as needed */
+  border-radius: 5px; /* Optional: to make the corners rounded */
+  padding: 16px; /* Optional: to add some padding inside the form */
+  margin: 8px; /* Optional: to add some margin around the form */
 }

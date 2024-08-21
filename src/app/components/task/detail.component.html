@@ -1,12 +1,16 @@
 <div style="background-color: #fff; height: 100%">
   <mat-toolbar class="dashboard-card">
-    <img src="assets/images/Dashboard.png" class="dashboard-image" />
+    <a routerLink="/dashboard">
+      <img src="assets/images/Dashboard.png" class="dashboard-image" />
+    </a>
     <span class="example-spacer"></span>
     <form [formGroup]="search">
       <mat-form-field appearance="outline">
         <mat-label>Search your task here</mat-label>
         <input matInput formControlName="item" />
-        <mat-icon matSuffix class="icon" fontIcon="search"></mat-icon>
+        <button extended matSuffix type="submit" aria-label="Search"  class="icon">
+          <mat-icon>search</mat-icon>
+        </button>
       </mat-form-field>
     </form>
     <span class="example-spacer"></span>
@@ -42,7 +46,6 @@
           <mat-card-subtitle>
             <h4>Priority: {{ task.priority }}</h4>
             <h4>Status: {{ task.status }}</h4>
-            
           </mat-card-subtitle>
           <button mat-button (click)="Back()">Go Back</button>
         </mat-card-title-group>
@@ -51,25 +54,36 @@
       <mat-card-content>
         {{ task.description }}
         <mat-card-subtitle>
-          <p>
-            Created on: {{ task.createdDate | date : "dd/MM/yyyy" }}
-          </p>
-          <p>
-            Due on: {{ task.dueDate | date : "dd/MM/yyyy" }}
-          </p>
+          <p>Created on: {{ task.createdDate | date : "dd/MM/yyyy" }}</p>
+          <p>Due on: {{ task.dueDate | date : "dd/MM/yyyy" }}</p>
         </mat-card-subtitle>
       </mat-card-content>
-      
+
       <mat-card-actions>
         <span class="example-spacer"></span>
-        <button mat-fab color="primary" style="color: white; margin: 0 8px" (click)="Delete()">
+        <button
+          mat-fab
+          color="primary"
+          style="color: white; margin: 0 8px"
+          (click)="Delete()"
+        >
           <mat-icon fontIcon="delete"></mat-icon>
         </button>
 
-        <button mat-fab color="primary" style="color: white; margin: 0 8px" (click)="openDialog(task)">
+        <button
+          mat-fab
+          color="primary"
+          style="color: white; margin: 0 8px"
+          (click)="openDialog(task)"
+        >
           <mat-icon fontIcon="edit"></mat-icon>
         </button>
-        <button mat-fab color="primary" style="color: white; margin: 0 8px" (click)="markComplete()">
+        <button
+          mat-fab
+          color="primary"
+          style="color: white; margin: 0 8px"
+          (click)="markComplete()"
+        >
           <mat-icon fontIcon="priority_high"></mat-icon>
         </button>
       </mat-card-actions>

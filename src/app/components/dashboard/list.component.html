@@ -1,12 +1,20 @@
 <div style="background-color: #ffff; height: 100%">
   <mat-toolbar class="dashboard-card">
-    <img src="assets/images/Dashboard.png" class="dashboard-image" />
+    <a routerLink="/dashboard">
+      <img src="assets/images/Dashboard.png" class="dashboard-image" />
+    </a>
     <span class="example-spacer"></span>
     <form [formGroup]="searchForm" (ngSubmit)="Search()">
       <mat-form-field appearance="outline">
         <mat-label>Search your task here</mat-label>
         <input matInput formControlName="item" />
-        <button extended matSuffix type="submit" aria-label="Search"  class="icon">
+        <button
+          extended
+          matSuffix
+          type="submit"
+          aria-label="Search"
+          class="icon"
+        >
           <mat-icon>search</mat-icon>
         </button>
       </mat-form-field>
@@ -59,7 +67,7 @@
               <span>{{ date | date : "dd MMMM" }}</span>
               <span> .Today</span>
             </div>
-              <dm-task-list [tasks]="tasks$ | async"></dm-task-list>
+            <dm-task-list [tasks]="tasks$ | async"></dm-task-list>
           </mat-card-content>
         </mat-card>
       </div>
@@ -69,8 +77,13 @@
           <mat-card-header>
             <mat-card-title-group>
               <mat-card-title>
-                <mat-icon color="primary" fontIcon="assignment_late"></mat-icon>
-                <span class="task-title"> OverDue Tasks</span>
+                <div style="display: flex; align-items: center">
+                  <mat-icon
+                    color="primary"
+                    fontIcon="assignment_late"
+                  ></mat-icon>
+                  <span class="task-title"> OverDue Tasks</span>
+                </div>
               </mat-card-title>
             </mat-card-title-group>
           </mat-card-header>
@@ -83,11 +96,13 @@
           <mat-card-header>
             <mat-card-title-group>
               <mat-card-title>
-                <mat-icon
-                  color="primary"
-                  fontIcon="assignment_turned_in"
-                ></mat-icon>
-                <span class="task-title"> Completed Tasks</span>
+                <div style="display: flex; align-items: center">
+                  <mat-icon
+                    color="primary"
+                    fontIcon="assignment_turned_in"
+                  ></mat-icon>
+                  <span class="task-title"> Completed Tasks</span>
+                </div>
               </mat-card-title>
             </mat-card-title-group>
           </mat-card-header>

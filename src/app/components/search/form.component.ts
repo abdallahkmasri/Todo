@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { Observable, switchMap } from 'rxjs';
+import { ActivatedRoute, RouterModule } from '@angular/router';
+import { Observable, switchMap, tap } from 'rxjs';
 import { ITask } from 'src/app/models/task.model';
 import { SigninService } from 'src/app/services/signin.service';
 import { TaskService } from 'src/app/services/task.service';
@@ -18,10 +18,29 @@ import {
 } from '@angular/forms';
 import { TaskListPartial } from '../task/list.partial';
 import { MatCardModule } from '@angular/material/card';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import {
+  DateAdapter,
+  MAT_DATE_FORMATS,
+  MatNativeDateModule,
+  NativeDateAdapter,
+} from '@angular/material/core';
+
+const MY_DATE_FORMATS = {
+  parse: {
+    dateInput: 'LL',
+  },
+  display: {
+    dateInput: 'DD/MM/YYYY', // This is the format you want to display the date in
+    monthYearLabel: 'MMM YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'MMMM YYYY',
+  },
+};
 
 @Component({
   standalone: true,
-  templateUrl: './list.component.html',
+  templateUrl: './form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     CommonModule,
@@ -32,7 +51,14 @@ import { MatCardModule } from '@angular/material/card';
     MatButtonModule,
     ReactiveFormsModule,
     MatCardModule,
-    TaskListPartial
+    TaskListPartial,
+    RouterModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+  ],
+  providers: [
+    { provide: DateAdapter, useClass: NativeDateAdapter },
+    { provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS },
   ],
 })
 export class SearchListComponent implements OnInit {
@@ -50,48 +76,19 @@ export class SearchListComponent implements OnInit {
     });
   }
 
-  searchTasks(title?: string, startDate?: Date, endDate?: Date): void {
-    const userId = this.signinService.getUserId();
-    const formattedStartDate = startDate ? startDate.toISOString() : undefined;
-    const formattedEndDate = endDate ? endDate.toISOString() : undefined;
-
-    this.tasks$ = this.taskService.searchTasks(
-      userId,
-      title,
-      formattedStartDate,
-      formattedEndDate
-    );
-  }
-
   ngOnInit(): void {
-    this.tasks$ = this.route.paramMap.pipe(
+    debugger
+    this.tasks$ = this.route.queryParamMap.pipe(
       switchMap((params) => {
-        const term = params.get('searchparams');
+        const term = params.get('searchTerm');
+        console.log('term: ' + term);
 
-        if (this.isDate(term)) {
-          // If the term is a date, search for tasks with the given start date and no end date
-          return this.taskService.searchTasks(
-            this.signinService.getUserId(),
-            undefined,
-            term,
-            undefined
-          );
-        } else {
-          // If the term is not a date, search for tasks with the given title and no start/end dates
-          return this.taskService.searchTasks(
-            this.signinService.getUserId(),
-            term,
-            undefined,
-            undefined
-          );
-        }
+        return this.taskService.searchTasks(
+          this.signinService.getUserId(),
+          term
+        );
       })
     );
-  }
-
-  isDate(value: any): boolean {
-    const parsedDate = Date.parse(value);
-    return !isNaN(parsedDate);
   }
 
   Logout() {

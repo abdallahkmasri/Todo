@@ -1,5 +1,5 @@
 import { Routes } from "@angular/router";
-import { RegisterComponent } from "../components/register/list.component";
+import { RegisterComponent } from "../components/register/form.component";
 
 export const RegisterRoutes: Routes = [
     {

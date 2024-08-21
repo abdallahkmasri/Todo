@@ -1,5 +1,5 @@
 import { Routes } from "@angular/router";
-import { SignInComponent } from "../components/signIn/list.component";
+import { SignInComponent } from "../components/signIn/form.component";
 
 export const SignInRoutes: Routes = [
     {

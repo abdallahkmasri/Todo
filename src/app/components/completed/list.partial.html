@@ -4,8 +4,10 @@
       <mat-card-header>
         <mat-card-title-group>
           <mat-card-title>
-            <mat-icon color="warn">circle</mat-icon>
-            <span class="task-title"> {{ task.title }}</span>
+            <div style="display: flex; align-items: center;">
+              <mat-icon color="warn">circle</mat-icon>
+              <span class="task-title"> {{ task.title }}</span>
+            </div>
           </mat-card-title>
           <mat-icon class="more-options">more_vert</mat-icon>
         </mat-card-title-group>

@@ -1,12 +1,16 @@
 <div style="background-color: #fff; height: 100%">
   <mat-toolbar class="dashboard-card">
-    <img src="assets/images/Dashboard.png" class="dashboard-image" />
+    <a routerLink="/dashboard">
+      <img src="assets/images/Dashboard.png" class="dashboard-image" />
+    </a>
     <span class="example-spacer"></span>
     <form [formGroup]="search">
       <mat-form-field appearance="outline">
         <mat-label>Search your task here</mat-label>
         <input matInput formControlName="item" />
-        <mat-icon matSuffix class="icon" fontIcon="search"></mat-icon>
+        <button extended matSuffix type="submit" aria-label="Search"  class="icon">
+          <mat-icon>search</mat-icon>
+        </button>
       </mat-form-field>
     </form>
     <span class="example-spacer"></span>

@@ -21,11 +21,25 @@ import {
 } from '@angular/forms';
 import { SigninService } from 'src/app/services/signin.service';
 import { MatInputModule } from '@angular/material/input';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { MatDialogModule } from '@angular/material/dialog';
-import { TaskEditComponent } from '../common/edit.partial';
 import { TaskState } from 'src/app/services/task.state';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { DateAdapter, MAT_DATE_FORMATS, MatNativeDateModule, NativeDateAdapter } from '@angular/material/core';
+import { DialogFormComponent } from '../common/dialog.form';
+
+const MY_DATE_FORMATS = {
+  parse: {
+    dateInput: 'LL',
+  },
+  display: {
+    dateInput: 'DD/MM/YYYY', // This is the format you want to display the date in
+    monthYearLabel: 'MMM YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'MMMM YYYY',
+  },
+};
 
 @Component({
   selector: 'dm-task-detail',
@@ -42,6 +56,13 @@ import { TaskState } from 'src/app/services/task.state';
     MatButtonModule,
     ReactiveFormsModule,
     MatDialogModule,
+    RouterModule,
+    MatDatepickerModule,
+    MatNativeDateModule
+  ],
+  providers: [
+    { provide: DateAdapter, useClass: NativeDateAdapter },
+    { provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS },
   ],
 })
 export class TaskDetailComponent implements OnInit {
@@ -98,8 +119,8 @@ export class TaskDetailComponent implements OnInit {
   }
 
   openDialog(task: ITask): void {
-    const dialogRef = this.dialog.open(TaskEditComponent, {
-      width: '400px',
+    const dialogRef = this.dialog.open(DialogFormComponent, {
+      width: '650px',
       data: { task: task }, // Pass any data you want to initialize the dialog with
     });
 

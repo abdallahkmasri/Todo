@@ -17,13 +17,32 @@ import { TaskListPartial } from '../task/list.partial';
 import { CompletedListPartial } from '../completed/list.partial';
 import { MatDialog } from '@angular/material/dialog';
 import { MatDialogModule } from '@angular/material/dialog';
-import { TaskAddComponent } from '../common/add.partial';
 import { TaskService } from 'src/app/services/task.service';
 import { Observable, switchMap } from 'rxjs';
 import { ITask } from 'src/app/models/task.model';
 import { TaskState } from 'src/app/services/task.state';
 import { TaskOverDuelList } from '../overDue/list.partial';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import {
+  DateAdapter,
+  MAT_DATE_FORMATS,
+  MatNativeDateModule,
+  NativeDateAdapter,
+} from '@angular/material/core';
+import { DialogFormComponent } from '../common/dialog.form';
+
+const MY_DATE_FORMATS = {
+  parse: {
+    dateInput: 'LL',
+  },
+  display: {
+    dateInput: 'DD/MM/YYYY', // This is the format you want to display the date in
+    monthYearLabel: 'MMM YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'MMMM YYYY',
+  },
+};
 
 @Component({
   standalone: true,
@@ -42,8 +61,15 @@ import { Router } from '@angular/router';
     TaskListPartial,
     CompletedListPartial,
     TaskOverDuelList,
+    RouterModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+    { provide: DateAdapter, useClass: NativeDateAdapter },
+    { provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS },
+  ],
 })
 export class DashboardComponent {
   searchForm: FormGroup;
@@ -76,9 +102,8 @@ export class DashboardComponent {
   }
 
   openDialog(): void {
-    const dialogRef = this.dialog.open(TaskAddComponent, {
-      width: '400px',
-      data: { task: {} }, // Pass any data you want to initialize the dialog with
+    const dialogRef = this.dialog.open(DialogFormComponent, {
+      width: '650px',
     });
 
     dialogRef.afterClosed();
@@ -86,6 +111,8 @@ export class DashboardComponent {
 
   Search() {
     const searchparams = this.searchForm.value;
-    this.router.navigateByUrl(`/search/${searchparams}`);
+    const searchTerm = searchparams.item;
+    console.log('search: ' + JSON.stringify(searchTerm));
+    this.router.navigate([`/search/`],  {queryParams: {searchTerm: searchTerm}});
   }
 }

@@ -1,9 +1,9 @@
 import { Routes } from "@angular/router";
-import { SearchListComponent } from "../components/search/list.component";
+import { SearchListComponent } from "../components/search/form.component";
 
 export const SearchRoutes: Routes = [
     {
-        path:':searchparams',
+        path:'',
         component: SearchListComponent
     }
 ]

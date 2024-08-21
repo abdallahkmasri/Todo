@@ -80,26 +80,26 @@ export class TaskService {
 
   searchTasks(
     id: string,
-    title?: string,
-    createdDate?: string,
-    dueDate?: string
+    searchTerm: string
   ): Observable<any> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       Authorization: `Bearer ${this.token}`,
     });
 
-    let params = new HttpParams().set('userId', id);
+    // let params = new HttpParams().set('userId', id);
 
-    if (title) {
-      params = params.set('title', title);
-    }
-    if (createdDate) {
-      params = params.set('createdDate', createdDate);
-    }
-    if (dueDate) {
-      params = params.set('dueDate', dueDate);
-    }
-    return this.http.get(`${this._url}/search`, { params, headers });
+    // const _title: string = title?.toString();
+    // console.log('title:' + _title);
+    // if (title) {
+    //   params = params.set('title', title);
+    // }
+    // if (createdDate) {
+    //   params = params.set('createdDate', createdDate);
+    // }
+    // if (dueDate) {
+    //   params = params.set('dueDate', dueDate);
+    // }
+    return this.http.get(`${this._url}/search?userId=${id}&searchTerm=${searchTerm}`, { headers });
   }
 }
