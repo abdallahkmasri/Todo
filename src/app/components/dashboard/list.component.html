@@ -1,74 +1,101 @@
-<div style="background-color: #ffff; height: 100%;">
-  <mat-card class="dashboard-card">
-    <mat-card-content>
-      <mat-toolbar>
-        <img src="assets/images/Dashboard.png" class="dashboard-image" />
-        <span class="example-spacer"></span>
-        <form [formGroup]="search">
-          <mat-form-field appearance="outline">
-            <mat-label>Search your task here</mat-label>
-            <input
-              matInput
-              formControlName="item"
-            />
-            <mat-icon matSuffix class="icon" fontIcon="search"></mat-icon>
-          </mat-form-field>
-        </form>
-        <span class="example-spacer"></span>
-        <div>
-          <mat-icon
-            class="icon"
-            aria-label="notifications"
-            fontIcon="notifications_none"
-          ></mat-icon>
-          <mat-icon
-            class="icon"
-            aria-label="calendar"
-            fontIcon="calendar_today"
-          ></mat-icon>
-        </div>
-        <button mat-raised-button color="primary" (click)="Logout()" style="color: white;"><mat-icon class="icon" fontIcon="logout"></mat-icon> logout</button>
-      </mat-toolbar>
-    </mat-card-content>
-  </mat-card>
-
-  <mat-card>
-    <mat-card-title>Welcome back, {{ userName }}</mat-card-title>
-  </mat-card>
-
-  <div class="dashboard-container">
-    <div class="left-section">
-      <div class="todo-header">
-        
-        <mat-icon color="primary">event_note</mat-icon> To-Do
-        <button mat-icon-button (click)="openDialog()">
-          <mat-icon color="primary">add</mat-icon>
+<div style="background-color: #ffff; height: 100%">
+  <mat-toolbar class="dashboard-card">
+    <img src="assets/images/Dashboard.png" class="dashboard-image" />
+    <span class="example-spacer"></span>
+    <form [formGroup]="searchForm" (ngSubmit)="Search()">
+      <mat-form-field appearance="outline">
+        <mat-label>Search your task here</mat-label>
+        <input matInput formControlName="item" />
+        <button extended matSuffix type="submit" aria-label="Search"  class="icon">
+          <mat-icon>search</mat-icon>
         </button>
-      </div>
-      <div class="date-section">
-        <span>20 June</span>
-        <span>Today</span>
-      </div>
-  
-      <dm-task-list></dm-task-list>
+      </mat-form-field>
+    </form>
+    <span class="example-spacer"></span>
+    <div>
+      <mat-icon
+        class="icon"
+        aria-label="notifications"
+        fontIcon="notifications_none"
+      ></mat-icon>
+      <mat-icon
+        class="icon"
+        aria-label="calendar"
+        fontIcon="calendar_today"
+      ></mat-icon>
     </div>
-  
-    <div class="right-section">
-      <mat-card class="task-status-card">
-        <div mat-card-content>
-          <h3 class="status-title">Task Status</h3>
-          <!-- Placeholder for charts -->
-          <div class="chart-placeholder">[Charts]</div>
-        </div>
-      </mat-card>
-  
-      <mat-card class="completed-task-card">
-        <div mat-card-content>
-          <h3 class="completed-title">Completed Task</h3>
-          <dm-completed-list></dm-completed-list>
-        </div>
-      </mat-card>
+    <button
+      mat-raised-button
+      color="primary"
+      (click)="Logout()"
+      style="color: white"
+    >
+      <mat-icon class="icon" fontIcon="logout"></mat-icon> logout
+    </button>
+  </mat-toolbar>
+  <h1>Welcome back, {{ userName }} <mat-icon>check</mat-icon></h1>
+  <mat-card class="example-card">
+    <div class="dashboard-container">
+      <div class="left-section">
+        <mat-card class="example-card">
+          <mat-card-header>
+            <mat-card-title-group>
+              <mat-card-title>
+                <div class="todo-header">
+                  <mat-icon color="primary" fontIcon="event_note"></mat-icon>
+                  To-Do
+                </div>
+              </mat-card-title>
+              <div (click)="openDialog()" class="btn">
+                <button mat-button>
+                  <mat-icon color="primary">add</mat-icon>
+                  <h3>Add task</h3>
+                </button>
+              </div>
+            </mat-card-title-group>
+          </mat-card-header>
+          <mat-card-content>
+            <div class="date-section">
+              <span>{{ date | date : "dd MMMM" }}</span>
+              <span> .Today</span>
+            </div>
+              <dm-task-list [tasks]="tasks$ | async"></dm-task-list>
+          </mat-card-content>
+        </mat-card>
+      </div>
+
+      <div class="right-section">
+        <mat-card class="example-card">
+          <mat-card-header>
+            <mat-card-title-group>
+              <mat-card-title>
+                <mat-icon color="primary" fontIcon="assignment_late"></mat-icon>
+                <span class="task-title"> OverDue Tasks</span>
+              </mat-card-title>
+            </mat-card-title-group>
+          </mat-card-header>
+          <mat-card-content>
+            <dm-overdue-list [tasks]="tasks$ | async"></dm-overdue-list>
+          </mat-card-content>
+        </mat-card>
+        <br />
+        <mat-card class="example-card">
+          <mat-card-header>
+            <mat-card-title-group>
+              <mat-card-title>
+                <mat-icon
+                  color="primary"
+                  fontIcon="assignment_turned_in"
+                ></mat-icon>
+                <span class="task-title"> Completed Tasks</span>
+              </mat-card-title>
+            </mat-card-title-group>
+          </mat-card-header>
+          <mat-card-content>
+            <dm-completed-list [tasks]="tasks$ | async"></dm-completed-list>
+          </mat-card-content>
+        </mat-card>
+      </div>
     </div>
-  </div>
-  
+  </mat-card>
 </div>

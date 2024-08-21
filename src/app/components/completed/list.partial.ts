@@ -1,7 +1,8 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { CommonModule } from '@angular/common';
+import { ITask } from 'src/app/models/task.model';
 
 @Component({
   selector: 'dm-completed-list',
@@ -11,18 +12,14 @@ import { CommonModule } from '@angular/common';
   imports: [CommonModule, MatIconModule, MatCardModule]
 })
 export class CompletedListPartial {
-  completedTasks = [
-    {
-      title: "Walk the dog",
-      description: "Take the dog to the park and bring treats as well.",
-      status: "Completed",
-      completedDate: new Date(2023, 5, 18)
-    },
-    {
-      title: "Conduct meeting",
-      description: "Meet with the client and finalize requirements.",
-      status: "Completed",
-      completedDate: new Date(2023, 5, 18)
+  @Input() tasks: ITask[];
+
+  get Completed() {
+    if(this.tasks){
+      return this.tasks.filter((s) => s.status === 'Completed');
     }
-  ];
+    else{
+      return null;
+    }
+  }
 }

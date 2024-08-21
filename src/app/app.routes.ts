@@ -18,6 +18,11 @@ const routes: Routes = [
     path: 'dashboard',
     loadChildren: () => import('./routes/dashboard.route').then((r) => r.DashboardRoute),
     canActivate: [AuthGuard]
+  },
+  {
+    path: 'search',
+    loadChildren: () => import('./routes/search.route').then((r) => r.SearchRoutes),
+    canActivate: [AuthGuard]
   }
 ];
 

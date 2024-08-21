@@ -1,23 +1,29 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { MatGridListModule } from '@angular/material/grid-list';
-import { MatChipsModule } from '@angular/material/chips';
-import {MatExpansionModule} from '@angular/material/expansion';
-import {MatProgressBarModule} from '@angular/material/progress-bar';
-import {MatListModule} from '@angular/material/list';
-import {MatToolbarModule} from '@angular/material/toolbar';
+import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { SigninService } from 'src/app/services/signin.service';
 import { TaskListPartial } from '../task/list.partial';
 import { CompletedListPartial } from '../completed/list.partial';
 import { MatDialog } from '@angular/material/dialog';
 import { MatDialogModule } from '@angular/material/dialog';
-import { TaskAddComponent } from '../task/add.partial';
+import { TaskAddComponent } from '../common/add.partial';
+import { TaskService } from 'src/app/services/task.service';
+import { Observable, switchMap } from 'rxjs';
+import { ITask } from 'src/app/models/task.model';
+import { TaskState } from 'src/app/services/task.state';
+import { TaskOverDuelList } from '../overDue/list.partial';
+import { Router } from '@angular/router';
 
 @Component({
   standalone: true,
@@ -29,30 +35,41 @@ import { TaskAddComponent } from '../task/add.partial';
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
-    MatGridListModule,
-    MatChipsModule,
-    MatExpansionModule,
-    MatProgressBarModule,
-    MatListModule,
     MatToolbarModule,
     MatButtonModule,
     MatDialogModule,
     ReactiveFormsModule,
     TaskListPartial,
-    CompletedListPartial
+    CompletedListPartial,
+    TaskOverDuelList,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DashboardComponent {
-  search: FormGroup;
+  searchForm: FormGroup;
+  userName: string;
+  userId: string;
+  date = new Date();
+  tasks$: Observable<ITask[]>;
 
-  constructor(private fb: FormBuilder, private signinService: SigninService, public dialog: MatDialog) {
-    this.search = this.fb.group({
-      item: [''],
+  constructor(
+    private fb: FormBuilder,
+    private signinService: SigninService,
+    private dialog: MatDialog,
+    private taskService: TaskService,
+    private taskState: TaskState,
+    private router: Router
+  ) {
+    this.searchForm = this.fb.group({
+      item: new FormControl(''),
     });
+    this.userName = this.signinService.getUserName();
+
+    this.userId = this.signinService.getUserId();
+    this.tasks$ = this.taskService
+      .getTasks(this.userId)
+      .pipe(switchMap((task) => this.taskState.setList(task)));
   }
-  // Sample data for demonstration
-  userName = 'user';
 
   Logout() {
     this.signinService.logout();
@@ -61,15 +78,14 @@ export class DashboardComponent {
   openDialog(): void {
     const dialogRef = this.dialog.open(TaskAddComponent, {
       width: '400px',
-      data: { task: {} } // Pass any data you want to initialize the dialog with
+      data: { task: {} }, // Pass any data you want to initialize the dialog with
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        // Handle the result from the dialog (e.g., save the new task)
-        console.log('Task added:', result);
-      }
-    });
+    dialogRef.afterClosed();
   }
-  
+
+  Search() {
+    const searchparams = this.searchForm.value;
+    this.router.navigateByUrl(`/search/${searchparams}`);
+  }
 }

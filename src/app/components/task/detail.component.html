@@ -1,0 +1,78 @@
+<div style="background-color: #fff; height: 100%">
+  <mat-toolbar class="dashboard-card">
+    <img src="assets/images/Dashboard.png" class="dashboard-image" />
+    <span class="example-spacer"></span>
+    <form [formGroup]="search">
+      <mat-form-field appearance="outline">
+        <mat-label>Search your task here</mat-label>
+        <input matInput formControlName="item" />
+        <mat-icon matSuffix class="icon" fontIcon="search"></mat-icon>
+      </mat-form-field>
+    </form>
+    <span class="example-spacer"></span>
+    <div>
+      <mat-icon
+        class="icon"
+        aria-label="notifications"
+        fontIcon="notifications_none"
+      ></mat-icon>
+      <mat-icon
+        class="icon"
+        aria-label="calendar"
+        fontIcon="calendar_today"
+      ></mat-icon>
+    </div>
+    <button
+      mat-raised-button
+      color="primary"
+      (click)="Logout()"
+      style="color: white"
+    >
+      <mat-icon class="icon" fontIcon="logout"></mat-icon> logout
+    </button>
+  </mat-toolbar>
+  <h1>Welcome back, {{ userName }} <mat-icon>check</mat-icon></h1>
+  <div *ngIf="task$ | async as task">
+    <mat-card class="example-card">
+      <mat-card-header>
+        <mat-card-title-group>
+          <mat-card-title>
+            <h3>{{ task.title }}</h3>
+          </mat-card-title>
+          <mat-card-subtitle>
+            <h4>Priority: {{ task.priority }}</h4>
+            <h4>Status: {{ task.status }}</h4>
+            
+          </mat-card-subtitle>
+          <button mat-button (click)="Back()">Go Back</button>
+        </mat-card-title-group>
+      </mat-card-header>
+
+      <mat-card-content>
+        {{ task.description }}
+        <mat-card-subtitle>
+          <p>
+            Created on: {{ task.createdDate | date : "dd/MM/yyyy" }}
+          </p>
+          <p>
+            Due on: {{ task.dueDate | date : "dd/MM/yyyy" }}
+          </p>
+        </mat-card-subtitle>
+      </mat-card-content>
+      
+      <mat-card-actions>
+        <span class="example-spacer"></span>
+        <button mat-fab color="primary" style="color: white; margin: 0 8px" (click)="Delete()">
+          <mat-icon fontIcon="delete"></mat-icon>
+        </button>
+
+        <button mat-fab color="primary" style="color: white; margin: 0 8px" (click)="openDialog(task)">
+          <mat-icon fontIcon="edit"></mat-icon>
+        </button>
+        <button mat-fab color="primary" style="color: white; margin: 0 8px" (click)="markComplete()">
+          <mat-icon fontIcon="priority_high"></mat-icon>
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</div>

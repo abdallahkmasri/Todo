@@ -41,7 +41,7 @@ $TodoApp-primary: mat.define-palette($TodoApp-primary-palette);
 $TodoApp-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
 
 // The warn palette is optional (defaults to red).
-$TodoApp-warn: mat.define-palette(mat.$red-palette);
+$TodoApp-warn: mat.define-palette(mat.$green-palette);
 
 // Create the theme object. A theme consists of configurations for individual
 // theming systems such as "color" or "typography".
@@ -99,6 +99,14 @@ nav {
   justify-content: center;
 }
 
+.example-card {
+  margin-bottom: 8px;
+}
+
+.example-card-footer {
+  padding: 16px;
+}
+
 /* Style for the card */
 .dashboard-card {
   padding: 20px;
@@ -125,9 +133,6 @@ nav {
   flex: 1; /* Allow the form to grow and fill available space */
 }
 
-
-
-
 /* Style for icons */
 .icon {
   margin: 0 8px;
@@ -144,44 +149,18 @@ nav {
 .example-spacer {
   flex: 1 1 auto;
 }
-// ///////////////////////////////////////////////////////
-// .task-list-container {
-//   max-width: 100%;
-//   margin: 20px auto;
-// }
-
-// .header {
-//   display: flex;
-//   align-items: center;
-//   justify-content: space-between;
-// }
-
-// .header mat-icon {
-//   font-size: 24px;
-// }
-
-// .add-task-btn {
-//   display: flex;
-//   align-items: center;
-// }
-
-// .add-task-btn mat-icon {
-//   margin-right: 4px;
-// }
-
-// .date-section {
-//   margin: 10px 0;
-//   font-size: 14px;
-//   color: #888;
-// }
-
-.task-cards {
-  margin-top: 10px;
-}
 
 .task-card {
-  margin-bottom: 15px;
+  margin: 20px;
+  margin-top: 10px;
+  height: auto;
+  width: auto;
 }
+
+// .task-card {
+//   margin-bottom: 10px;
+//   height: auto;
+// }
 
 .task-header {
   display: flex;
@@ -214,4 +193,17 @@ nav {
   margin-top: 5px;
   font-size: 12px;
   color: #aaa;
+}
+
+a {
+  text-decoration: none;
+  color: #000;
+}
+
+mat-card {
+  border-radius: 15px;
+}
+
+mat-button {
+  text-decoration: underline;
 }

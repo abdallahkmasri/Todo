@@ -1,8 +1,8 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ITask } from '../models/task.model';
 import { enviroment } from 'src/enviroments/enviroment';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { SigninService } from './signin.service';
 
 @Injectable({
@@ -21,26 +21,85 @@ export class TaskService {
       Authorization: `Bearer ${this.token}`,
     });
 
-    const added = {
-        title: task.title,
-        description: task.description,
-        dueDate: task.dueDate,
-        status: task.status,
-        priority: task.priority,
-        isComplete: task.isComplete,
-        userId: this.signinService.getUserId,
-        user: this.signinService.getUserName,
-    }
+    const userId = this.signinService.getUserId();
 
+    const added = {
+      title: task.title,
+      description: task.description,
+      dueDate: task.dueDate,
+      status: task.status,
+      priority: task.priority,
+      isComplete: task.isComplete,
+      createdDate: task.createdDate,
+      userId: userId,
+    };
+    console.log('task: ' + added.userId);
     return this.http.post(`${this._url}`, added, { headers });
   }
 
   getTasks(userId: string): Observable<any> {
+    const api = `${this._url}?userId=${encodeURIComponent(userId)}`;
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${this.token}`,
+    });
+    return this.http.get(api, { headers });
+  }
+
+  getTaskById(id: string): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${this.token}`,
+    });
+    return this.http.get(`${this._url}/${id}`, { headers });
+  }
+
+  deleteTask(id: string): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${this.token}`,
+    });
+    return this.http.delete(`${this._url}/${id}`, { headers });
+  }
+
+  markComplete(id: string): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${this.token}`,
+    });
+    return this.http.put(`${this._url}/${id}/complete`, null, { headers });
+  }
+
+  editTask(id: string, task: ITask): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${this.token}`,
+    });
+    return this.http.put(`${this._url}/${id}`, task, { headers });
+  }
+
+  searchTasks(
+    id: string,
+    title?: string,
+    createdDate?: string,
+    dueDate?: string
+  ): Observable<any> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       Authorization: `Bearer ${this.token}`,
     });
 
-    return this.http.get(`${this._url}?userId=${Number(userId)}`, { headers });
+    let params = new HttpParams().set('userId', id);
+
+    if (title) {
+      params = params.set('title', title);
+    }
+    if (createdDate) {
+      params = params.set('createdDate', createdDate);
+    }
+    if (dueDate) {
+      params = params.set('dueDate', dueDate);
+    }
+    return this.http.get(`${this._url}/search`, { params, headers });
   }
 }

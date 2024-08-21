@@ -1,0 +1,35 @@
+<div style="background-color: #fff; height: 100%">
+  <mat-toolbar class="dashboard-card">
+    <img src="assets/images/Dashboard.png" class="dashboard-image" />
+    <span class="example-spacer"></span>
+    <form [formGroup]="search">
+      <mat-form-field appearance="outline">
+        <mat-label>Search your task here</mat-label>
+        <input matInput formControlName="item" />
+        <mat-icon matSuffix class="icon" fontIcon="search"></mat-icon>
+      </mat-form-field>
+    </form>
+    <span class="example-spacer"></span>
+    <div>
+      <mat-icon
+        class="icon"
+        aria-label="notifications"
+        fontIcon="notifications_none"
+      ></mat-icon>
+      <mat-icon
+        class="icon"
+        aria-label="calendar"
+        fontIcon="calendar_today"
+      ></mat-icon>
+    </div>
+    <button
+      mat-raised-button
+      color="primary"
+      (click)="Logout()"
+      style="color: white"
+    >
+      <mat-icon class="icon" fontIcon="logout"></mat-icon> logout
+    </button>
+  </mat-toolbar>
+  <dm-task-list [tasks]="tasks$ | async"></dm-task-list>
+</div>

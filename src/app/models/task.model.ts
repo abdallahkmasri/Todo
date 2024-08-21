@@ -6,4 +6,5 @@ export interface ITask {
     status?: string;
     priority: string;
     isComplete?: boolean;
+    createdDate?: Date;
   }

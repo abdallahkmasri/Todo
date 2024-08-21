@@ -1,0 +1,19 @@
+<!-- Placeholder for charts -->
+<!-- <div class="chart-placeholder">[Charts]</div> -->
+<div *ngFor="let task of sorted | slice: 0:3">
+  <div *ngIf="isOverDue(task.dueDate)">
+    <mat-card class="example-card">
+        <mat-card-header>
+            <mat-card-title>
+                <span class="task-title">{{task.title}}</span>
+            </mat-card-title>
+        </mat-card-header>
+        <mat-card-footer class="example-card-footer">
+            Status: <strong class="completed-status">{{ task.status }}</strong>
+            <div class="task-footer completed-date">
+              Due on: {{ task.dueDate| date: 'dd/MM/yyyy' }}
+            </div>
+          </mat-card-footer>
+    </mat-card>
+  </div>
+</div>
