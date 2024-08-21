@@ -1,4 +1,5 @@
-﻿using TodoApi.Repositories;
+﻿using Microsoft.EntityFrameworkCore;
+using TodoApi.Repositories;
 using TodoApp.Models;
 
 namespace TodoApp.Services
@@ -46,9 +47,15 @@ namespace TodoApp.Services
             if (todoItem != null)
             {
                 todoItem.IsCompleted = true;
+                todoItem.Status = "Completed";
                 await _todoRepository.UpdateTaskAsync(todoItem);
                 await _todoRepository.SaveChangesAsync();
             }
+        }
+
+        public async Task<IEnumerable<TaskModel>> SearchTasksAsync(int userId, string title, DateTime? startDate, DateTime? endDate)
+        {
+            return await _todoRepository.SearchTasksAsync(userId, title, startDate, endDate);
         }
     }
 }

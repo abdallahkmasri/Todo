@@ -24,6 +24,11 @@ namespace TodoApp.Repositories
             await _context.Users.AddAsync(user);
         }
 
+        public UserModel GetUserById(int userId)
+        {
+            return _context.Users.FirstOrDefault(u => u.ID == userId);
+        }
+
         public async Task SaveChangesAsync()
         {
             await _context.SaveChangesAsync();

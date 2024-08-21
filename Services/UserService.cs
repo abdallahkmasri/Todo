@@ -1,4 +1,5 @@
-﻿using Microsoft.IdentityModel.Tokens;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -43,8 +44,8 @@ namespace TodoApp.Services
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes("My Secret Key For Todo App using JWT");
-            var issuer = "http://localhost:5218";
-            var audience = "http://localhost:5218";
+            var issuer = "http://localhost:7126";
+            var audience = "http://localhost:4200";
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new[]
@@ -60,6 +61,11 @@ namespace TodoApp.Services
 
             var token = tokenHandler.CreateToken(tokenDescriptor);
             return tokenHandler.WriteToken(token);
+        }
+
+        public UserModel GetUserById(int userId)
+        {
+            return _userRepository.GetUserById(userId);
         }
 
     }

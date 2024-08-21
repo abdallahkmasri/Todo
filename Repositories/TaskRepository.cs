@@ -66,9 +66,7 @@ namespace TodoApp.Repositories
 
         public async Task<IEnumerable<TaskModel>> SearchTasksAsync(int userId, string title, DateTime? startDate, DateTime? endDate)
         {
-            var query = _context.Tasks.AsQueryable();
-
-            query = query.Where(t => t.UserId == userId);
+            var query = _context.Tasks.Where(t => t.UserId == userId).AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(title))
                 query = query.Where(t => t.Title.Contains(title, StringComparison.OrdinalIgnoreCase));
@@ -96,6 +94,11 @@ namespace TodoApp.Repositories
                 task.IsCompleted = true;
                 await UpdateTaskAsync(task);
             }
+        }
+
+        public async Task<int> GetLastIdAsync()
+        {
+            return await _context.Tasks.MaxAsync(i => i.ID);
         }
     }
 }

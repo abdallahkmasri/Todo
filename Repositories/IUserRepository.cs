@@ -6,6 +6,7 @@ namespace TodoApp.Repositories
     {
         Task<UserModel> GetUserByUsernameAsync(string username);
         Task AddUserAsync(UserModel user);
+        UserModel GetUserById(int id);
         Task SaveChangesAsync();
     }
 }

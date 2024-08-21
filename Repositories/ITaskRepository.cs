@@ -8,6 +8,7 @@ namespace TodoApi.Repositories
     {
         Task<IEnumerable<TaskModel>> GetTasksByUserIdAsync(int userId);
         Task<TaskModel> GetTaskByIdAsync(int id);
+        Task<int> GetLastIdAsync();
         Task AddTaskAsync(TaskModel todoItem);
         Task UpdateTaskAsync(TaskModel todoItem);
         Task DeleteTaskAsync(int id);

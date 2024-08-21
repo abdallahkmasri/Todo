@@ -11,18 +11,18 @@ namespace TodoApp.Controllers
     [Authorize]
     public class TasksController : ControllerBase
     {
-        private readonly ITaskRepository _taskRepository;
+        private readonly ITaskService _taskService;
 
-        public TasksController(ITaskRepository taskRepository)
+        public TasksController(ITaskService taskRepository)
         {
-            _taskRepository = taskRepository;
+            _taskService = taskRepository;
         }
 
         // GET: api/tasks?status=active&title=Sample&startDate=2024-01-01&endDate=2024-01-31
         [HttpGet]
         public async Task<IActionResult> GetTasks(int userId)
         {
-            var tasks = await _taskRepository.GetTasksByUserIdAsync(userId);
+            var tasks = await _taskService.GetUserTaskAsync(userId);
             return Ok(tasks);
         }
 
@@ -30,7 +30,7 @@ namespace TodoApp.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetTaskById(int id)
         {
-            var task = await _taskRepository.GetTaskByIdAsync(id);
+            var task = await _taskService.GetTaskByIdAsync(id);
             if (task == null) return NotFound();
             return Ok(task);
         }
@@ -49,9 +49,11 @@ namespace TodoApp.Controllers
                 Priority = taskModel.Priority,
                 Status = taskModel.Status,
                 IsCompleted = taskModel.IsCompleted,
+                UserId = taskModel.UserId,
+                CreatedDate = taskModel.CreatedDate,
             };
 
-            await _taskRepository.AddTaskAsync(task);
+            await _taskService.AddTaskAsync(task);
             return CreatedAtAction(nameof(GetTaskById), new { id = task.ID }, task);
         }
 
@@ -61,7 +63,7 @@ namespace TodoApp.Controllers
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            var task = await _taskRepository.GetTaskByIdAsync(id);
+            var task = await _taskService.GetTaskByIdAsync(id);
             if (task == null) return NotFound();
 
             task.Title = taskModel.Title;
@@ -69,19 +71,21 @@ namespace TodoApp.Controllers
             task.DueDate = taskModel.DueDate;
             task.IsCompleted = taskModel.IsCompleted;
             task.Priority = taskModel.Priority;
+            task.Status = taskModel.Status;
+            task.CreatedDate = taskModel.CreatedDate;
 
-            await _taskRepository.UpdateTaskAsync(task);
-            return NoContent();
+            await _taskService.UpdateTaskAsync(task);
+            return Ok(task);
         }
 
         // DELETE: api/tasks/{id}
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteTask(int id)
         {
-            var task = await _taskRepository.GetTaskByIdAsync(id);
+            var task = await _taskService.GetTaskByIdAsync(id);
             if (task == null) return NotFound();
 
-            await _taskRepository.DeleteTaskAsync(id);
+            await _taskService.DeleteTaskAsync(id);
             return NoContent();
         }
 
@@ -89,12 +93,19 @@ namespace TodoApp.Controllers
         [HttpPut("{id}/complete")]
         public async Task<IActionResult> MarkTaskAsCompleted(int id)
         {
-            var task = await _taskRepository.GetTaskByIdAsync(id);
-            if (task == null) return NotFound();
-
-            task.IsCompleted = true;
-            await _taskRepository.UpdateTaskAsync(task);
+            await _taskService.MarkTaskAsCompletedAsync(id);
             return NoContent();
+        }
+
+        //GET: api/tasks/search
+        [HttpGet("search")]
+        public async Task<IActionResult> SearchTask(int userId, string title, [FromQuery] DateTime? startDate, [FromQuery] DateTime? endDate)
+        {
+            var tasks = await _taskService.SearchTasksAsync(userId, title, startDate, endDate);
+
+            if (tasks == null) return NotFound("No Tasks Found");
+
+            return Ok(tasks);
         }
     }
 }

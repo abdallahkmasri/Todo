@@ -13,8 +13,8 @@ var builder = WebApplication.CreateBuilder(args);
 // JWT configuration
 // Hardcoded key and issuer settings
 var key = Encoding.ASCII.GetBytes("My Secret Key For Todo App using JWT");
-var issuer = "http://localhost:5218";
-var audience = "http://localhost:5218";
+var issuer = "http://localhost:7126";
+var audience = "http://localhost:4200";
 
 builder.Services.AddAuthentication(options =>
 {
@@ -48,9 +48,10 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAngularApp", builder =>
     {
-        builder.AllowAnyOrigin()
+        builder.WithOrigins("http://localhost:4200")
                .AllowAnyHeader()
-               .AllowAnyMethod();
+               .AllowAnyMethod()
+               .AllowCredentials();
     });
 });
 
@@ -59,10 +60,6 @@ builder.Services.AddScoped<ITaskRepository, TaskRepository>();
 builder.Services.AddScoped<ITaskService, TaskService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
-
-// Add authentication and authorization services if required
-// builder.Services.AddAuthentication(...);
-// builder.Services.AddAuthorization(...);
 
 var app = builder.Build();
 
@@ -78,7 +75,6 @@ else
 }
 
 app.UseHttpsRedirection();
-app.UseStaticFiles();
 
 app.UseRouting();
 
