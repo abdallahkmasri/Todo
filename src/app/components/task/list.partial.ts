@@ -1,7 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
+import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
 import { RouterModule } from '@angular/router';
 import { ITask } from 'src/app/models/task.model';
 
@@ -10,14 +12,17 @@ import { ITask } from 'src/app/models/task.model';
   templateUrl: './list.partial.html',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, MatCardModule, MatIconModule, RouterModule],
+  imports: [CommonModule, MatCardModule, MatIconModule, RouterModule, MatPaginatorModule],
 })
-export class TaskListPartial {
+export class TaskListPartial implements OnInit{
   @Input() tasks: ITask[];
+
+  dataSource!: MatTableDataSource<ITask>;
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   get sorted(): ITask[] {
     if (this.tasks) {
-      return this.tasks.sort((a, b) => this.compareTasks(a, b));
+      return this.tasks.sort((a, b) => this.compareTasks(a, b)).filter(t => t.status !== "Completed");
     } else {
       return null;
     }
@@ -36,6 +41,10 @@ export class TaskListPartial {
     );
   }
 
+  ngOnInit(): void {
+    this.dataSource = new MatTableDataSource(this.sorted);
+  }
+
   // Method to assign a numeric value to each priority for comparison
   getPriorityOrder(priority: string): number {
     switch (priority) {
@@ -43,10 +52,12 @@ export class TaskListPartial {
         return 1;
       case 'moderate':
         return 2;
-      case 'low':
-        return 3;
       default:
-        return 4;
+        return 3;
     }
+  }
+
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator
   }
 }

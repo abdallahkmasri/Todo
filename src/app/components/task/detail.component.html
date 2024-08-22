@@ -4,7 +4,7 @@
       <img src="assets/images/Dashboard.png" class="dashboard-image" />
     </a>
     <span class="example-spacer"></span>
-    <form [formGroup]="search">
+    <form [formGroup]="searchForm" (ngSubmit)="Search()">
       <mat-form-field appearance="outline">
         <mat-label>Search your task here</mat-label>
         <input matInput formControlName="item" />
@@ -36,8 +36,8 @@
     </button>
   </mat-toolbar>
   <h1>Welcome back, {{ userName }} <mat-icon>check</mat-icon></h1>
-  <div *ngIf="task$ | async as task">
-    <mat-card class="example-card">
+  <div *ngIf="task$ | async as task" style="padding: 10px 30px 10px 30px;">
+    <mat-card class="example-card" style="border:2px solid #ccc;">
       <mat-card-header>
         <mat-card-title-group>
           <mat-card-title>
@@ -46,6 +46,7 @@
           <mat-card-subtitle>
             <h4>Priority: {{ task.priority }}</h4>
             <h4>Status: {{ task.status }}</h4>
+            <p>Created on: {{ task.createdDate | date : "dd/MM/yyyy" }}</p>
           </mat-card-subtitle>
           <button mat-button (click)="Back()">Go Back</button>
         </mat-card-title-group>
@@ -53,10 +54,6 @@
 
       <mat-card-content>
         {{ task.description }}
-        <mat-card-subtitle>
-          <p>Created on: {{ task.createdDate | date : "dd/MM/yyyy" }}</p>
-          <p>Due on: {{ task.dueDate | date : "dd/MM/yyyy" }}</p>
-        </mat-card-subtitle>
       </mat-card-content>
 
       <mat-card-actions>

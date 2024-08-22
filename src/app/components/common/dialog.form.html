@@ -9,6 +9,11 @@
         <mat-form-field appearance="outline" style="width: 100%">
           <mat-label>Title</mat-label>
           <input matInput formControlName="title" required />
+          <mat-error
+                *ngIf="taskForm.get('title').hasError('required')"
+              >
+                Title is required
+              </mat-error>
         </mat-form-field>
       </p>
       <p>
@@ -25,6 +30,11 @@
             [for]="picker"
           ></mat-datepicker-toggle>
           <mat-datepicker #picker></mat-datepicker>
+          <mat-error
+                *ngIf="taskForm.get('dueDate').hasError('required')"
+              >
+                Date is required
+              </mat-error>
         </mat-form-field>
       </p>
       <p>
@@ -32,20 +42,20 @@
       </p>
       <mat-radio-group formControlName="priority" style="display: flex; align-items: center; gap: 20px;">
         <div style="display: flex; align-items: center;">
-          <mat-icon fontIcon="circle" color="accent"></mat-icon>
-          <span style="margin-left: 4px;">Extreme</span>
+          <mat-icon fontIcon="square" color="warn"></mat-icon>
+          <span>Extreme</span>
           <mat-radio-button [value]="extreme" style="margin-left: 8px;"></mat-radio-button>
         </div>
       
         <div style="display: flex; align-items: center;">
-          <mat-icon fontIcon="circle" color="primary"></mat-icon>
-          <span style="margin-left: 4px;">Moderate</span>
+          <mat-icon fontIcon="square" class="custom-blue-icon"></mat-icon>
+          <span>Moderate</span>
           <mat-radio-button [value]="moderate" style="margin-left: 8px;"></mat-radio-button>
         </div>
       
         <div style="display: flex; align-items: center;">
-          <mat-icon fontIcon="circle" color="warn"></mat-icon>
-          <span style="margin-left: 4px;">Low</span>
+          <mat-icon fontIcon="square" color="accent"></mat-icon>
+          <span>Low</span>
           <mat-radio-button [value]="low" style="margin-left: 8px;"></mat-radio-button>
         </div>
       </mat-radio-group>
@@ -53,11 +63,16 @@
         <mat-form-field appearance="outline" style="width: 100%">
           <mat-label>Description</mat-label>
           <textarea matInput formControlName="description"></textarea>
+          <mat-error
+                *ngIf="taskForm.get('description').hasError('required')"
+              >
+              Description is required
+              </mat-error>
         </mat-form-field>
       </p>
     </mat-dialog-content>
     <div mat-dialog-actions>
-      <button mat-raised-button color="primary" type="submit" style="margin: 30px 0 30px 20px;">
+      <button mat-raised-button color="primary" type="submit" style="margin: 20px 0 20px 10px;">
         Done
       </button>
     </div>

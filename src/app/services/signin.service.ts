@@ -22,7 +22,9 @@ export class SigninService {
         localStorage.setItem(this.tokenKey, response.token);
         localStorage.setItem(this.userIdKey, response.userId);
         localStorage.setItem(this.userNameKey, response.userName);
-        this.router.navigateByUrl('dashboard');
+
+        if (this.isAuthenticated()) this.router.navigateByUrl('dashboard');
+
         return response;
       })
     );
@@ -43,19 +45,11 @@ export class SigninService {
     return !!this.getToken();
   }
 
-  // Attach the token to the headers for protected API calls
-  getAuthHeaders(): HttpHeaders {
-    const token = this.getToken();
-    return new HttpHeaders({
-      Authorization: `Bearer ${token}`,
-    });
-  }
-
   getUserId(): string | null {
     return localStorage.getItem(this.userIdKey);
   }
 
-  getUserName(): string | null{
+  getUserName(): string | null {
     return localStorage.getItem(this.userNameKey);
   }
 }

@@ -5,6 +5,6 @@ export interface ITask {
     dueDate: Date;
     status?: string;
     priority: string;
-    isComplete?: boolean;
+    isComplete: boolean;
     createdDate?: Date;
   }

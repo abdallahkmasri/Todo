@@ -4,7 +4,7 @@
       <img src="assets/images/Dashboard.png" class="dashboard-image" />
     </a>
     <span class="example-spacer"></span>
-    <form [formGroup]="search">
+    <form [formGroup]="searchForm" (ngSubmit)="Search()">
       <mat-form-field appearance="outline">
         <mat-label>Search your task here</mat-label>
         <input matInput formControlName="item" />
@@ -35,5 +35,10 @@
       <mat-icon class="icon" fontIcon="logout"></mat-icon> logout
     </button>
   </mat-toolbar>
-  <dm-task-list [tasks]="tasks$ | async"></dm-task-list>
+  <ng-container *ngIf="tasks$ | async as tasks; else loading">
+  <dm-task-list [tasks]="tasks"></dm-task-list>
+  </ng-container>
+  <ng-template #loading>
+      <mat-spinner></mat-spinner>
+  </ng-template>
 </div>

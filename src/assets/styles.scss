@@ -37,11 +37,13 @@ $TodoApp-primary-palette: (
   ),
 );
 
+$TodoApp-blue-palette: mat.define-palette(mat.$blue-palette);
+
 $TodoApp-primary: mat.define-palette($TodoApp-primary-palette);
-$TodoApp-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
+$TodoApp-accent: mat.define-palette(mat.$green-palette);
 
 // The warn palette is optional (defaults to red).
-$TodoApp-warn: mat.define-palette(mat.$green-palette);
+$TodoApp-warn: mat.define-palette(mat.$red-palette);
 
 // Create the theme object. A theme consists of configurations for individual
 // theming systems such as "color" or "typography".
@@ -51,6 +53,7 @@ $TodoApp-theme: mat.define-light-theme(
       primary: $TodoApp-primary,
       accent: $TodoApp-accent,
       warn: $TodoApp-warn,
+      blue: $TodoApp-blue-palette,
     ),
   )
 );
@@ -59,6 +62,7 @@ $TodoApp-theme: mat.define-light-theme(
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
 @include mat.all-component-themes($TodoApp-theme);
+@import "vars";
 
 /* You can add global styles to this file, and also import other style files */
 
@@ -69,7 +73,7 @@ body {
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
-  background-color: #ff6767;
+  background-color: $theme;
 }
 
 .background {
@@ -85,18 +89,12 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 1000px;
+  width: 1100px;
   margin-top: 50px;
 }
 
 mat-card {
   width: 100%;
-}
-
-nav {
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 .example-card {
@@ -138,7 +136,7 @@ nav {
 .icon {
   margin: 0 8px;
   cursor: pointer;
-  background-color: #ff6767;
+  background-color: $theme;
   color: #FFF;
   border-radius: 10%;
 }
@@ -158,11 +156,6 @@ nav {
   width: auto;
 }
 
-// .task-card {
-//   margin-bottom: 10px;
-//   height: auto;
-// }
-
 .task-header {
   display: flex;
   align-items: center;
@@ -170,18 +163,8 @@ nav {
   margin-bottom: 10px;
 }
 
-.task-header mat-icon {
-  font-size: 16px;
-  color: red; /* You can use a dynamic color based on task priority */
-}
-
 .task-title {
   font-weight: bold;
-}
-
-.task-body {
-  margin-bottom: 10px;
-  color: #666;
 }
 
 .task-footer {
@@ -190,28 +173,22 @@ nav {
   font-size: 14px;
 }
 
-.created-date {
-  margin-top: 5px;
-  font-size: 12px;
-  color: #aaa;
-}
-
 a {
   text-decoration: none;
-  color: #000;
+  color: $black;
 }
 
 mat-card {
   border-radius: 15px;
 }
 
-mat-button {
-  text-decoration: underline;
+mat-dialog-content {
+  border: 2px solid $border;
+  border-radius: 5px;
+  padding: 16px;
+  margin: 8px;
 }
 
-mat-dialog-content {
-  border: 2px solid #ccc; /* Adjust the border color and width as needed */
-  border-radius: 5px; /* Optional: to make the corners rounded */
-  padding: 16px; /* Optional: to add some padding inside the form */
-  margin: 8px; /* Optional: to add some margin around the form */
+.custom-blue-icon {
+  color: mat.get-color-from-palette($TodoApp-blue-palette, 500); // Or choose the shade you want
 }

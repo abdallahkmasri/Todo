@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { ActivatedRoute, RouterModule } from '@angular/router';
-import { Observable, switchMap, tap } from 'rxjs';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { delay, Observable, switchMap } from 'rxjs';
 import { ITask } from 'src/app/models/task.model';
 import { SigninService } from 'src/app/services/signin.service';
 import { TaskService } from 'src/app/services/task.service';
@@ -25,6 +25,7 @@ import {
   MatNativeDateModule,
   NativeDateAdapter,
 } from '@angular/material/core';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 const MY_DATE_FORMATS = {
   parse: {
@@ -40,7 +41,7 @@ const MY_DATE_FORMATS = {
 
 @Component({
   standalone: true,
-  templateUrl: './form.component.html',
+  templateUrl: './list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     CommonModule,
@@ -55,6 +56,7 @@ const MY_DATE_FORMATS = {
     RouterModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatProgressSpinnerModule,
   ],
   providers: [
     { provide: DateAdapter, useClass: NativeDateAdapter },
@@ -63,22 +65,23 @@ const MY_DATE_FORMATS = {
 })
 export class SearchListComponent implements OnInit {
   tasks$: Observable<ITask[]>;
-  search: FormGroup;
+  searchForm: FormGroup;
 
   constructor(
     private taskService: TaskService,
     private signinService: SigninService,
     private route: ActivatedRoute,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private router: Router
   ) {
-    this.search = this.fb.group({
+    this.searchForm = this.fb.group({
       item: new FormControl(''),
     });
   }
 
   ngOnInit(): void {
-    debugger
     this.tasks$ = this.route.queryParamMap.pipe(
+      delay(1000),
       switchMap((params) => {
         const term = params.get('searchTerm');
         console.log('term: ' + term);
@@ -93,5 +96,14 @@ export class SearchListComponent implements OnInit {
 
   Logout() {
     this.signinService.logout();
+  }
+
+  Search() {
+    const searchparams = this.searchForm.value;
+    const searchTerm = searchparams.item;
+    console.log('search: ' + JSON.stringify(searchTerm));
+    this.router.navigate([`/search/`], {
+      queryParams: { searchTerm: searchTerm },
+    });
   }
 }

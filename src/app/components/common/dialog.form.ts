@@ -13,11 +13,12 @@ import { DateAdapter, MAT_DATE_FORMATS, MatNativeDateModule, NativeDateAdapter }
 import { MatRadioModule } from '@angular/material/radio';
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { Router } from '@angular/router';
 
 enum Priority {
-    Extreme = 'extreme',
-    Moderate = 'moderate',
-    Low = 'low',
+    Extreme = 'Extreme',
+    Moderate = 'Moderate',
+    Low = 'Low',
   }
   
   const MY_DATE_FORMATS = {
@@ -65,14 +66,15 @@ export class DialogFormComponent {
     private dialogRef: MatDialogRef<DialogFormComponent>,
     private taskService: TaskService,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private taskState: TaskState
+    private taskState: TaskState,
+    private router: Router
   ) {
     this.isEditMode = !!data?.task;
     this.taskForm = new FormGroup({
       title: new FormControl(this.isEditMode ? data.task.title : '', Validators.required),
       dueDate: new FormControl(this.isEditMode ? data.task.dueDate : '', Validators.required),
       priority: new FormControl(this.isEditMode ? data.task.priority : '', Validators.required),
-      description: new FormControl(this.isEditMode ? data.task.description : ''),
+      description: new FormControl(this.isEditMode ? data.task.description : '', Validators.required),
       status: new FormControl(this.isEditMode ? data.task.status : 'Not Started'),
       isComplete: new FormControl(this.isEditMode ? data.task.isComplete : false),
       createdDate: new FormControl(this.isEditMode ? data.task.createdDate : new Date()),
@@ -89,6 +91,7 @@ export class DialogFormComponent {
         const id = this.data.task.id;
         this.taskService.editTask(id, this.taskForm.value).subscribe(() => {
           this.taskState.editItem(this.taskForm.value);
+          this.router.navigateByUrl('/dashboard');
         });
       } else {
         this.taskService.addTask(this.taskForm.value).subscribe((res) => {

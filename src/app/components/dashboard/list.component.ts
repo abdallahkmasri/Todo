@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -18,12 +18,13 @@ import { CompletedListPartial } from '../completed/list.partial';
 import { MatDialog } from '@angular/material/dialog';
 import { MatDialogModule } from '@angular/material/dialog';
 import { TaskService } from 'src/app/services/task.service';
-import { Observable, switchMap } from 'rxjs';
+import { catchError, delay, Observable, of, startWith, switchMap } from 'rxjs';
 import { ITask } from 'src/app/models/task.model';
 import { TaskState } from 'src/app/services/task.state';
 import { TaskOverDuelList } from '../overDue/list.partial';
 import { Router, RouterModule } from '@angular/router';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {
   DateAdapter,
   MAT_DATE_FORMATS,
@@ -63,7 +64,8 @@ const MY_DATE_FORMATS = {
     TaskOverDuelList,
     RouterModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    MatProgressSpinnerModule,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
@@ -71,7 +73,7 @@ const MY_DATE_FORMATS = {
     { provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS },
   ],
 })
-export class DashboardComponent {
+export class DashboardComponent implements OnInit{
   searchForm: FormGroup;
   userName: string;
   userId: string;
@@ -91,10 +93,16 @@ export class DashboardComponent {
     });
     this.userName = this.signinService.getUserName();
 
+  }
+
+  ngOnInit(): void {
     this.userId = this.signinService.getUserId();
-    this.tasks$ = this.taskService
-      .getTasks(this.userId)
-      .pipe(switchMap((task) => this.taskState.setList(task)));
+    this.tasks$ = this.taskService.getTasks(this.userId).pipe(
+      startWith([]),
+      delay(2000),
+      switchMap((task) => this.taskState.setList(task)),
+      catchError(() => of([]))
+    );
   }
 
   Logout() {
@@ -113,6 +121,8 @@ export class DashboardComponent {
     const searchparams = this.searchForm.value;
     const searchTerm = searchparams.item;
     console.log('search: ' + JSON.stringify(searchTerm));
-    this.router.navigate([`/search/`],  {queryParams: {searchTerm: searchTerm}});
+    this.router.navigate([`/search/`], {
+      queryParams: { searchTerm: searchTerm },
+    });
   }
 }

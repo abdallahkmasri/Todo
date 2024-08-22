@@ -2,6 +2,7 @@
 <!-- <div class="chart-placeholder">[Charts]</div> -->
 <div *ngFor="let task of sorted | slice: 0:3">
   <div *ngIf="isOverDue(task.dueDate)">
+    <a routerLink="/dashboard/{{ task.id.toString() }}">
     <mat-card class="example-card">
         <mat-card-header>
             <mat-card-title>
@@ -15,5 +16,6 @@
             </div>
           </mat-card-footer>
     </mat-card>
+  </a>
   </div>
 </div>

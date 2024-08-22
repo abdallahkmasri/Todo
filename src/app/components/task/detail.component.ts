@@ -2,10 +2,9 @@ import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
-  Input,
   OnInit,
 } from '@angular/core';
-import { Observable, switchMap, tap } from 'rxjs';
+import { Observable, switchMap } from 'rxjs';
 import { ITask } from 'src/app/models/task.model';
 import { TaskService } from 'src/app/services/task.service';
 import { MatCardModule } from '@angular/material/card';
@@ -75,7 +74,7 @@ export class TaskDetailComponent implements OnInit {
     private dialog: MatDialog,
     private taskState: TaskState
   ) {
-    this.search = this.fb.group({
+    this.searchForm = this.fb.group({
       item: new FormControl(''),
     });
 
@@ -84,7 +83,7 @@ export class TaskDetailComponent implements OnInit {
 
   task$: Observable<ITask>;
   userName: string;
-  search: FormGroup;
+  searchForm: FormGroup;
   taskId: string;
 
   Logout() {
@@ -113,9 +112,13 @@ export class TaskDetailComponent implements OnInit {
   }
 
   markComplete() {
-    this.task$ = this.taskService
-      .markComplete(this.taskId)
-      .pipe(tap(() => this.Back()));
+    debugger
+    this.taskService
+      .markComplete(this.taskId).subscribe({
+        next: () => {
+          this.Back();
+        }
+      })
   }
 
   openDialog(task: ITask): void {
@@ -125,5 +128,14 @@ export class TaskDetailComponent implements OnInit {
     });
 
     dialogRef.afterClosed();
+  }
+
+  Search() {
+    const searchparams = this.searchForm.value;
+    const searchTerm = searchparams.item;
+    console.log('search: ' + JSON.stringify(searchTerm));
+    this.router.navigate([`/search/`], {
+      queryParams: { searchTerm: searchTerm },
+    });
   }
 }
