@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TodoApp.Data;
 using TodoApp.Models;
-using System.Threading.Tasks;
 
 namespace TodoApp.Repositories
 {

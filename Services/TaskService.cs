@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using TodoApi.Repositories;
+﻿using TodoApi.Repositories;
 using TodoApp.Models;
 
 namespace TodoApp.Services
@@ -53,9 +52,9 @@ namespace TodoApp.Services
             }
         }
 
-        public async Task<IEnumerable<TaskModel>> SearchTasksAsync(int userId, string title, DateTime? startDate, DateTime? endDate)
+        public async Task<IEnumerable<TaskModel>> SearchTasksAsync(int userId, string searchTerm)
         {
-            return await _todoRepository.SearchTasksAsync(userId, title, startDate, endDate);
+            return await _todoRepository.SearchTasksAsync(userId, searchTerm);
         }
     }
 }

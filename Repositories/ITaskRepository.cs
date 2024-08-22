@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using TodoApp.Models;
+﻿using TodoApp.Models;
 
 namespace TodoApi.Repositories
 {
@@ -15,7 +13,7 @@ namespace TodoApi.Repositories
         Task SaveChangesAsync();
         Task<IEnumerable<TaskModel>> GetActiveTasksAsync(int userId);
         Task<IEnumerable<TaskModel>> GetRecentlyCompletedTasksAsync(int userId);
-        Task<IEnumerable<TaskModel>> SearchTasksAsync(int userId, string title, DateTime? startDate, DateTime? endDate);
+        Task<IEnumerable<TaskModel>> SearchTasksAsync(int userId, string searchTerm);
         Task MarkTaskAsCompletedAsync(int taskId);
 
     }

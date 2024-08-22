@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.OpenApi.Models;
 using System.Text;
 using TodoApi.Repositories;
 using TodoApp.Data;

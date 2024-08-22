@@ -10,6 +10,6 @@ namespace TodoApp.Services
         Task UpdateTaskAsync(TaskModel todoItem);
         Task DeleteTaskAsync(int id);
         Task MarkTaskAsCompletedAsync(int id);
-        Task<IEnumerable<TaskModel>> SearchTasksAsync(int userId, string title, DateTime? startDate, DateTime? endDate);
+        Task<IEnumerable<TaskModel>> SearchTasksAsync(int userId, string searchTerm);
     }
 }

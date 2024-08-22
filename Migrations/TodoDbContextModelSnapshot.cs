@@ -34,8 +34,8 @@ namespace TodoApp.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("DueDate")
-                        .HasColumnType("datetime2");
+                    b.Property<DateOnly>("DueDate")
+                        .HasColumnType("date");
 
                     b.Property<bool>("IsCompleted")
                         .HasColumnType("bit");
@@ -51,6 +51,9 @@ namespace TodoApp.Migrations
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
+                    b.Property<DateOnly>("CreatedDate")
+                        .IsRequired()
+                        .HasColumnType("date");
                     b.HasKey("ID");
 
                     b.HasIndex("UserId");

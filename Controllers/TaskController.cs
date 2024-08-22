@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using TodoApi.Repositories;
 using TodoApp.Models;
 using TodoApp.Services;
 
@@ -99,9 +98,9 @@ namespace TodoApp.Controllers
 
         //GET: api/tasks/search
         [HttpGet("search")]
-        public async Task<IActionResult> SearchTask(int userId, string title, [FromQuery] DateTime? startDate, [FromQuery] DateTime? endDate)
+        public async Task<IActionResult> SearchTask(int userId, [FromQuery] string searchTerm)
         {
-            var tasks = await _taskService.SearchTasksAsync(userId, title, startDate, endDate);
+            var tasks = await _taskService.SearchTasksAsync(userId, searchTerm);
 
             if (tasks == null) return NotFound("No Tasks Found");
 

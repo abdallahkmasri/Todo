@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Globalization;
 using TodoApi.Repositories;
 using TodoApp.Data;
 using TodoApp.Models;
@@ -64,26 +65,28 @@ namespace TodoApp.Repositories
                 .ToListAsync();
         }
 
-        public async Task<IEnumerable<TaskModel>> SearchTasksAsync(int userId, string title, DateTime? startDate, DateTime? endDate)
+        public async Task<IEnumerable<TaskModel>> SearchTasksAsync(int userId, string searchTerm)
         {
-            var query = _context.Tasks.Where(t => t.UserId == userId).AsQueryable();
+            // Attempt to parse the searchTerm as a DateOnly
+            DateOnly parsedDueDate;
+            bool isDate = DateOnly.TryParseExact(searchTerm, "yyyy/MM/dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out parsedDueDate);
 
-            if (!string.IsNullOrWhiteSpace(title))
-                query = query.Where(t => t.Title.Contains(title, StringComparison.OrdinalIgnoreCase));
+            // Build the query
+            IQueryable<TaskModel> query = _context.Tasks.Where(t => t.UserId == userId);
 
-            if (startDate.HasValue && endDate.HasValue)
-                query = query.Where(t => t.DueDate >= startDate.Value && t.DueDate <= endDate.Value);
-
-
-            else if (startDate.HasValue)
-                query = query.Where(t => t.DueDate >= startDate.Value);
-
-            else if (endDate.HasValue)
-                query = query.Where(t => t.DueDate <= endDate.Value);
-
-            else return null;
+            if (isDate)
+            {
+                // If searchTerm is a date, search by DueDate
+                query = query.Where(t => t.DueDate == parsedDueDate);
+            }
+            else
+            {
+                // Otherwise, search by Title
+                query = query.Where(t => t.Title.Contains(searchTerm));
+            }
 
             return await query.ToListAsync();
+
         }
 
         public async Task MarkTaskAsCompletedAsync(int taskId)
