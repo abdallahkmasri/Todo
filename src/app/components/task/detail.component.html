@@ -8,7 +8,13 @@
       <mat-form-field appearance="outline">
         <mat-label>Search your task here</mat-label>
         <input matInput formControlName="item" />
-        <button extended matSuffix type="submit" aria-label="Search"  class="icon">
+        <button
+          extended
+          matSuffix
+          type="submit"
+          aria-label="Search"
+          class="icon"
+        >
           <mat-icon>search</mat-icon>
         </button>
       </mat-form-field>
@@ -36,16 +42,28 @@
     </button>
   </mat-toolbar>
   <h1>Welcome back, {{ userName }} <mat-icon>check</mat-icon></h1>
-  <div *ngIf="task$ | async as task" style="padding: 10px 30px 10px 30px;">
-    <mat-card class="example-card" style="border:2px solid #ccc;">
+  <div *ngIf="task$ | async as task" style="padding: 10px 30px 10px 30px">
+    <mat-card class="example-card" style="border: 2px solid #ccc">
       <mat-card-header>
         <mat-card-title-group>
           <mat-card-title>
             <h3>{{ task.title }}</h3>
           </mat-card-title>
           <mat-card-subtitle>
-            <h4>Priority: {{ task.priority }}</h4>
-            <h4>Status: {{ task.status }}</h4>
+            <h4>
+              Priority:
+              <span
+                [ngClass]="{
+                  'custom-red': task.priority === 'Extreme',
+                  'custom-blue-icon': task.priority === 'Moderate',
+                  'custom-green': task.priority === 'Low'
+                }"
+                >{{ task.priority }}</span
+              >
+            </h4>
+            <h4>
+              Status: <span class="custom-red">{{ task.status }}</span>
+            </h4>
             <p>Created on: {{ task.createdDate | date : "dd/MM/yyyy" }}</p>
           </mat-card-subtitle>
           <button mat-button (click)="Back()">Go Back</button>
@@ -55,8 +73,8 @@
       <mat-card-content>
         {{ task.description }}
       </mat-card-content>
-
-      <mat-card-actions>
+      <br>
+      <mat-card-actions style="margin: 75px 10px 10px 0px;">
         <span class="example-spacer"></span>
         <button
           mat-fab

@@ -183,6 +183,14 @@ mat-dialog-content {
   color: mat.get-color-from-palette($TodoApp-blue-palette, 500);
 }
 
+.custom-red {
+  color: mat.get-color-from-palette($TodoApp-warn);
+}
+
+.custom-green {
+  color : mat.get-color-from-palette($TodoApp-accent);
+}
+
 mat-toolbar {
   background-color: transparent;
 }

@@ -18,9 +18,14 @@
             <mat-card-content>
               <p>{{ task.description }}</p>
               <div class="task-footer">
-                <span>Priority: <strong>{{ task.priority }}</strong></span>
+                <span>Priority: <strong [ngClass]="{
+                  'custom-red': task.priority === 'Extreme',
+                  'custom-blue-icon': task.priority === 'Moderate',
+                  'custom-green': task.priority === 'Low'
+              }">
+                  {{ task.priority }}</strong></span>
                 <span>
-                  <p>Status: <strong>{{ task.status }}</strong></p>
+                  <p>Status: <strong class="custom-red">{{ task.status }}</strong></p>
 
                   Created on: {{ task.createdDate| date: 'dd/MM/yyyy' }}
                 </span>
