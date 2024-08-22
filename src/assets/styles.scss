@@ -105,39 +105,29 @@ mat-card {
   padding: 16px;
 }
 
-/* Style for the card */
-.dashboard-card {
-  padding: 20px;
-  background-color: transparent;
-}
-
-/* Flex container for horizontal layout */
 .card-content {
   display: flex;
   flex-direction: row;
   justify-items: center;
-  align-items: center; /* Vertically align items */
-  gap: 16px; /* Space between elements */
+  align-items: center;
+  gap: 16px;
 }
 
-/* Style for the image */
 .dashboard-image {
-  margin: 10px 10px 10px 50px; /* Adjust margin as needed */
-  width: 180px; /* Set a fixed width for consistency */
+  margin: 10px 10px 10px 50px;
+  width: 180px;
   height: auto;
 }
 
-/* Style for the form */
 .search-form {
-  flex: 1; /* Allow the form to grow and fill available space */
+  flex: 1;
 }
 
-/* Style for icons */
 .icon {
   margin: 0 8px;
   cursor: pointer;
   background-color: $theme;
-  color: #FFF;
+  color: #fff;
   border-radius: 10%;
 }
 
@@ -190,5 +180,15 @@ mat-dialog-content {
 }
 
 .custom-blue-icon {
-  color: mat.get-color-from-palette($TodoApp-blue-palette, 500); // Or choose the shade you want
+  color: mat.get-color-from-palette($TodoApp-blue-palette, 500);
+}
+
+mat-toolbar {
+  background-color: transparent;
+}
+
+.dashboard-card {
+  padding: 20px;
+  background-color: $toolbar;
+  box-shadow: 5px 5px 20px $shadow;
 }
