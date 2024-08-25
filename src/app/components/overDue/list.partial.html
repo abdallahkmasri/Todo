@@ -1,6 +1,4 @@
-<!-- Placeholder for charts -->
-<!-- <div class="chart-placeholder">[Charts]</div> -->
-<div *ngFor="let task of sorted | slice: 0:3">
+<div *ngFor="let task of paginatedTasks">
   <div *ngIf="isOverDue(task.dueDate)">
     <a class="details" routerLink="/dashboard/{{ task.id.toString() }}">
     <mat-card class="example-card">
@@ -19,3 +17,8 @@
   </a>
   </div>
 </div>
+<mat-paginator
+      (page)="handlePageEvent($event)"
+      [pageSize]="pageSize"
+      [length]="tasksLength()"
+    ></mat-paginator>

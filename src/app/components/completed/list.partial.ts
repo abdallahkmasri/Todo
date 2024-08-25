@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
+import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { CommonModule } from '@angular/common';
 import { ITask } from 'src/app/models/task.model';
 import { RouterModule } from '@angular/router';
@@ -10,10 +11,16 @@ import { RouterModule } from '@angular/router';
   templateUrl: './list.partial.html',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, MatIconModule, MatCardModule, RouterModule]
+  imports: [CommonModule, MatIconModule, MatCardModule, RouterModule, MatPaginatorModule]
 })
 export class CompletedListPartial {
   @Input() tasks: ITask[];
+  pageIndex = 0;
+  pageSize = 2;
+
+  handlePageEvent(event: PageEvent) {
+    this.pageIndex = event.pageIndex;
+  }
 
   get Completed() {
     if(this.tasks){
@@ -22,5 +29,14 @@ export class CompletedListPartial {
     else{
       return null;
     }
+  }
+
+  tasksLength(): number {
+    return this.tasks?.filter(task => task.status === 'Completed').length || 0;
+  }
+
+  get paginatedTasks(): ITask[] {
+    const startIndex = this.pageIndex * this.pageSize;
+    return this.tasks.slice(startIndex, startIndex + this.pageSize);
   }
 }
