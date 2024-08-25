@@ -1,9 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input, OnInit, ViewChild } from '@angular/core';
-import { MatCardModule } from '@angular/material/card';
+import   
+ { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
+import { MatPaginator, MatPaginatorModule, PageEvent   
+ } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { RouterModule } from '@angular/router';
+import   
+ { RouterModule } from '@angular/router';
 import { ITask } from 'src/app/models/task.model';
 
 @Component({
@@ -11,10 +15,20 @@ import { ITask } from 'src/app/models/task.model';
   templateUrl: './list.partial.html',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, MatCardModule, MatIconModule, RouterModule],
+  imports: [CommonModule, MatCardModule, MatIconModule, RouterModule, MatPaginatorModule],
 })
-export class TaskListPartial{
+export class TaskListPartial {
   @Input() tasks: ITask[];
+
+  pageEvent: PageEvent;
+
+  pageIndex = 0;
+
+  i = 0;
+
+  handlePageEvent(e: PageEvent){
+    this.pageEvent = e;
+  }
 
   get sorted(): ITask[] {
     if (this.tasks) {
@@ -47,5 +61,19 @@ export class TaskListPartial{
       default:
         return 3;
     }
+  }
+
+  goToPreviousPage() {
+    this.pageIndex--;
+  }
+
+  goToNextPage() {
+    this.pageIndex++;
+  }
+
+  tasksLength(): number {
+    return this.tasks
+      .filter(task => task.status !== 'Completed')
+      .length;
   }
 }
