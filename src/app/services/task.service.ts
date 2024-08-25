@@ -11,8 +11,6 @@ import { SigninService } from './signin.service';
 export class TaskService {
   private _url = `${enviroment.url}/tasks`;
 
-  private token = this.signinService.getToken();
-
   constructor(private http: HttpClient, private signinService: SigninService) {}
 
   addTask(task: ITask): Observable<any> {

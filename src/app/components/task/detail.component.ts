@@ -77,8 +77,6 @@ export class TaskDetailComponent implements OnInit {
     this.searchForm = this.fb.group({
       item: new FormControl(''),
     });
-
-    this.userName = signinService.getUserName();
   }
 
   task$: Observable<ITask>;
@@ -112,7 +110,6 @@ export class TaskDetailComponent implements OnInit {
   }
 
   markComplete() {
-    debugger
     this.taskService
       .markComplete(this.taskId).subscribe({
         next: () => {
