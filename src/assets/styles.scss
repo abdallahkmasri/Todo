@@ -95,6 +95,7 @@ body {
 
 mat-card {
   width: 100%;
+  border-radius: 15px;
 }
 
 .example-card {
@@ -168,10 +169,6 @@ mat-card {
 .details {
   text-decoration: none;
   color: $black;
-}
-
-mat-card {
-  border-radius: 15px;
 }
 
 mat-dialog-content {
