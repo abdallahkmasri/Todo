@@ -1,6 +1,6 @@
 <div *ngFor="let task of Completed | slice: 0:2">
   <div *ngIf="task.status === 'Completed'">
-    <a routerLink="/dashboard/{{ task.id.toString() }}">
+    <a class="details" routerLink="/dashboard/{{ task.id.toString() }}">
       <mat-card class="example-card">
         <mat-card-header>
           <mat-card-title-group>

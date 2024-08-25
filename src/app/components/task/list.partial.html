@@ -2,8 +2,8 @@
   <div *ngIf="sorted">
     <div *ngFor="let task of sorted | slice: 0:3">
       <div *ngIf="task.status !== 'Completed'">
-        <a routerLink="/dashboard/{{ task.id.toString() }}">
-          <mat-card appearance="outlined" class="example-card">
+        <mat-card appearance="outlined" class="example-card">
+          <a class="details" routerLink="/dashboard/{{ task.id.toString() }}">
             <mat-card-header>
               <mat-card-title-group>
                 <mat-card-title>
@@ -18,22 +18,31 @@
             <mat-card-content>
               <p>{{ task.description }}</p>
               <div class="task-footer">
-                <span>Priority: <strong [ngClass]="{
+                <span
+                  >Priority:
+                  <strong
+                    [ngClass]="{
                   'custom-red': task.priority === 'Extreme',
                   'custom-blue-icon': task.priority === 'Moderate',
                   'custom-green': task.priority === 'Low'
-              }">
-                  {{ task.priority }}</strong></span>
+              }"
+                  >
+                    {{ task.priority }}</strong
+                  ></span
+                >
                 <span>
-                  <p>Status: <strong class="custom-red">{{ task.status }}</strong></p>
+                  <p>
+                    Status:
+                    <strong class="custom-red">{{ task.status }}</strong>
+                  </p>
 
                   Created on: {{ task.createdDate| date: 'dd/MM/yyyy' }}
                 </span>
               </div>
               <div>Due on: {{task.dueDate | date: 'dd/MM/yyyy'}}</div>
             </mat-card-content>
-          </mat-card>
-        </a>
+          </a>
+        </mat-card>
       </div>
     </div>
   </div>
