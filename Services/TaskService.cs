@@ -33,17 +33,8 @@ namespace TodoApp.Services
             await _todoRepository.SaveChangesAsync();
         }
 
-        public async Task MarkTaskAsCompletedAsync(int id)
-        {
-            var todoItem = await _todoRepository.GetTaskByIdAsync(id);
-            if (todoItem != null)
-            {
-                todoItem.IsCompleted = true;
-                todoItem.Status = "Completed";
-                await _todoRepository.UpdateTaskAsync(todoItem);
-                await _todoRepository.SaveChangesAsync();
-            }
-        }
+        public async Task MarkTaskAsCompletedAsync(int id) =>
+            await _todoRepository.MarkTaskAsCompletedAsync(id);
 
         public async Task<IEnumerable<TaskModel>> SearchTasksAsync(int userId, string searchTerm) =>
             await _todoRepository.SearchTasksAsync(userId, searchTerm);

@@ -10,10 +10,7 @@ namespace TodoApp.Controllers
     {
         private readonly IUserService _userService;
 
-        public UsersController(IUserService userService)
-        {
-            _userService = userService;
-        }
+        public UsersController(IUserService userService) => _userService = userService;
 
         // POST: api/users
         [HttpPost]

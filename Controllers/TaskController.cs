@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Globalization;
 using TodoApp.Models;
 using TodoApp.Services;
 
@@ -12,10 +13,7 @@ namespace TodoApp.Controllers
     {
         private readonly ITaskService _taskService;
 
-        public TasksController(ITaskService taskRepository)
-        {
-            _taskService = taskRepository;
-        }
+        public TasksController(ITaskService taskRepository) => _taskService = taskRepository;
 
         // GET: api/tasks?status=active&title=Sample&startDate=2024-01-01&endDate=2024-01-31
         [HttpGet]

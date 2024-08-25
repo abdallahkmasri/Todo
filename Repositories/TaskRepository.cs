@@ -10,10 +10,7 @@ namespace TodoApp.Repositories
     {
         private readonly TodoDbContext _context;
 
-        public TaskRepository(TodoDbContext context)
-        {
-            _context = context;
-        }
+        public TaskRepository(TodoDbContext context) => _context = context;
 
         public async Task<IEnumerable<TaskModel>> GetTasksByUserIdAsync(int userId) =>
             await _context.Tasks.Where(t => t.UserId == userId).ToListAsync();
@@ -75,7 +72,9 @@ namespace TodoApp.Repositories
             if (task != null)
             {
                 task.IsCompleted = true;
+                task.Status = "Completed";
                 await UpdateTaskAsync(task);
+                await SaveChangesAsync();
             }
         }
     }
