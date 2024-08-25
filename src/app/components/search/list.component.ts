@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { delay, Observable, switchMap } from 'rxjs';
 import { ITask } from 'src/app/models/task.model';
 import { SigninService } from 'src/app/services/signin.service';
@@ -72,7 +72,6 @@ export class SearchListComponent implements OnInit {
     private signinService: SigninService,
     private route: ActivatedRoute,
     private fb: FormBuilder,
-    private router: Router
   ) {
     this.searchForm = this.fb.group({
       item: new FormControl(''),
@@ -85,10 +84,7 @@ export class SearchListComponent implements OnInit {
       switchMap((params) => {
         const term = params.get('searchTerm');
 
-        return this.taskService.searchTasks(
-          this.signinService.getUserId(),
-          term
-        );
+        return this.taskService.searchTasks(term);
       })
     );
   }
@@ -100,6 +96,6 @@ export class SearchListComponent implements OnInit {
   Search() {
     const searchparams = this.searchForm.value;
     const searchTerm = searchparams.item;
-    this.tasks$ = this.taskService.searchTasks(this.signinService.getUserId(), searchTerm);
+    this.tasks$ = this.taskService.searchTasks(searchTerm);
   }
 }

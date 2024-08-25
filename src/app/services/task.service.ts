@@ -12,7 +12,7 @@ export class TaskService {
 
   constructor(private http: HttpClient) {}
 
-  addTask(userId:string, task: ITask): Observable<any> {
+  addTask(task: ITask): Observable<any> {
 
     const added = {
       title: task.title,
@@ -22,13 +22,12 @@ export class TaskService {
       priority: task.priority,
       isComplete: task.isComplete,
       createdDate: task.createdDate,
-      userId: userId,
     };
     return this.http.post(`${this._url}`, added);
   }
 
-  getTasks(userId: string): Observable<any> {
-    const api = `${this._url}/user/${userId}`;
+  getTasks(): Observable<any> {
+    const api = `${this._url}`;
     return this.http.get(api);
 }
 
@@ -49,9 +48,8 @@ getTaskById(id: string): Observable<any> {
   }
 
   searchTasks(
-    id: string,
     searchTerm: string
   ): Observable<any> {
-    return this.http.get(`${this._url}/search?userId=${id}&searchTerm=${searchTerm}`);
+    return this.http.get(`${this._url}/search?searchTerm=${searchTerm}`);
   }
 }

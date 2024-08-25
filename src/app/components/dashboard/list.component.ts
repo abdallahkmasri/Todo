@@ -96,8 +96,7 @@ export class DashboardComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    this.userId = this.signinService.getUserId();
-    this.tasks$ = this.taskService.getTasks(this.userId).pipe(
+    this.tasks$ = this.taskService.getTasks().pipe(
       startWith([]),
       delay(1500),
       switchMap((task) => this.taskState.setList(task)),

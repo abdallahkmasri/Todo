@@ -96,8 +96,7 @@ export class DialogFormComponent {
           this.router.navigateByUrl('/dashboard');
         });
       } else {
-        const userId = this.siginService.getUserId();
-        this.taskService.addTask(userId ,this.taskForm.value).subscribe((res) => {
+        this.taskService.addTask(this.taskForm.value).subscribe((res) => {
           this.taskState.addItem(res);
         });
       }
