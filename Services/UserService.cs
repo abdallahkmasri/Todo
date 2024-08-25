@@ -47,7 +47,9 @@ namespace TodoApp.Services
                 Subject = new ClaimsIdentity(new[]
                 {
             new Claim(ClaimTypes.Name, user.UserName),
-            new Claim(ClaimTypes.NameIdentifier, user.ID.ToString())
+            new Claim(ClaimTypes.NameIdentifier, user.ID.ToString()),
+            new Claim("UserId", user.ID.ToString()),
+            new Claim("UserName", user.UserName)
         }),
                 Expires = DateTime.UtcNow.AddHours(1),
                 Issuer = issuer,

@@ -15,8 +15,8 @@ namespace TodoApp.Controllers
 
         public TasksController(ITaskService taskRepository) => _taskService = taskRepository;
 
-        // GET: api/tasks?status=active&title=Sample&startDate=2024-01-01&endDate=2024-01-31
-        [HttpGet]
+        // GET: api/tasks/user/{userId}
+        [HttpGet("user/{userId}")]
         public async Task<IActionResult> GetTasks(int userId)
         {
             var tasks = await _taskService.GetUserTaskAsync(userId);
