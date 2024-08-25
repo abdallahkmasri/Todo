@@ -1,9 +1,8 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ITask } from '../models/task.model';
 import { enviroment } from 'src/enviroments/enviroment';
 import { Observable } from 'rxjs';
-import { SigninService } from './signin.service';
 
 @Injectable({
   providedIn: 'root',
@@ -11,10 +10,9 @@ import { SigninService } from './signin.service';
 export class TaskService {
   private _url = `${enviroment.url}/tasks`;
 
-  constructor(private http: HttpClient, private signinService: SigninService) {}
+  constructor(private http: HttpClient) {}
 
-  addTask(task: ITask): Observable<any> {
-    const userId = this.signinService.getUserId();
+  addTask(userId:string, task: ITask): Observable<any> {
 
     const added = {
       title: task.title,
@@ -30,13 +28,13 @@ export class TaskService {
   }
 
   getTasks(userId: string): Observable<any> {
-    const api = `${this._url}?userId=${encodeURIComponent(userId)}`;
+    const api = `${this._url}/user/${userId}`;
     return this.http.get(api);
-  }
+}
 
-  getTaskById(id: string): Observable<any> {
+getTaskById(id: string): Observable<any> {
     return this.http.get(`${this._url}/${id}`);
-  }
+}
 
   deleteTask(id: string): Observable<any> {
     return this.http.delete(`${this._url}/${id}`);

@@ -100,8 +100,6 @@ export class SearchListComponent implements OnInit {
   Search() {
     const searchparams = this.searchForm.value;
     const searchTerm = searchparams.item;
-    this.router.navigate([`/search/`], {
-      queryParams: { searchTerm: searchTerm },
-    });
+    this.tasks$ = this.taskService.searchTasks(this.signinService.getUserId(), searchTerm);
   }
 }

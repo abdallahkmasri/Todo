@@ -17,7 +17,7 @@ import { Router, RouterModule } from '@angular/router';
 import { SigninService } from 'src/app/services/signin.service';
 
 @Component({
-  templateUrl: './list.component.html',
+  templateUrl: './form.component.html',
   standalone: true,
   imports: [
     RouterModule,

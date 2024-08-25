@@ -1,9 +1,10 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { enviroment } from 'src/enviroments/enviroment';
 import { ISignIn } from '../models/signin.model';
 import { Observable, tap } from 'rxjs';
 import { Router } from '@angular/router';
+import {jwtDecode} from 'jwt-decode';
 
 @Injectable({
   providedIn: 'root',
@@ -11,8 +12,6 @@ import { Router } from '@angular/router';
 export class SigninService {
   private _url = `${enviroment.url}/Users/login`;
   private tokenKey = 'SecretKey';
-  private userIdKey = 'UserId';
-  private userNameKey = 'UserName';
 
   constructor(private http: HttpClient, private router: Router) {}
 
@@ -20,8 +19,6 @@ export class SigninService {
     return this.http.post(this._url, user).pipe(
       tap((response) => {
         localStorage.setItem(this.tokenKey, response.token);
-        localStorage.setItem(this.userIdKey, response.userId);
-        localStorage.setItem(this.userNameKey, response.userName);
 
         if (this.isAuthenticated()) this.router.navigateByUrl('dashboard');
 
@@ -36,8 +33,6 @@ export class SigninService {
 
   logout(): void {
     localStorage.removeItem(this.tokenKey);
-    localStorage.removeItem(this.userIdKey);
-    localStorage.removeItem(this.userNameKey);
     this.router.navigateByUrl('/');
   }
 
@@ -46,10 +41,20 @@ export class SigninService {
   }
 
   getUserId(): string | null {
-    return localStorage.getItem(this.userIdKey);
+    const token = this.getToken();
+    if (token) {
+      const decoded: any = jwtDecode(token);
+      return decoded.UserId || null;
+    }
+    return null;
   }
 
   getUserName(): string | null {
-    return localStorage.getItem(this.userNameKey);
+    const token = this.getToken();
+    if (token) {
+      const decoded: any = jwtDecode(token);
+      return decoded.UserName || null;
+    }
+    return null;
   }
 }

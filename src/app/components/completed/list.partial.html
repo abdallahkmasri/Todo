@@ -16,12 +16,13 @@
         <mat-card-footer class="example-card-footer">
           Status: <strong class="custom-green">{{ task.status }}</strong>
         </mat-card-footer>
-      </mat-card></a>
-      <br />
+      </mat-card></a
+    >
+    <br />
   </div>
 </div>
 <mat-paginator
-      (page)="handlePageEvent($event)"
-      [pageSize]="pageSize"
-      [length]="tasksLength()"
-    ></mat-paginator>
+  (page)="handlePageEvent($event)"
+  [pageSize]="pageSize"
+  [length]="tasksLength()"
+></mat-paginator>

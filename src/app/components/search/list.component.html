@@ -42,7 +42,51 @@
     </button>
   </mat-toolbar>
   <ng-container *ngIf="tasks$ | async as tasks; else loading">
-    <dm-task-list [tasks]="tasks"></dm-task-list>
+    <div class="example-card">
+      <div *ngFor="let task of tasks">
+        <mat-card appearance="outlined" class="example-card">
+          <a class="details" routerLink="/dashboard/{{ task.id.toString() }}">
+            <mat-card-header>
+              <mat-card-title-group>
+                <mat-card-title>
+                  <div style="display: flex; align-items: center">
+                    <mat-icon color="primary">circle</mat-icon>
+                    {{ task.title }}
+                  </div>
+                </mat-card-title>
+                <mat-icon class="more-options">more_vert</mat-icon>
+              </mat-card-title-group>
+            </mat-card-header>
+            <mat-card-content>
+              <p>{{ task.description }}</p>
+              <div class="task-footer">
+                <span
+                  >Priority:
+                  <strong
+                    [ngClass]="{
+                      'custom-red': task.priority === 'Extreme',
+                      'custom-blue-icon': task.priority === 'Moderate',
+                      'custom-green': task.priority === 'Low'
+                    }"
+                  >
+                    {{ task.priority }}</strong
+                  ></span
+                >
+                <span>
+                  <p>
+                    Status:
+                    <strong class="custom-red">{{ task.status }}</strong>
+                  </p>
+
+                  Created on: {{ task.createdDate | date : "dd/MM/yyyy" }}
+                </span>
+              </div>
+              <div>Due on: {{ task.dueDate | date : "dd/MM/yyyy" }}</div>
+            </mat-card-content>
+          </a>
+        </mat-card>
+      </div>
+    </div>
   </ng-container>
   <ng-template #loading>
     <mat-spinner></mat-spinner>

@@ -1,5 +1,5 @@
 <div class="example-card">
-  <div *ngIf="sorted">
+  <div *ngIf="sorted.length !== 0">
     <div *ngFor="let task of paginatedTasks">
       <div *ngIf="task.status !== 'Completed'">
         <mat-card appearance="outlined" class="example-card">
@@ -50,5 +50,8 @@
       [pageSize]="pageSize"
       [length]="tasksLength()"
     ></mat-paginator>
+  </div>
+  <div *ngIf="sorted.length <= 0">
+    no tasks are found!
   </div>
 </div>

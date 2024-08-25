@@ -14,6 +14,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { Router } from '@angular/router';
+import { SigninService } from 'src/app/services/signin.service';
 
 enum Priority {
     Extreme = 'Extreme',
@@ -67,7 +68,8 @@ export class DialogFormComponent {
     private taskService: TaskService,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private taskState: TaskState,
-    private router: Router
+    private router: Router,
+    private siginService: SigninService
   ) {
     this.isEditMode = !!data?.task;
     this.taskForm = new FormGroup({
@@ -94,7 +96,8 @@ export class DialogFormComponent {
           this.router.navigateByUrl('/dashboard');
         });
       } else {
-        this.taskService.addTask(this.taskForm.value).subscribe((res) => {
+        const userId = this.siginService.getUserId();
+        this.taskService.addTask(userId ,this.taskForm.value).subscribe((res) => {
           this.taskState.addItem(res);
         });
       }

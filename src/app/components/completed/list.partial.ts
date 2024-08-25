@@ -15,8 +15,8 @@ import { RouterModule } from '@angular/router';
 })
 export class CompletedListPartial {
   @Input() tasks: ITask[];
-  pageIndex = 0;
-  pageSize = 2;
+  protected pageIndex = 0;
+  protected pageSize = 2;
 
   handlePageEvent(event: PageEvent) {
     this.pageIndex = event.pageIndex;
@@ -37,6 +37,6 @@ export class CompletedListPartial {
 
   get paginatedTasks(): ITask[] {
     const startIndex = this.pageIndex * this.pageSize;
-    return this.tasks.slice(startIndex, startIndex + this.pageSize);
+    return this.Completed.slice(startIndex, startIndex + this.pageSize);
   }
 }
