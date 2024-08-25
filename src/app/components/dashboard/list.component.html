@@ -5,7 +5,7 @@
     </a>
     <span class="example-spacer"></span>
     <form [formGroup]="searchForm" (ngSubmit)="Search()">
-      <mat-form-field appearance="outline" style="border: none;">
+      <mat-form-field appearance="outline">
         <mat-label>Search your task here</mat-label>
         <input matInput formControlName="item" />
         <button

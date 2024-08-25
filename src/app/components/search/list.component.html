@@ -8,7 +8,13 @@
       <mat-form-field appearance="outline">
         <mat-label>Search your task here</mat-label>
         <input matInput formControlName="item" />
-        <button extended matSuffix type="submit" aria-label="Search"  class="icon">
+        <button
+          extended
+          matSuffix
+          type="submit"
+          aria-label="Search"
+          class="icon"
+        >
           <mat-icon>search</mat-icon>
         </button>
       </mat-form-field>
@@ -36,9 +42,9 @@
     </button>
   </mat-toolbar>
   <ng-container *ngIf="tasks$ | async as tasks; else loading">
-  <dm-task-list [tasks]="tasks"></dm-task-list>
+    <dm-task-list [tasks]="tasks"></dm-task-list>
   </ng-container>
   <ng-template #loading>
-      <mat-spinner></mat-spinner>
+    <mat-spinner></mat-spinner>
   </ng-template>
 </div>
