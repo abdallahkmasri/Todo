@@ -133,7 +133,6 @@ export class TaskDetailComponent implements OnInit {
   Search() {
     const searchparams = this.searchForm.value;
     const searchTerm = searchparams.item;
-    console.log('search: ' + JSON.stringify(searchTerm));
     this.router.navigate([`/search/`], {
       queryParams: { searchTerm: searchTerm },
     });

@@ -28,7 +28,6 @@ export class TaskService {
       createdDate: task.createdDate,
       userId: userId,
     };
-    console.log('task: ' + added.userId);
     return this.http.post(`${this._url}`, added);
   }
 

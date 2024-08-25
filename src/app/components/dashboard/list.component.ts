@@ -99,7 +99,7 @@ export class DashboardComponent implements OnInit{
     this.userId = this.signinService.getUserId();
     this.tasks$ = this.taskService.getTasks(this.userId).pipe(
       startWith([]),
-      delay(2000),
+      delay(1500),
       switchMap((task) => this.taskState.setList(task)),
       catchError(() => of([]))
     );
@@ -120,7 +120,6 @@ export class DashboardComponent implements OnInit{
   Search() {
     const searchparams = this.searchForm.value;
     const searchTerm = searchparams.item;
-    console.log('search: ' + JSON.stringify(searchTerm));
     this.router.navigate([`/search/`], {
       queryParams: { searchTerm: searchTerm },
     });

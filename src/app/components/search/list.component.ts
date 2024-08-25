@@ -84,7 +84,6 @@ export class SearchListComponent implements OnInit {
       delay(1000),
       switchMap((params) => {
         const term = params.get('searchTerm');
-        console.log('term: ' + term);
 
         return this.taskService.searchTasks(
           this.signinService.getUserId(),
@@ -101,7 +100,6 @@ export class SearchListComponent implements OnInit {
   Search() {
     const searchparams = this.searchForm.value;
     const searchTerm = searchparams.item;
-    console.log('search: ' + JSON.stringify(searchTerm));
     this.router.navigate([`/search/`], {
       queryParams: { searchTerm: searchTerm },
     });

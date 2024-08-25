@@ -70,9 +70,7 @@ export class RegisterComponent {
     this.submit = true;
     if (this.signupForm.valid) {
       this.registerService.register(this.signupForm.value).subscribe({
-        next: (response) => {
-          // Handle successful registration
-          console.log('Registration successful', response);
+        next: () => {
           this.router.navigateByUrl('/')
         },
         error: (error) => {

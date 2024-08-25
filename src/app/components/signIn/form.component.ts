@@ -49,11 +49,8 @@ export class SignInComponent {
   Submit() {
     if (this.signinForm.valid) {
       this.signinService.signin(this.signinForm.value).subscribe({
-        next: (response) => {
+        next: () => {
           this.router.navigateByUrl('/dashboard');
-          // Handle successful sign-in
-          console.log('Sign-in successful', response);
-          // Save token or user info if needed
         },
         error: (error) => {
           // Handle sign-in errors
