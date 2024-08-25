@@ -11,10 +11,7 @@ namespace TodoApp.Services
     {
         private readonly IUserRepository _userRepository;
 
-        public UserService(IUserRepository userRepository)
-        {
-            _userRepository = userRepository;
-        }
+        public UserService(IUserRepository userRepository) => _userRepository = userRepository;
 
         public async Task<bool> RegisterUserAsync(UserModel user)
         {
@@ -61,11 +58,5 @@ namespace TodoApp.Services
             var token = tokenHandler.CreateToken(tokenDescriptor);
             return tokenHandler.WriteToken(token);
         }
-
-        public UserModel GetUserById(int userId)
-        {
-            return _userRepository.GetUserById(userId);
-        }
-
     }
 }

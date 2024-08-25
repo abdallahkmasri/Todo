@@ -15,25 +15,18 @@ namespace TodoApp.Repositories
             _context = context;
         }
 
-        public async Task<IEnumerable<TaskModel>> GetTasksByUserIdAsync(int userId)
-        {
-            return await _context.Tasks.Where(t => t.UserId == userId).ToListAsync();
-        }
+        public async Task<IEnumerable<TaskModel>> GetTasksByUserIdAsync(int userId) =>
+            await _context.Tasks.Where(t => t.UserId == userId).ToListAsync();
 
-        public async Task<TaskModel> GetTaskByIdAsync(int id)
-        {
-            return await _context.Tasks.FindAsync(id);
-        }
 
-        public async Task AddTaskAsync(TaskModel todoItem)
-        {
+        public async Task<TaskModel> GetTaskByIdAsync(int id) =>
+            await _context.Tasks.FindAsync(id);
+
+        public async Task AddTaskAsync(TaskModel todoItem) =>
             await _context.Tasks.AddAsync(todoItem);
-        }
 
-        public async Task UpdateTaskAsync(TaskModel todoItem)
-        {
-            _context.Tasks.Update(todoItem);
-        }
+        public Task UpdateTaskAsync(TaskModel todoItem) =>
+            Task.Run(() => _context.Tasks.Update(todoItem));
 
         public async Task DeleteTaskAsync(int id)
         {
@@ -44,26 +37,13 @@ namespace TodoApp.Repositories
             }
         }
 
-        public async Task SaveChangesAsync()
-        {
+        public async Task SaveChangesAsync() =>
             await _context.SaveChangesAsync();
-        }
 
-        public async Task<IEnumerable<TaskModel>> GetActiveTasksAsync(int userId)
-        {
-            return await _context.Tasks
+        public async Task<IEnumerable<TaskModel>> GetActiveTasksAsync(int userId) =>
+            await _context.Tasks
                 .Where(t => t.UserId == userId && !t.IsCompleted)
                 .ToListAsync();
-        }
-
-        public async Task<IEnumerable<TaskModel>> GetRecentlyCompletedTasksAsync(int userId)
-        {
-            return await _context.Tasks
-                .Where(t => t.UserId == userId && t.IsCompleted)
-                .OrderByDescending(t => t.DueDate)
-                .Take(10)
-                .ToListAsync();
-        }
 
         public async Task<IEnumerable<TaskModel>> SearchTasksAsync(int userId, string searchTerm)
         {
@@ -97,11 +77,6 @@ namespace TodoApp.Repositories
                 task.IsCompleted = true;
                 await UpdateTaskAsync(task);
             }
-        }
-
-        public async Task<int> GetLastIdAsync()
-        {
-            return await _context.Tasks.MaxAsync(i => i.ID);
         }
     }
 }

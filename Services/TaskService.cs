@@ -7,20 +7,13 @@ namespace TodoApp.Services
     {
         private readonly ITaskRepository _todoRepository;
 
-        public TaskService(ITaskRepository todoRepository)
-        {
-            _todoRepository = todoRepository;
-        }
+        public TaskService(ITaskRepository todoRepository) => _todoRepository = todoRepository;
 
-        public async Task<IEnumerable<TaskModel>> GetUserTaskAsync(int userId)
-        {
-            return await _todoRepository.GetTasksByUserIdAsync(userId);
-        }
+        public async Task<IEnumerable<TaskModel>> GetUserTaskAsync(int userId) => 
+            await _todoRepository.GetTasksByUserIdAsync(userId);
 
-        public async Task<TaskModel> GetTaskByIdAsync(int id)
-        {
-            return await _todoRepository.GetTaskByIdAsync(id);
-        }
+        public async Task<TaskModel> GetTaskByIdAsync(int id) =>
+            await _todoRepository.GetTaskByIdAsync(id);
 
         public async Task AddTaskAsync(TaskModel todoItem)
         {
@@ -52,9 +45,7 @@ namespace TodoApp.Services
             }
         }
 
-        public async Task<IEnumerable<TaskModel>> SearchTasksAsync(int userId, string searchTerm)
-        {
-            return await _todoRepository.SearchTasksAsync(userId, searchTerm);
-        }
+        public async Task<IEnumerable<TaskModel>> SearchTasksAsync(int userId, string searchTerm) =>
+            await _todoRepository.SearchTasksAsync(userId, searchTerm);
     }
 }
