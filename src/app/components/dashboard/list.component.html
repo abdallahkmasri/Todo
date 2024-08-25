@@ -1,5 +1,5 @@
 <div style="background-color: #ffff; height: 100%">
-  <mat-toolbar class="dashboard-card">
+  <mat-toolbar>
     <a routerLink="/dashboard">
       <img src="assets/images/Dashboard.png" class="dashboard-image" />
     </a>
@@ -7,7 +7,7 @@
     <form [formGroup]="searchForm" (ngSubmit)="Search()">
       <mat-form-field appearance="outline">
         <mat-label>Search your task here</mat-label>
-        <input matInput formControlName="item" />
+        <input matInput formControlName="item" placeholder="yyyy/MM/dd"/>
         <button
           extended
           matSuffix
