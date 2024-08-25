@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using System.Globalization;
+using System.IdentityModel.Tokens.Jwt;
+using System.Text;
 using TodoApp.Models;
 using TodoApp.Services;
 
@@ -15,12 +18,20 @@ namespace TodoApp.Controllers
 
         public TasksController(ITaskService taskRepository) => _taskService = taskRepository;
 
-        // GET: api/tasks/user/{userId}
-        [HttpGet("user/{userId}")]
-        public async Task<IActionResult> GetTasks(int userId)
+        // GET: api/tasks/
+        [HttpGet]
+        public async Task<IActionResult> GetTasks()
         {
-            var tasks = await _taskService.GetUserTaskAsync(userId);
-            return Ok(tasks);
+            int userId = GetUserIdFromToken();
+
+            if (userId > -1)
+            {
+
+                var tasks = await _taskService.GetUserTaskAsync(userId);
+                return Ok(tasks);
+            }
+
+            return Unauthorized();
         }
 
         // GET: api/tasks/{id}
@@ -38,20 +49,28 @@ namespace TodoApp.Controllers
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            var task = new TaskModel
-            {
-                Title = taskModel.Title,
-                Description = taskModel.Description,
-                DueDate = taskModel.DueDate,
-                Priority = taskModel.Priority,
-                Status = taskModel.Status,
-                IsCompleted = taskModel.IsCompleted,
-                UserId = taskModel.UserId,
-                CreatedDate = taskModel.CreatedDate,
-            };
+            int userId = GetUserIdFromToken();
 
-            await _taskService.AddTaskAsync(task);
-            return CreatedAtAction(nameof(GetTaskById), new { id = task.ID }, task);
+            if (userId > -1)
+            {
+
+                var task = new TaskModel
+                {
+                    Title = taskModel.Title,
+                    Description = taskModel.Description,
+                    DueDate = taskModel.DueDate,
+                    Priority = taskModel.Priority,
+                    Status = taskModel.Status,
+                    IsCompleted = taskModel.IsCompleted,
+                    UserId = userId,
+                    CreatedDate = taskModel.CreatedDate,
+                };
+
+                await _taskService.AddTaskAsync(task);
+                return CreatedAtAction(nameof(GetTaskById), new { id = task.ID }, task);
+            }
+
+            return Unauthorized();
         }
 
         // PUT: api/tasks/{id}
@@ -96,13 +115,51 @@ namespace TodoApp.Controllers
 
         //GET: api/tasks/search
         [HttpGet("search")]
-        public async Task<IActionResult> SearchTask(int userId, [FromQuery] string searchTerm)
+        public async Task<IActionResult> SearchTask([FromQuery] string searchTerm)
         {
-            var tasks = await _taskService.SearchTasksAsync(userId, searchTerm);
+            int userId = GetUserIdFromToken();
 
-            if (tasks == null) return NotFound("No Tasks Found");
+            if (userId > -1)
+            {
 
-            return Ok(tasks);
+                var tasks = await _taskService.SearchTasksAsync(userId, searchTerm);
+
+                if (tasks == null) return NotFound("No Tasks Found");
+
+                return Ok(tasks);
+            }
+            return Unauthorized();
+        }
+
+        private int GetUserIdFromToken()
+        {
+            var token = Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
+
+            if (string.IsNullOrEmpty(token))
+            {
+                return -1; // Handle invalid token or missing authorization header
+            }
+
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var securityKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes("My Secret Key For Todo App using JWT")); // Replace with your actual key
+
+            try
+            {
+                var claimsPrincipal = tokenHandler.ReadToken(token) as JwtSecurityToken;
+                var userIdClaim = claimsPrincipal.Claims.FirstOrDefault(c => c.Type == "UserId");
+
+                if (userIdClaim == null)
+                {
+                    return -1; // Handle missing UserId claim
+                }
+
+                return int.Parse(userIdClaim.Value);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error extracting user ID from token: {0}", ex.Message);
+                return -1; // Handle unexpected errors
+            }
         }
     }
 }
