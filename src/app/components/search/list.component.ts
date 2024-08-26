@@ -18,26 +18,7 @@ import {
 } from '@angular/forms';
 import { TaskListPartial } from '../task/list.partial';
 import { MatCardModule } from '@angular/material/card';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import {
-  DateAdapter,
-  MAT_DATE_FORMATS,
-  MatNativeDateModule,
-  NativeDateAdapter,
-} from '@angular/material/core';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-
-const MY_DATE_FORMATS = {
-  parse: {
-    dateInput: 'LL',
-  },
-  display: {
-    dateInput: 'DD/MM/YYYY', // This is the format you want to display the date in
-    monthYearLabel: 'MMM YYYY',
-    dateA11yLabel: 'LL',
-    monthYearA11yLabel: 'MMMM YYYY',
-  },
-};
 
 @Component({
   standalone: true,
@@ -54,13 +35,7 @@ const MY_DATE_FORMATS = {
     MatCardModule,
     TaskListPartial,
     RouterModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
     MatProgressSpinnerModule,
-  ],
-  providers: [
-    { provide: DateAdapter, useClass: NativeDateAdapter },
-    { provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS },
   ],
 })
 export class SearchListComponent implements OnInit {

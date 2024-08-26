@@ -23,27 +23,8 @@ import { ITask } from 'src/app/models/task.model';
 import { TaskState } from 'src/app/services/task.state';
 import { TaskOverDuelList } from '../overDue/list.partial';
 import { Router, RouterModule } from '@angular/router';
-import { MatDatepickerModule } from '@angular/material/datepicker';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
-import {
-  DateAdapter,
-  MAT_DATE_FORMATS,
-  MatNativeDateModule,
-  NativeDateAdapter,
-} from '@angular/material/core';
 import { DialogFormComponent } from '../common/dialog.form';
-
-const MY_DATE_FORMATS = {
-  parse: {
-    dateInput: 'LL',
-  },
-  display: {
-    dateInput: 'DD/MM/YYYY', // This is the format you want to display the date in
-    monthYearLabel: 'MMM YYYY',
-    dateA11yLabel: 'LL',
-    monthYearA11yLabel: 'MMMM YYYY',
-  },
-};
 
 @Component({
   standalone: true,
@@ -63,15 +44,9 @@ const MY_DATE_FORMATS = {
     CompletedListPartial,
     TaskOverDuelList,
     RouterModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
     MatProgressSpinnerModule,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [
-    { provide: DateAdapter, useClass: NativeDateAdapter },
-    { provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS },
-  ],
 })
 export class DashboardComponent implements OnInit{
   searchForm: FormGroup;

@@ -24,21 +24,7 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { MatDialogModule } from '@angular/material/dialog';
 import { TaskState } from 'src/app/services/task.state';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { DateAdapter, MAT_DATE_FORMATS, MatNativeDateModule, NativeDateAdapter } from '@angular/material/core';
 import { DialogFormComponent } from '../common/dialog.form';
-
-const MY_DATE_FORMATS = {
-  parse: {
-    dateInput: 'LL',
-  },
-  display: {
-    dateInput: 'DD/MM/YYYY', // This is the format you want to display the date in
-    monthYearLabel: 'MMM YYYY',
-    dateA11yLabel: 'LL',
-    monthYearA11yLabel: 'MMMM YYYY',
-  },
-};
 
 @Component({
   selector: 'dm-task-detail',
@@ -56,12 +42,6 @@ const MY_DATE_FORMATS = {
     ReactiveFormsModule,
     MatDialogModule,
     RouterModule,
-    MatDatepickerModule,
-    MatNativeDateModule
-  ],
-  providers: [
-    { provide: DateAdapter, useClass: NativeDateAdapter },
-    { provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS },
   ],
 })
 export class TaskDetailComponent implements OnInit {
