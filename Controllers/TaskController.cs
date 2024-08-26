@@ -22,7 +22,7 @@ namespace TodoApp.Controllers
         [HttpGet]
         public async Task<IActionResult> GetTasks()
         {
-            int userId = GetUserIdFromToken();
+            int userId = _taskService.GetUserIdFromToken();
 
             if (userId > -1)
             {
@@ -49,7 +49,7 @@ namespace TodoApp.Controllers
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            int userId = GetUserIdFromToken();
+            int userId = _taskService.GetUserIdFromToken();
 
             if (userId > -1)
             {
@@ -117,7 +117,7 @@ namespace TodoApp.Controllers
         [HttpGet("search")]
         public async Task<IActionResult> SearchTask([FromQuery] string searchTerm)
         {
-            int userId = GetUserIdFromToken();
+            int userId = _taskService.GetUserIdFromToken();
 
             if (userId > -1)
             {
@@ -129,37 +129,7 @@ namespace TodoApp.Controllers
                 return Ok(tasks);
             }
             return Unauthorized();
-        }
-
-        private int GetUserIdFromToken()
-        {
-            var token = Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
-
-            if (string.IsNullOrEmpty(token))
-            {
-                return -1; // Handle invalid token or missing authorization header
-            }
-
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var securityKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes("My Secret Key For Todo App using JWT")); // Replace with your actual key
-
-            try
-            {
-                var claimsPrincipal = tokenHandler.ReadToken(token) as JwtSecurityToken;
-                var userIdClaim = claimsPrincipal.Claims.FirstOrDefault(c => c.Type == "UserId");
-
-                if (userIdClaim == null)
-                {
-                    return -1; // Handle missing UserId claim
-                }
-
-                return int.Parse(userIdClaim.Value);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Error extracting user ID from token: {0}", ex.Message);
-                return -1; // Handle unexpected errors
-            }
+        
         }
     }
 }

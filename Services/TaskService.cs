@@ -1,4 +1,7 @@
-﻿using TodoApi.Repositories;
+﻿using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Text;
+using TodoApi.Repositories;
 using TodoApp.Models;
 
 namespace TodoApp.Services
@@ -6,8 +9,13 @@ namespace TodoApp.Services
     public class TaskService : ITaskService
     {
         private readonly ITaskRepository _todoRepository;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public TaskService(ITaskRepository todoRepository) => _todoRepository = todoRepository;
+        public TaskService(ITaskRepository todoRepository ,IHttpContextAccessor httpContextAccessor)
+        {
+            _todoRepository = todoRepository;
+            _httpContextAccessor = httpContextAccessor;
+        }
 
         public async Task<IEnumerable<TaskModel>> GetUserTaskAsync(int userId) => 
             await _todoRepository.GetTasksByUserIdAsync(userId);
@@ -38,5 +46,38 @@ namespace TodoApp.Services
 
         public async Task<IEnumerable<TaskModel>> SearchTasksAsync(int userId, string searchTerm) =>
             await _todoRepository.SearchTasksAsync(userId, searchTerm);
+
+        public int GetUserIdFromToken()
+        {
+            var token = _httpContextAccessor.HttpContext.Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
+
+            if (string.IsNullOrEmpty(token))
+            {
+                return -1; // Handle invalid token or missing authorization header
+            }
+
+            
+
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var securityKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes("My Secret Key For Todo App using JWT")); // Use your actual key
+
+            try
+            {
+                var claimsPrincipal = tokenHandler.ReadToken(token) as JwtSecurityToken;
+                var userIdClaim = claimsPrincipal.Claims.FirstOrDefault(c => c.Type == "UserId");
+
+                if (userIdClaim == null)
+                {
+                    return -1; // Handle missing UserId claim
+                }
+
+                return int.Parse(userIdClaim.Value);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error extracting user ID from token: {0}", ex.Message);
+                return -1; // Handle unexpected errors
+            }
+        }
     }
 }

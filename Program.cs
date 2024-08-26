@@ -40,8 +40,6 @@ var connectionString = builder.Configuration.GetConnectionString("TodoDatabase")
 builder.Services.AddDbContext<TodoDbContext>(options =>
     options.UseSqlServer(connectionString));
 
-// Add services to the container.
-builder.Services.AddControllers();
 
 // Configure CORS
 builder.Services.AddCors(options =>
@@ -54,6 +52,7 @@ builder.Services.AddCors(options =>
                .AllowCredentials();
     });
 });
+builder.Services.AddHttpContextAccessor();
 
 // Register repository and service implementations
 builder.Services.AddScoped<ITaskRepository, TaskRepository>();
