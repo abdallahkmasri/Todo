@@ -56,8 +56,6 @@ namespace TodoApp.Services
                 return -1; // Handle invalid token or missing authorization header
             }
 
-            
-
             var tokenHandler = new JwtSecurityTokenHandler();
 
             try
