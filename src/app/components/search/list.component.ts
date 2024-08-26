@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
-import { delay, Observable, switchMap } from 'rxjs';
+import { Observable, switchMap } from 'rxjs';
 import { ITask } from 'src/app/models/task.model';
 import { SigninService } from 'src/app/services/signin.service';
 import { TaskService } from 'src/app/services/task.service';
@@ -55,7 +55,6 @@ export class SearchListComponent implements OnInit {
 
   ngOnInit(): void {
     this.tasks$ = this.route.queryParamMap.pipe(
-      delay(1000),
       switchMap((params) => {
         const term = params.get('searchTerm');
 

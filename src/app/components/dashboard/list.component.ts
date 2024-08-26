@@ -18,12 +18,12 @@ import { CompletedListPartial } from '../completed/list.partial';
 import { MatDialog } from '@angular/material/dialog';
 import { MatDialogModule } from '@angular/material/dialog';
 import { TaskService } from 'src/app/services/task.service';
-import { catchError, delay, Observable, of, startWith, switchMap } from 'rxjs';
+import { catchError, Observable, of, startWith, switchMap } from 'rxjs';
 import { ITask } from 'src/app/models/task.model';
 import { TaskState } from 'src/app/services/task.state';
 import { TaskOverDuelList } from '../overDue/list.partial';
 import { Router, RouterModule } from '@angular/router';
-import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { DialogFormComponent } from '../common/dialog.form';
 
 @Component({
@@ -48,7 +48,7 @@ import { DialogFormComponent } from '../common/dialog.form';
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DashboardComponent implements OnInit{
+export class DashboardComponent implements OnInit {
   searchForm: FormGroup;
   userName: string;
   userId: string;
@@ -67,13 +67,11 @@ export class DashboardComponent implements OnInit{
       item: new FormControl(''),
     });
     this.userName = this.signinService.getUserName();
-
   }
 
   ngOnInit(): void {
     this.tasks$ = this.taskService.getTasks().pipe(
       startWith([]),
-      delay(1500),
       switchMap((task) => this.taskState.setList(task)),
       catchError(() => of([]))
     );
@@ -84,7 +82,7 @@ export class DashboardComponent implements OnInit{
   }
 
   openDialog(): void {
-    const dialogRef = this.dialog.open(DialogFormComponent, {
+    this.dialog.open(DialogFormComponent, {
       width: '650px',
     });
   }

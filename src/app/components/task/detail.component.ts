@@ -99,7 +99,7 @@ export class TaskDetailComponent implements OnInit {
   }
 
   openDialog(task: ITask): void {
-    const dialogRef = this.dialog.open(DialogFormComponent, {
+    this.dialog.open(DialogFormComponent, {
       width: '650px',
       data: { task: task }, // Pass any data you want to initialize the dialog with
     });
