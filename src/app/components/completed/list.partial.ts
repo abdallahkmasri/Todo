@@ -32,7 +32,7 @@ export class CompletedListPartial {
   }
 
   tasksLength(): number {
-    return this.tasks?.filter(task => task.status === 'Completed').length || 0;
+    return this.Completed?.filter(task => task.status === 'Completed').length || 0;
   }
 
   get paginatedTasks(): ITask[] {

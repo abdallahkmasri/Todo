@@ -16,8 +16,8 @@ import { ITask } from 'src/app/models/task.model';
 export class TaskListPartial {
   @Input() tasks: ITask[];
 
-  pageIndex = 0;
-  pageSize = 3;
+  protected pageIndex = 0;
+  protected pageSize = 3;
 
   handlePageEvent(event: PageEvent) {
     this.pageIndex = event.pageIndex;
@@ -53,7 +53,7 @@ export class TaskListPartial {
   }
 
   tasksLength(): number {
-    return this.tasks?.filter(task => task.status !== 'Completed').length || 0;
+    return this.sorted?.filter(task => task.status !== 'Completed').length || 0;
   }
 
   get paginatedTasks(): ITask[] {

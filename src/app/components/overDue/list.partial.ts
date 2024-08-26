@@ -16,8 +16,8 @@ import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 export class TaskOverDuelList {
   @Input() tasks: ITask[];
 
-  pageIndex = 0;
-  pageSize = 3;
+  protected pageIndex = 0;
+  protected pageSize = 3;
 
   handlePageEvent(event: PageEvent) {
     this.pageIndex = event.pageIndex;
@@ -39,7 +39,7 @@ export class TaskOverDuelList {
   }
 
   tasksLength(): number {
-    return this.tasks?.filter(task =>new Date(task.dueDate) > new Date()).length || 0;
+    return this.sorted?.filter(task => this.isOverDue(task.dueDate)).length || 0;
   }
 
   get paginatedTasks(): ITask[] {
