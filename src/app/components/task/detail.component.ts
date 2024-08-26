@@ -103,8 +103,6 @@ export class TaskDetailComponent implements OnInit {
       width: '650px',
       data: { task: task }, // Pass any data you want to initialize the dialog with
     });
-
-    dialogRef.afterClosed();
   }
 
   Search() {

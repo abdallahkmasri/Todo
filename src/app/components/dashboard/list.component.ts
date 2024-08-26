@@ -87,8 +87,6 @@ export class DashboardComponent implements OnInit{
     const dialogRef = this.dialog.open(DialogFormComponent, {
       width: '650px',
     });
-
-    dialogRef.afterClosed();
   }
 
   Search() {

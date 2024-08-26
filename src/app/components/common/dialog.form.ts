@@ -27,7 +27,7 @@ enum Priority {
       dateInput: 'LL',
     },
     display: {
-      dateInput: 'DD/MM/YYYY', // This is the format you want to display the date in
+      dateInput: 'DD/MM/YYYY',
       monthYearLabel: 'MMM YYYY',
       dateA11yLabel: 'LL',
       monthYearA11yLabel: 'MMMM YYYY',
