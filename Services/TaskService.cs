@@ -59,7 +59,6 @@ namespace TodoApp.Services
             
 
             var tokenHandler = new JwtSecurityTokenHandler();
-            var securityKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes("My Secret Key For Todo App using JWT")); // Use your actual key
 
             try
             {
