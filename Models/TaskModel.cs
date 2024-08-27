@@ -1,10 +1,16 @@
-﻿namespace TodoApp.Models
+﻿using System.Text.Json.Serialization;
+using TodoApp.Utilities;
+
+namespace TodoApp.Models
 {
     public class TaskModel
     {
         public int ID { get; set; }
         public string Title { get; set; }
+
+        [JsonConverter(typeof(DateOnlyJsonConverter))]
         public DateOnly DueDate { get; set; }
+
         public DateOnly CreatedDate { get; set; }
         public string Priority { get; set; }
         public string Description { get; set; }
