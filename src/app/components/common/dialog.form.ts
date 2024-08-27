@@ -14,7 +14,6 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { Router } from '@angular/router';
-import { SigninService } from 'src/app/services/signin.service';
 
 enum Priority {
     Extreme = 'Extreme',
@@ -69,7 +68,6 @@ export class DialogFormComponent {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private taskState: TaskState,
     private router: Router,
-    private siginService: SigninService
   ) {
     this.isEditMode = !!data?.task;
     this.taskForm = new FormGroup({

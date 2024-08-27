@@ -2,9 +2,10 @@ import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
+  Input,
   OnInit,
 } from '@angular/core';
-import { Observable, switchMap } from 'rxjs';
+import { Observable } from 'rxjs';
 import { ITask } from 'src/app/models/task.model';
 import { TaskService } from 'src/app/services/task.service';
 import { MatCardModule } from '@angular/material/card';
@@ -20,7 +21,7 @@ import {
 } from '@angular/forms';
 import { SigninService } from 'src/app/services/signin.service';
 import { MatInputModule } from '@angular/material/input';
-import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { MatDialogModule } from '@angular/material/dialog';
 import { TaskState } from 'src/app/services/task.state';
@@ -50,7 +51,6 @@ export class TaskDetailComponent implements OnInit {
     private signinService: SigninService,
     private taskService: TaskService,
     private router: Router,
-    private route: ActivatedRoute,
     private dialog: MatDialog,
     private taskState: TaskState
   ) {
@@ -62,19 +62,14 @@ export class TaskDetailComponent implements OnInit {
   task$: Observable<ITask>;
   userName: string;
   searchForm: FormGroup;
-  taskId: string;
+  @Input() id: string;
 
   Logout() {
     this.signinService.logout();
   }
 
   ngOnInit() {
-    this.task$ = this.route.paramMap.pipe(
-      switchMap((params) => {
-        this.taskId = params.get('id');
-        return this.taskService.getTaskById(this.taskId);
-      })
-    );
+    this.task$ = this.taskService.getTaskById(this.id);
   }
 
   Back() {
@@ -83,15 +78,15 @@ export class TaskDetailComponent implements OnInit {
 
   Delete() {
     this.taskService
-      .deleteTask(this.taskId).subscribe(() => {
-        this.taskState.removeItem(this.taskId);
+      .deleteTask(this.id).subscribe(() => {
+        this.taskState.removeItem(this.id);
         this.Back();
       })
   }
 
   markComplete() {
     this.taskService
-      .markComplete(this.taskId).subscribe({
+      .markComplete(this.id).subscribe({
         next: () => {
           this.Back();
         }
