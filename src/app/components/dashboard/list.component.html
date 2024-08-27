@@ -64,8 +64,7 @@
           </mat-card-header>
           <mat-card-content>
             <div class="date-section">
-              <span>{{ date | date : "dd MMMM" }}</span>
-              <span> .Today</span>
+              <span>{{ date | date : "dd MMMM" }} .Today</span>
             </div>
             <ng-container *ngIf="tasks$ | async as tasks; else loading">
               <dm-task-list [tasks]="tasks"></dm-task-list>

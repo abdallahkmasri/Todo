@@ -23,13 +23,13 @@ enum Priority {
   
   const MY_DATE_FORMATS = {
     parse: {
-      dateInput: 'YYYY/MM/DD',
+      dateInput: 'yyyy/MM/dd',
     },
     display: {
-      dateInput: 'YYYY/MM/DD',
-      monthYearLabel: 'MMM YYYY',
+      dateInput: 'yyyy/MM/dd',
+      monthYearLabel: 'MMM yyyy',
       dateA11yLabel: 'LL',
-      monthYearA11yLabel: 'MMMM YYYY',
+      monthYearA11yLabel: 'MMMM yyyy',
     },
   };
 
