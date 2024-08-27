@@ -22,9 +22,7 @@ namespace TodoApp.Controllers
         [HttpGet]
         public async Task<IActionResult> GetTasks()
         {
-            int userId = _taskService.GetUserIdFromToken();
-
-            if (userId > -1)
+            if (HttpContext.Items.TryGetValue("UserId", out var userIdObj) && int.TryParse(userIdObj.ToString(), out int userId))
             {
 
                 var tasks = await _taskService.GetUserTaskAsync(userId);
@@ -49,9 +47,7 @@ namespace TodoApp.Controllers
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            int userId = _taskService.GetUserIdFromToken();
-
-            if (userId > -1)
+            if (HttpContext.Items.TryGetValue("UserId", out var userIdObj) && int.TryParse(userIdObj.ToString(), out int userId))
             {
 
                 var task = new TaskModel
@@ -117,9 +113,7 @@ namespace TodoApp.Controllers
         [HttpGet("search")]
         public async Task<IActionResult> SearchTask([FromQuery] string searchTerm)
         {
-            int userId = _taskService.GetUserIdFromToken();
-
-            if (userId > -1)
+            if (HttpContext.Items.TryGetValue("UserId", out var userIdObj) && int.TryParse(userIdObj.ToString(), out int userId))
             {
 
                 var tasks = await _taskService.SearchTasksAsync(userId, searchTerm);

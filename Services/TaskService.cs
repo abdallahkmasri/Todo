@@ -46,35 +46,6 @@ namespace TodoApp.Services
 
         public async Task<IEnumerable<TaskModel>> SearchTasksAsync(int userId, string searchTerm) =>
             await _todoRepository.SearchTasksAsync(userId, searchTerm);
-
-        public int GetUserIdFromToken()
-        {
-            var token = _httpContextAccessor.HttpContext.Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
-
-            if (string.IsNullOrEmpty(token))
-            {
-                return -1; // Handle invalid token or missing authorization header
-            }
-
-            var tokenHandler = new JwtSecurityTokenHandler();
-
-            try
-            {
-                var claimsPrincipal = tokenHandler.ReadToken(token) as JwtSecurityToken;
-                var userIdClaim = claimsPrincipal.Claims.FirstOrDefault(c => c.Type == "UserId");
-
-                if (userIdClaim == null)
-                {
-                    return -1; // Handle missing UserId claim
-                }
-
-                return int.Parse(userIdClaim.Value);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Error extracting user ID from token: {0}", ex.Message);
-                return -1; // Handle unexpected errors
-            }
-        }
+        
     }
 }

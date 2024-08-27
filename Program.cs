@@ -7,6 +7,7 @@ using TodoApp.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using TodoApp.Utilities;
+using TodoApp.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -66,6 +67,8 @@ builder.Services.AddControllers().AddJsonOptions(options =>
 });
 
 var app = builder.Build();
+
+app.UseMiddleware<JwtUserIdMiddleware>();
 
 // Configure middleware
 if (app.Environment.IsDevelopment())
