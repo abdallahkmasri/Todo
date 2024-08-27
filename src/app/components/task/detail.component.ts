@@ -78,9 +78,11 @@ export class TaskDetailComponent implements OnInit {
 
   Delete() {
     this.taskService
-      .deleteTask(this.id).subscribe(() => {
-        this.taskState.removeItem(this.id);
-        this.Back();
+      .deleteTask(this.id).subscribe({
+        next: () => {
+          this.taskState.removeItem(this.id);
+          this.Back();
+        }
       })
   }
 

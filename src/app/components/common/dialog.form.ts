@@ -88,13 +88,17 @@ export class DialogFormComponent {
     if (this.taskForm.valid) {
       if (this.isEditMode) {
         const id = this.data.task.id;
-        this.taskService.editTask(id, this.taskForm.value).subscribe(() => {
-          this.taskState.editItem(this.taskForm.value);
-          this.router.navigateByUrl('/dashboard');
+        this.taskService.editTask(id, this.taskForm.value).subscribe({
+          next: () => {
+            this.taskState.editItem(this.taskForm.value);
+            this.router.navigateByUrl('/dashboard');
+          },
         });
       } else {
-        this.taskService.addTask(this.taskForm.value).subscribe((res) => {
-          this.taskState.addItem(res);
+        this.taskService.addTask(this.taskForm.value).subscribe({
+          next: (res) => {
+            this.taskState.addItem(res);
+          }
         });
       }
       this.dialogRef.close(this.taskForm.value);
