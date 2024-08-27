@@ -6,7 +6,6 @@ using TodoApp.Repositories;
 using TodoApp.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
-using TodoApp.Utilities;
 using TodoApp.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
