@@ -20,7 +20,6 @@ export class TaskService {
       dueDate: task.dueDate,
       status: task.status,
       priority: task.priority,
-      isComplete: task.isComplete,
       createdDate: task.createdDate,
     };
     return this.http.post(`${this._url}`, added);

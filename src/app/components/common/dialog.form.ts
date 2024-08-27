@@ -76,7 +76,6 @@ export class DialogFormComponent {
       priority: new FormControl(this.isEditMode ? data.task.priority : '', Validators.required),
       description: new FormControl(this.isEditMode ? data.task.description : '', Validators.required),
       status: new FormControl(this.isEditMode ? data.task.status : 'Not Started'),
-      isComplete: new FormControl(this.isEditMode ? data.task.isComplete : false),
       createdDate: new FormControl(this.isEditMode ? data.task.createdDate : new Date()),
     });
   }
