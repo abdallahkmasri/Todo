@@ -1,7 +1,4 @@
-﻿using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.Text;
-using TodoApi.Repositories;
+﻿using TodoApi.Repositories;
 using TodoApp.Models;
 
 namespace TodoApp.Services
@@ -9,13 +6,9 @@ namespace TodoApp.Services
     public class TaskService : ITaskService
     {
         private readonly ITaskRepository _todoRepository;
-        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public TaskService(ITaskRepository todoRepository ,IHttpContextAccessor httpContextAccessor)
-        {
+        public TaskService(ITaskRepository todoRepository) =>
             _todoRepository = todoRepository;
-            _httpContextAccessor = httpContextAccessor;
-        }
 
         public async Task<IEnumerable<TaskModel>> GetUserTaskAsync(int userId) => 
             await _todoRepository.GetTasksByUserIdAsync(userId);

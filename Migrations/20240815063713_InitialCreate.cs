@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -38,7 +37,6 @@ namespace TodoApp.Migrations
                     DueDate = table.Column<DateOnly>(type: "date", nullable: false),
                     Priority = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    IsCompleted = table.Column<bool>(type: "bit", nullable: false),
                     UserId = table.Column<int>(type: "int", nullable: false),
                     CreatedDate = table.Column<DateOnly>(type: "date", nullable: false),
                 },

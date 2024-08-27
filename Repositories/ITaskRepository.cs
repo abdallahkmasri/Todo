@@ -10,7 +10,6 @@ namespace TodoApi.Repositories
         Task UpdateTaskAsync(TaskModel todoItem);
         Task DeleteTaskAsync(int id);
         Task SaveChangesAsync();
-        Task<IEnumerable<TaskModel>> GetActiveTasksAsync(int userId);
         Task<IEnumerable<TaskModel>> SearchTasksAsync(int userId, string searchTerm);
         Task MarkTaskAsCompletedAsync(int taskId);
 

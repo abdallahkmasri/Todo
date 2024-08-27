@@ -1,9 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
-using System.Globalization;
-using System.IdentityModel.Tokens.Jwt;
-using System.Text;
 using TodoApp.Models;
 using TodoApp.Services;
 
@@ -57,7 +53,6 @@ namespace TodoApp.Controllers
                     DueDate = taskModel.DueDate,
                     Priority = taskModel.Priority,
                     Status = taskModel.Status,
-                    IsCompleted = taskModel.IsCompleted,
                     UserId = userId,
                     CreatedDate = taskModel.CreatedDate,
                 };
@@ -81,7 +76,6 @@ namespace TodoApp.Controllers
             task.Title = taskModel.Title;
             task.Description = taskModel.Description;
             task.DueDate = taskModel.DueDate;
-            task.IsCompleted = taskModel.IsCompleted;
             task.Priority = taskModel.Priority;
             task.Status = taskModel.Status;
             task.CreatedDate = taskModel.CreatedDate;
@@ -105,6 +99,9 @@ namespace TodoApp.Controllers
         [HttpPut("{id}/complete")]
         public async Task<IActionResult> MarkTaskAsCompleted(int id)
         {
+            var task = await _taskService.GetTaskByIdAsync(id);
+            if (task == null) return NotFound();
+
             await _taskService.MarkTaskAsCompletedAsync(id);
             return NoContent();
         }

@@ -37,11 +37,6 @@ namespace TodoApp.Repositories
         public async Task SaveChangesAsync() =>
             await _context.SaveChangesAsync();
 
-        public async Task<IEnumerable<TaskModel>> GetActiveTasksAsync(int userId) =>
-            await _context.Tasks
-                .Where(t => t.UserId == userId && !t.IsCompleted)
-                .ToListAsync();
-
         public async Task<IEnumerable<TaskModel>> SearchTasksAsync(int userId, string searchTerm)
         {
             // Attempt to parse the searchTerm as a DateOnly
@@ -71,7 +66,6 @@ namespace TodoApp.Repositories
             var task = await _context.Tasks.FindAsync(taskId);
             if (task != null)
             {
-                task.IsCompleted = true;
                 task.Status = "Completed";
                 await UpdateTaskAsync(task);
                 await SaveChangesAsync();
