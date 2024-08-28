@@ -17,6 +17,8 @@ export class AllUsers implements OnInit{
     constructor(private taskService: TaskService){}
     
     ngOnInit(): void {
-        this.tasks$ = this.taskService.getCompletedTasks().pipe(tap((c) => console.log("here: " + c)));
+        this.tasks$ = this.taskService.getAllUsersTasks();
     }
+
+    categories: string[] = ['Work', 'Family', 'Health', 'Finacial', 'Other'];
 }

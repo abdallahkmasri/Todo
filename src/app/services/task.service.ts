@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ITask } from '../models/task.model';
 import { enviroment } from 'src/enviroments/enviroment';
-import { map, Observable } from 'rxjs';
+import { map, Observable, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -52,7 +52,7 @@ getTaskById(id: string): Observable<any> {
     return this.http.get(`${this._url}/search?searchTerm=${searchTerm}`);
   }
 
-  getCompletedTasks(): Observable<any> {
-    return this.http.get(`${this._url}/complete`);
+  getAllUsersTasks(): Observable<any> {
+    return this.http.get(`${this._url}/all`).pipe(tap((c) => console.log("Service: " + JSON.stringify(c))));
   }
 }

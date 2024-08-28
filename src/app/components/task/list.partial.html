@@ -1,49 +1,47 @@
 <div class="example-card">
   <div *ngIf="sorted.length !== 0">
     <div *ngFor="let task of paginatedTasks">
-      <div *ngIf="task.status !== 'Completed'">
-        <mat-card appearance="outlined" class="example-card">
-          <a class="details" routerLink="/dashboard/{{ task.id.toString() }}">
-            <mat-card-header>
-              <mat-card-title-group>
-                <mat-card-title>
-                  <div style="display: flex; align-items: center">
-                    <mat-icon color="primary">circle</mat-icon>
-                    {{ task.title }}
-                  </div>
-                </mat-card-title>
-                <mat-icon class="more-options">more_vert</mat-icon>
-              </mat-card-title-group>
-            </mat-card-header>
-            <mat-card-content>
-              <p>{{ task.description }}</p>
-              <div class="task-footer">
-                <span
-                  >Priority:
-                  <strong
-                    [ngClass]="{
+      <mat-card appearance="outlined" class="example-card">
+        <a class="details" routerLink="/dashboard/{{ task.id.toString() }}">
+          <mat-card-header>
+            <mat-card-title-group>
+              <mat-card-title>
+                <div style="display: flex; align-items: center">
+                  <mat-icon color="primary">circle</mat-icon>
+                  {{ task.title }}
+                </div>
+              </mat-card-title>
+              <mat-icon class="more-options">more_vert</mat-icon>
+            </mat-card-title-group>
+          </mat-card-header>
+          <mat-card-content>
+            <p>{{ task.description }}</p>
+            <div class="task-footer">
+              <span
+                >Priority:
+                <strong
+                  [ngClass]="{
                   'custom-red': task.priority === 'Extreme',
                   'custom-blue-icon': task.priority === 'Moderate',
                   'custom-green': task.priority === 'Low'
               }"
-                  >
-                    {{ task.priority }}</strong
-                  ></span
                 >
-                <span>
-                  <p>
-                    Status:
-                    <strong class="custom-red">{{ task.status }}</strong>
-                  </p>
+                  {{ task.priority }}</strong
+                ></span
+              >
+              <span>
+                <p>
+                  Status:
+                  <strong class="custom-red">{{ task.status }}</strong>
+                </p>
 
-                  Created on: {{ task.createdDate | date: 'dd/MM/yyyy' }}
-                </span>
-              </div>
-              <div>Due on: {{ task.dueDate | date: 'dd/MM/yyyy' }}</div>
-            </mat-card-content>
-          </a>
-        </mat-card>
-      </div>
+                Created on: {{ task.createdDate | date: 'dd/MM/yyyy' }}
+              </span>
+            </div>
+            <div>Due on: {{ task.dueDate | date: 'dd/MM/yyyy' }} --- {{task.userName}}</div>
+          </mat-card-content>
+        </a>
+      </mat-card>
     </div>
     <mat-paginator
       (page)="handlePageEvent($event)"
@@ -51,7 +49,5 @@
       [length]="tasksLength()"
     ></mat-paginator>
   </div>
-  <div *ngIf="sorted.length <= 0">
-    no tasks are found!
-  </div>
+  <div *ngIf="sorted.length <= 0">no tasks are found!</div>
 </div>

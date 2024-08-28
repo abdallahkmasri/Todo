@@ -1,25 +1,23 @@
 <div *ngFor="let task of paginatedTasks">
-  <div *ngIf="task.status === 'Completed'">
-    <a class="details" routerLink="/dashboard/{{ task.id.toString() }}">
-      <mat-card class="example-card">
-        <mat-card-header>
-          <mat-card-title-group>
-            <mat-card-title>
-              <div style="display: flex; align-items: center">
-                <mat-icon color="accent">circle</mat-icon>
-                <span class="task-title"> {{ task.title }}</span>
-              </div>
-            </mat-card-title>
-            <mat-icon class="more-options">more_vert</mat-icon>
-          </mat-card-title-group>
-        </mat-card-header>
-        <mat-card-footer class="example-card-footer">
-          Status: <strong class="custom-green">{{ task.status }}</strong>
-        </mat-card-footer>
-      </mat-card></a
-    >
-    <br />
-  </div>
+  <a class="details" routerLink="/dashboard/{{ task.id.toString() }}">
+    <mat-card class="example-card">
+      <mat-card-header>
+        <mat-card-title-group>
+          <mat-card-title>
+            <div style="display: flex; align-items: center">
+              <mat-icon color="accent">circle</mat-icon>
+              <span class="task-title"> {{ task.title }}</span>
+            </div>
+          </mat-card-title>
+          <mat-icon class="more-options">more_vert</mat-icon>
+        </mat-card-title-group>
+      </mat-card-header>
+      <mat-card-footer class="example-card-footer">
+        Status: <strong class="custom-green">{{ task.status }}</strong>
+      </mat-card-footer>
+    </mat-card></a
+  >
+  <br />
 </div>
 <mat-paginator
   (page)="handlePageEvent($event)"

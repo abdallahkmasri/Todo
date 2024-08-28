@@ -8,4 +8,5 @@ export interface ITask {
     createdDate?: Date;
     userId?: string;
     userName?: string;
+    category?: number;
   }

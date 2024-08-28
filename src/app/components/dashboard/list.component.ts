@@ -18,7 +18,7 @@ import { CompletedListPartial } from '../completed/list.partial';
 import { MatDialog } from '@angular/material/dialog';
 import { MatDialogModule } from '@angular/material/dialog';
 import { TaskService } from 'src/app/services/task.service';
-import { catchError, Observable, of, startWith, switchMap } from 'rxjs';
+import { catchError, Observable, of, startWith, switchMap, tap } from 'rxjs';
 import { ITask } from 'src/app/models/task.model';
 import { TaskState } from 'src/app/services/task.state';
 import { TaskOverDuelList } from '../overDue/list.partial';
