@@ -60,4 +60,8 @@ export class TaskListPartial {
     const startIndex = this.pageIndex * this.pageSize;
     return this.sorted.slice(startIndex, startIndex + this.pageSize);
   }
+  
+  getCategory(category: string): string {
+    return category ? category : "No Category";
+}
 }

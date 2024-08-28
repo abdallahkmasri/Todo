@@ -21,6 +21,7 @@ export class TaskService {
       status: task.status,
       priority: task.priority,
       createdDate: task.createdDate,
+      category: task.category,
     };
     return this.http.post(`${this._url}`, added);
   }

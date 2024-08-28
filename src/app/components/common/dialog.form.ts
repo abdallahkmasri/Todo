@@ -62,6 +62,8 @@ export class DialogFormComponent {
   protected moderate = Priority.Moderate;
   protected low = Priority.Low;
 
+  categories: string[] = ['Work', 'Family', 'Health', 'Finacial', 'Other'];
+
   constructor(
     private dialogRef: MatDialogRef<DialogFormComponent>,
     private taskService: TaskService,
@@ -75,8 +77,9 @@ export class DialogFormComponent {
       dueDate: new FormControl(this.isEditMode ? data.task.dueDate : '', Validators.required),
       priority: new FormControl(this.isEditMode ? data.task.priority : '', Validators.required),
       description: new FormControl(this.isEditMode ? data.task.description : '', Validators.required),
-      status: new FormControl(this.isEditMode ? data.task.status : 'Not Started'),
+      status: new FormControl(this.isEditMode ? data.task.status : 'NotStarted'),
       createdDate: new FormControl(this.isEditMode ? data.task.createdDate : new Date()),
+      category: new FormControl(this.isEditMode ? data.task.category : ''),
     });
   }
 

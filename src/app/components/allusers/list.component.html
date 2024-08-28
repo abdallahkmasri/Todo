@@ -17,7 +17,7 @@
               <li><strong>DueDate:</strong> {{ task.dueDate }}</li><br>
               <li><strong>Priority:</strong> {{ task.priority }}</li><br>
               <li><strong>Status:</strong> {{ task.status }}</li><br>
-              <li><strong>Category:</strong> {{ categories[task.category] }}</li>
+              <li><strong>Category:</strong> {{ getCategory(task.category) }}</li>
             </ul>
           </td>
           <th>{{ task.userId }}</th>

@@ -20,5 +20,7 @@ export class AllUsers implements OnInit{
         this.tasks$ = this.taskService.getAllUsersTasks();
     }
 
-    categories: string[] = ['Work', 'Family', 'Health', 'Finacial', 'Other'];
+    getCategory(category: string): string {
+        return category ? category : "No Category";
+    }
 }
