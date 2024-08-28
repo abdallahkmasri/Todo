@@ -15,10 +15,10 @@ namespace TodoApp.Controllers
         public TasksController(ITaskService taskRepository) => _taskService = taskRepository;
 
         [HttpGet("complete")]
-        public async Task<IActionResult> GetCompletedTasks()
+        public async Task<IActionResult> GetAllUsersTasks()
         {
 
-            var tasks = await _taskService.GetCompletedTasks();
+            var tasks = await _taskService.GetAllUsersTasks();
 
             var result = tasks.Select(t => new
             {
@@ -30,7 +30,7 @@ namespace TodoApp.Controllers
                 t.DueDate,
                 t.Priority,
                 t.UserId,
-                t.User?.UserName,
+                t.User.UserName,
 
             });
 

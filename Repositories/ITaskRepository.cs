@@ -12,7 +12,7 @@ namespace TodoApi.Repositories
         Task SaveChangesAsync();
         Task<IEnumerable<TaskModel>> SearchTasksAsync(int userId, string searchTerm);
         Task MarkTaskAsCompletedAsync(int taskId);
-        Task<IEnumerable<TaskModel>> GetCompletedTasks();
+        Task<IEnumerable<TaskModel>> GetAllUsersTasks();
 
     }
 }
