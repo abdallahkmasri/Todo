@@ -1,0 +1,27 @@
+<div style="background-color: #ffff;">
+  <div *ngIf="tasks$ | async as tasks">
+    <table style="border: #ccc thick;">
+      <div>
+        <tr>
+          <th>UserName</th>
+          <th>Task Details</th>
+          <th>UserID</th>
+        </tr>
+        <tr *ngFor="let task of tasks">
+          <th>{{ task.userName }}</th>
+          <td>
+            <ul>
+              <li><strong>Title:</strong> {{ task.title }}</li><br>
+              <li><strong>CreatedDate:</strong> {{ task.createdDate }}</li><br>
+              <li><strong>Description:</strong> {{ task.description }}</li><br>
+              <li><strong>DueDate:</strong> {{ task.dueDate }}</li><br>
+              <li><strong>Priority:</strong> {{ task.priority }}</li><br>
+              <li><strong>Status:</strong> {{ task.status }}</li>
+            </ul>
+          </td>
+          <th>{{ task.userId }}</th>
+        </tr>
+      </div>
+    </table>
+  </div>
+</div>

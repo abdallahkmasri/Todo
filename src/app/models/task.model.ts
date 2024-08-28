@@ -6,4 +6,6 @@ export interface ITask {
     status?: string;
     priority: string;
     createdDate?: Date;
+    userId?: string;
+    userName?: string;
   }

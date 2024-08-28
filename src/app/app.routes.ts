@@ -4,6 +4,7 @@ import {
   withComponentInputBinding,
 } from '@angular/router';
 import { AuthGuard } from './services/auth.service';
+import { AllUsers } from './components/allusers/list.component';
 
 const routes: Routes = [
   {
@@ -23,6 +24,10 @@ const routes: Routes = [
     path: 'search',
     loadChildren: () => import('./routes/search.route').then((r) => r.SearchRoutes),
     canActivate: [AuthGuard]
+  },
+  {
+    path: 'users',
+    component: AllUsers,
   }
 ];
 

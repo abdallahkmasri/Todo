@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ITask } from '../models/task.model';
 import { enviroment } from 'src/enviroments/enviroment';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -50,5 +50,9 @@ getTaskById(id: string): Observable<any> {
     searchTerm: string
   ): Observable<any> {
     return this.http.get(`${this._url}/search?searchTerm=${searchTerm}`);
+  }
+
+  getCompletedTasks(): Observable<any> {
+    return this.http.get(`${this._url}/complete`);
   }
 }

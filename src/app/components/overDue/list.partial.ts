@@ -39,7 +39,7 @@ export class TaskOverDuelList {
   }
 
   tasksLength(): number {
-    return this.sorted?.filter(task => this.isOverDue(task.dueDate)).length || 0;
+    return this.sorted.length;
   }
 
   get paginatedTasks(): ITask[] {

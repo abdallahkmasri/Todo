@@ -94,4 +94,8 @@ export class DashboardComponent implements OnInit {
       queryParams: { searchTerm: searchTerm },
     });
   }
+
+  AllUsers() {
+    this.router.navigateByUrl('/users');
+  }
 }

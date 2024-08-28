@@ -12,6 +12,10 @@
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
 
+table, th, td {
+  border: 1px solid;
+}
+
 $TodoApp-primary-palette: (
   50: #ff6767,
   100: #ff6767,

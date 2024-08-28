@@ -53,7 +53,7 @@ export class TaskListPartial {
   }
 
   tasksLength(): number {
-    return this.sorted?.filter(task => task.status !== 'Completed').length || 0;
+    return this.sorted.length;
   }
 
   get paginatedTasks(): ITask[] {
