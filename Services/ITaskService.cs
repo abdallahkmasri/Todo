@@ -1,4 +1,5 @@
-﻿using TodoApp.Models;
+﻿using TodoApp.Enums;
+using TodoApp.Models;
 
 namespace TodoApp.Services
 {
@@ -12,5 +13,6 @@ namespace TodoApp.Services
         Task MarkTaskAsCompletedAsync(int id);
         Task<IEnumerable<TaskModel>> SearchTasksAsync(int userId, string searchTerm);
         Task<IEnumerable<TaskModel>> GetAllUsersTasks();
+        Task<bool> IsDuplicateTask(string title, EnumCategory? category);
     }
 }

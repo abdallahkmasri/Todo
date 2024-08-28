@@ -35,6 +35,7 @@ namespace TodoApp.Data
                 entity.Property(e => e.Priority).IsRequired();
                 entity.Property(e => e.Status).IsRequired();
                 entity.Property(e => e.CreatedDate);
+                entity.Property(e => e.Category);
                 entity.HasOne(e => e.User) // Set up a one-to-many relationship with UserModel
                       .WithMany(u => u.Items)
                       .HasForeignKey(e => e.UserId);

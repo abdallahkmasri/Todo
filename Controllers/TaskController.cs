@@ -14,24 +14,28 @@ namespace TodoApp.Controllers
 
         public TasksController(ITaskService taskRepository) => _taskService = taskRepository;
 
-        [HttpGet("complete")]
+        [HttpGet("all")]
         public async Task<IActionResult> GetAllUsersTasks()
         {
 
             var tasks = await _taskService.GetAllUsersTasks();
 
-            var result = tasks.Select(t => new
+            var result = tasks.Select(t =>
             {
-                t.ID,
-                t.Title,
-                t.Description,
-                t.Status,
-                t.CreatedDate,
-                t.DueDate,
-                t.Priority,
-                t.UserId,
-                t.User.UserName,
-
+                string status = t.Status.ToString();
+                return new
+                {
+                    t.ID,
+                    t.Title,
+                    t.Description,
+                    status,
+                    t.CreatedDate,
+                    t.DueDate,
+                    t.Priority,
+                    t.UserId,
+                    t.User.UserName,
+                    t.Category,
+                };
             });
 
             return Ok(result);
@@ -69,6 +73,9 @@ namespace TodoApp.Controllers
             if (HttpContext.Items.TryGetValue("UserId", out var userIdObj) && int.TryParse(userIdObj.ToString(), out int userId))
             {
 
+                if (await _taskService.IsDuplicateTask(taskModel.Title, taskModel.Category))
+                    return BadRequest();
+
                 var task = new TaskModel
                 {
                     Title = taskModel.Title,
@@ -92,6 +99,9 @@ namespace TodoApp.Controllers
         public async Task<IActionResult> UpdateTask(int id, [FromBody] TaskModel taskModel)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
+
+            if (await _taskService.IsDuplicateTask(taskModel.Title, taskModel.Category))
+                return BadRequest();
 
             var task = await _taskService.GetTaskByIdAsync(id);
             if (task == null) return NotFound();

@@ -1,4 +1,6 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.Text.Json;
+using System.Text.Json.Serialization;
+using TodoApp.Enums;
 using TodoApp.Utilities;
 
 namespace TodoApp.Models
@@ -16,7 +18,12 @@ namespace TodoApp.Models
 
         public string Priority { get; set; }
         public string Description { get; set; }
-        public string Status { get; set; }
+
+        [JsonConverter(typeof(JsonStringEnumConverter))]
+        public EnumTaskStatus Status { get; set; }
+
+        public EnumCategory? Category { get; set; }
+
         public int UserId { get; set; }
         public UserModel? User { get; set; }
     }

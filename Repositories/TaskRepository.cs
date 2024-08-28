@@ -2,7 +2,9 @@
 using System.Globalization;
 using TodoApi.Repositories;
 using TodoApp.Data;
+using TodoApp.Enums;
 using TodoApp.Models;
+
 
 namespace TodoApp.Repositories
 {
@@ -12,9 +14,17 @@ namespace TodoApp.Repositories
 
         public TaskRepository(TodoDbContext context) => _context = context;
 
+        public async Task<bool> IsDuplicateTask(string title, EnumCategory? category)
+        {
+            if (category != null)
+                return await _context.Tasks.AnyAsync(t => (t.Title.Equals(title) && (t.Category == category)));
+
+            return false;
+        }
+
         public async Task<IEnumerable<TaskModel>> GetAllUsersTasks()
         {
-            var tasks = await _context.Tasks.Where(t => t.Status != "Completed")
+            var tasks = await _context.Tasks.Where(t => t.Status != EnumTaskStatus.Completed)
                 .Include(t => t.User)
                 .OrderBy(t => t.UserId)
                 .ToListAsync();
@@ -77,7 +87,7 @@ namespace TodoApp.Repositories
             var task = await _context.Tasks.FindAsync(taskId);
             if (task != null)
             {
-                task.Status = "Completed";
+                task.Status = EnumTaskStatus.Completed;
                 await UpdateTaskAsync(task);
                 await SaveChangesAsync();
             }

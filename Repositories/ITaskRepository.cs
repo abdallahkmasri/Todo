@@ -1,4 +1,5 @@
-﻿using TodoApp.Models;
+﻿using TodoApp.Enums;
+using TodoApp.Models;
 
 namespace TodoApi.Repositories
 {
@@ -13,6 +14,7 @@ namespace TodoApi.Repositories
         Task<IEnumerable<TaskModel>> SearchTasksAsync(int userId, string searchTerm);
         Task MarkTaskAsCompletedAsync(int taskId);
         Task<IEnumerable<TaskModel>> GetAllUsersTasks();
+        Task<bool> IsDuplicateTask(string title, EnumCategory? category);   
 
     }
 }
