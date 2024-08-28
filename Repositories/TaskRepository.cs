@@ -12,6 +12,17 @@ namespace TodoApp.Repositories
 
         public TaskRepository(TodoDbContext context) => _context = context;
 
+        public async Task<IEnumerable<TaskModel>> GetCompletedTasks()
+        {
+            var tasks = await _context.Tasks.Where(t => t.Status != "Completed")
+                .Include(t => t.User)
+                .OrderBy(t => t.UserId)
+                .ToListAsync();
+
+            return tasks;
+        }
+            
+
         public async Task<IEnumerable<TaskModel>> GetTasksByUserIdAsync(int userId) =>
             await _context.Tasks.Where(t => t.UserId == userId).ToListAsync();
 

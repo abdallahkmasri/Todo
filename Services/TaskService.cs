@@ -10,6 +10,9 @@ namespace TodoApp.Services
         public TaskService(ITaskRepository todoRepository) =>
             _todoRepository = todoRepository;
 
+        public async Task<IEnumerable<TaskModel>> GetCompletedTasks() =>
+            await _todoRepository.GetCompletedTasks();
+
         public async Task<IEnumerable<TaskModel>> GetUserTaskAsync(int userId) => 
             await _todoRepository.GetTasksByUserIdAsync(userId);
 

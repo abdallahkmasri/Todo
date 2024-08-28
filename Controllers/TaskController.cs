@@ -14,6 +14,29 @@ namespace TodoApp.Controllers
 
         public TasksController(ITaskService taskRepository) => _taskService = taskRepository;
 
+        [HttpGet("complete")]
+        public async Task<IActionResult> GetCompletedTasks()
+        {
+
+            var tasks = await _taskService.GetCompletedTasks();
+
+            var result = tasks.Select(t => new
+            {
+                t.ID,
+                t.Title,
+                t.Description,
+                t.Status,
+                t.CreatedDate,
+                t.DueDate,
+                t.Priority,
+                t.UserId,
+                t.User?.UserName,
+
+            });
+
+            return Ok(result);
+        }
+
         // GET: api/tasks/
         [HttpGet]
         public async Task<IActionResult> GetTasks()

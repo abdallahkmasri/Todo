@@ -11,5 +11,6 @@ namespace TodoApp.Services
         Task DeleteTaskAsync(int id);
         Task MarkTaskAsCompletedAsync(int id);
         Task<IEnumerable<TaskModel>> SearchTasksAsync(int userId, string searchTerm);
+        Task<IEnumerable<TaskModel>> GetCompletedTasks();
     }
 }

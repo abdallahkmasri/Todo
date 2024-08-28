@@ -49,7 +49,7 @@ namespace TodoApp.Services
                     new Claim("UserId", user.ID.ToString()),
                     new Claim("UserName", user.UserName)
                 }),
-                Expires = DateTime.UtcNow.AddHours(1),
+                Expires = DateTime.UtcNow.AddHours(2),
                 Issuer = issuer,
                 Audience = audience,
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256)
