@@ -14,12 +14,12 @@ namespace TodoApp.Repositories
 
         public TaskRepository(TodoDbContext context) => _context = context;
 
-        public async Task<bool> IsDuplicateTask(string title, EnumCategory? category)
+        public async Task<bool> IsDuplicateTask(string title, string? category)
         {
-            if (category != null)
-                return await _context.Tasks.AnyAsync(t => (t.Title.Equals(title) && (t.Category == category)));
-
-            return false;
+            if (!string.IsNullOrEmpty(category))
+                return await _context.Tasks.AnyAsync(t => t.Title.Equals(title) && (t.Category == category));
+            else
+                return await _context.Tasks.AnyAsync(t => t.Title.Equals(title) && string.IsNullOrEmpty(category));
         }
 
         public async Task<IEnumerable<TaskModel>> GetAllUsersTasks()

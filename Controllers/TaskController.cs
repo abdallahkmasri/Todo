@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using TodoApp.Migrations;
 using TodoApp.Models;
 using TodoApp.Services;
 
@@ -74,22 +75,22 @@ namespace TodoApp.Controllers
             {
 
                 if (await _taskService.IsDuplicateTask(taskModel.Title, taskModel.Category))
-                    return BadRequest();
+                        return BadRequest();
 
-                var task = new TaskModel
-                {
-                    Title = taskModel.Title,
-                    Description = taskModel.Description,
-                    DueDate = taskModel.DueDate,
-                    Priority = taskModel.Priority,
-                    Status = taskModel.Status,
-                    UserId = userId,
-                    CreatedDate = taskModel.CreatedDate,
-                };
+                    var task = new TaskModel
+                    {
+                        Title = taskModel.Title,
+                        Description = taskModel.Description,
+                        DueDate = taskModel.DueDate,
+                        Priority = taskModel.Priority,
+                        Status = taskModel.Status,
+                        UserId = userId,
+                        CreatedDate = taskModel.CreatedDate,
+                    };
 
-                await _taskService.AddTaskAsync(task);
-                return CreatedAtAction(nameof(GetTaskById), new { id = task.ID }, task);
-            }
+                    await _taskService.AddTaskAsync(task);
+                    return CreatedAtAction(nameof(GetTaskById), new { id = task.ID }, task);
+                }
 
             return Unauthorized();
         }
