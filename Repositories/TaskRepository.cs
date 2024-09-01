@@ -14,19 +14,41 @@ namespace TodoApp.Repositories
 
         public TaskRepository(TodoDbContext context) => _context = context;
 
-        public async Task<bool> IsDuplicateTask(string title, string? category)
+        public async Task AddTasksAsync(IEnumerable<TaskModel> tasks)
         {
-            if (!string.IsNullOrEmpty(category))
-                return await _context.Tasks.AnyAsync(t => t.Title.Equals(title) && (t.Category == category));
-            else
-                return await _context.Tasks.AnyAsync(t => t.Title.Equals(title) && string.IsNullOrEmpty(category));
+            foreach (var task in tasks)
+            {
+                await AddTaskAsync(task);
+                await SaveChangesAsync();
+            }
+        }
+
+        public async Task<bool> IsDuplicateTask(string title, int? categoryId, int? taskId = null)
+        {
+            // Query for tasks with the same title within the same category (excluding current task if editing)
+            var query = _context.Tasks
+                .Where(t => t.Title == title);
+
+            if (categoryId.HasValue)
+            {
+                query = query.Where(t => t.TaskCategories.Any(tc => tc.CategoryId == categoryId));
+            }
+
+            if (taskId.HasValue)
+            {
+                query = query.Where(t => t.ID != taskId.Value);
+            }
+
+            return await query.AnyAsync();
         }
 
         public async Task<IEnumerable<TaskModel>> GetAllUsersTasks()
         {
             var tasks = await _context.Tasks.Where(t => t.Status != EnumTaskStatus.Completed)
                 .Include(t => t.User)
-                .OrderBy(t => t.UserId)
+                .Include(t => t.TaskCategories)
+                .ThenInclude(t => t.Category)
+                .OrderByDescending(t => t.ID)
                 .ToListAsync();
 
             return tasks;
@@ -34,11 +56,17 @@ namespace TodoApp.Repositories
             
 
         public async Task<IEnumerable<TaskModel>> GetTasksByUserIdAsync(int userId) =>
-            await _context.Tasks.Where(t => t.UserId == userId).ToListAsync();
+            await _context.Tasks.Where(t => t.UserId == userId)
+                .Include(t => t.TaskCategories)
+                .ThenInclude(t => t.Category)
+                .ToListAsync();
 
 
         public async Task<TaskModel> GetTaskByIdAsync(int id) =>
-            await _context.Tasks.FindAsync(id);
+            await _context.Tasks
+                .Include(t => t.TaskCategories)
+                .ThenInclude(tc => tc.Category)
+                .FirstOrDefaultAsync(t => t.ID == id);
 
         public async Task AddTaskAsync(TaskModel todoItem) =>
             await _context.Tasks.AddAsync(todoItem);

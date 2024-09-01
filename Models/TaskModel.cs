@@ -22,9 +22,9 @@ namespace TodoApp.Models
         [JsonConverter(typeof(JsonStringEnumConverter))]
         public EnumTaskStatus Status { get; set; }
 
-        public string? Category { get; set; }
-
         public int UserId { get; set; }
         public UserModel? User { get; set; }
+
+        public IList<TaskCategory> TaskCategories { get; set; } = new List<TaskCategory>();
     }
 }

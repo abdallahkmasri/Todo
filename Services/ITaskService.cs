@@ -13,6 +13,7 @@ namespace TodoApp.Services
         Task MarkTaskAsCompletedAsync(int id);
         Task<IEnumerable<TaskModel>> SearchTasksAsync(int userId, string searchTerm);
         Task<IEnumerable<TaskModel>> GetAllUsersTasks();
-        Task<bool> IsDuplicateTask(string title, string? category);
+        Task<bool> IsDuplicateTask(string title, int? categoryId = null, int? taskId = null);
+        Task AddTasksAsync(IEnumerable<TaskModel> tasks);
     }
 }

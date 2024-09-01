@@ -11,8 +11,11 @@ namespace TodoApp.Services
         public TaskService(ITaskRepository todoRepository) =>
             _todoRepository = todoRepository;
 
-        public async Task<bool> IsDuplicateTask(string title, string? category) =>
-            await _todoRepository.IsDuplicateTask(title, category);
+        public async Task AddTasksAsync(IEnumerable<TaskModel> tasks) =>
+            await _todoRepository.AddTasksAsync(tasks);
+
+        public async Task<bool> IsDuplicateTask(string title, int? categoryId, int? taskId = null) =>
+            await _todoRepository.IsDuplicateTask(title, categoryId, taskId);
 
         public async Task<IEnumerable<TaskModel>> GetAllUsersTasks() =>
             await _todoRepository.GetAllUsersTasks();
