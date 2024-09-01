@@ -38,7 +38,7 @@
                 Created on: {{ task.createdDate | date: 'dd/MM/yyyy' }}
               </span>
             </div>
-            <div>Category: {{ getCategory(task.category) }}</div>
+            <div>Category: {{ getCategory(task.taskCategories[0]) }}</div>
             <div>Due on: {{ task.dueDate | date: 'dd/MM/yyyy' }}</div>
           </mat-card-content>
         </a>

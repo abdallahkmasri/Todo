@@ -1,24 +1,27 @@
 <div *ngFor="let task of paginatedTasks">
   <div *ngIf="isOverDue(task.dueDate)">
     <a class="details" routerLink="/dashboard/{{ task.id.toString() }}">
-    <mat-card class="example-card">
+      <mat-card class="example-card">
         <mat-card-header>
-            <mat-card-title>
-                <span class="task-title">{{task.title}}</span>
-            </mat-card-title>
+          <mat-card-title>
+            <span class="task-title">{{task.title}}</span>
+          </mat-card-title>
         </mat-card-header>
         <mat-card-footer class="example-card-footer">
-            Status: <strong class="custom-red">{{ task.status }}</strong>
-            <div class="task-footer completed-date">
-              Due on: {{ task.dueDate| date: 'dd/MM/yyyy' }}
-            </div>
-          </mat-card-footer>
-    </mat-card>
-  </a>
+          <div>
+            Category: <strong>{{ getCategory(task.taskCategories[0]) }}</strong>
+          </div>
+          Status: <strong class="custom-red">{{ task.status }}</strong>
+          <div class="task-footer completed-date">
+            Due on: {{ task.dueDate| date: 'dd/MM/yyyy' }}
+          </div>
+        </mat-card-footer>
+      </mat-card>
+    </a>
   </div>
 </div>
 <mat-paginator
-      (page)="handlePageEvent($event)"
-      [pageSize]="pageSize"
-      [length]="tasksLength()"
-    ></mat-paginator>
+  (page)="handlePageEvent($event)"
+  [pageSize]="pageSize"
+  [length]="tasksLength()"
+></mat-paginator>

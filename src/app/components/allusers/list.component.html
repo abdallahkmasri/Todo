@@ -1,6 +1,6 @@
-<div style="background-color: #ffff;">
+<div style="background-color: #ffff">
   <div *ngIf="tasks$ | async as tasks">
-    <table style="border: #ccc thick;">
+    <table style="border: #ccc thick">
       <div>
         <tr>
           <th>UserName</th>
@@ -11,13 +11,22 @@
           <th>{{ task.userName }}</th>
           <td>
             <ul>
-              <li><strong>Title:</strong> {{ task.title }}</li><br>
-              <li><strong>CreatedDate:</strong> {{ task.createdDate }}</li><br>
-              <li><strong>Description:</strong> {{ task.description }}</li><br>
-              <li><strong>DueDate:</strong> {{ task.dueDate }}</li><br>
-              <li><strong>Priority:</strong> {{ task.priority }}</li><br>
-              <li><strong>Status:</strong> {{ task.status }}</li><br>
-              <li><strong>Category:</strong> {{ getCategory(task.category) }}</li>
+              <li><strong>Title:</strong> {{ task.title }}</li>
+              <br />
+              <li><strong>CreatedDate:</strong> {{ task.createdDate }}</li>
+              <br />
+              <li><strong>Description:</strong> {{ task.description }}</li>
+              <br />
+              <li><strong>DueDate:</strong> {{ task.dueDate }}</li>
+              <br />
+              <li><strong>Priority:</strong> {{ task.priority }}</li>
+              <br />
+              <li><strong>Status:</strong> {{ task.status }}</li>
+              <br />
+              <li>
+                <strong>Category:</strong>
+                {{ getCategory(task.taskCategories[0]) }}
+              </li>
             </ul>
           </td>
           <th>{{ task.userId }}</th>

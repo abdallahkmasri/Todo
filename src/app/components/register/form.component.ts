@@ -71,7 +71,7 @@ export class RegisterComponent {
     if (this.signupForm.valid) {
       this.registerService.register(this.signupForm.value).subscribe({
         next: () => {
-          this.router.navigateByUrl('/')
+          this.router.navigateByUrl('/');
         },
         error: (error) => {
           // Handle registration error
@@ -79,8 +79,6 @@ export class RegisterComponent {
           this.submit = false;
         },
       });
-
-      
     }
   }
 }

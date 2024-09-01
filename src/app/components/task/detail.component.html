@@ -7,7 +7,7 @@
     <form [formGroup]="searchForm" (ngSubmit)="Search()">
       <mat-form-field appearance="outline">
         <mat-label>Search your task here</mat-label>
-        <input matInput formControlName="item" placeholder="title or date"/>
+        <input matInput formControlName="item" placeholder="title or date" />
         <button
           extended
           matSuffix
@@ -72,8 +72,11 @@
       <mat-card-content>
         {{ task.description }}
       </mat-card-content>
-      <br>
-      <mat-card-actions style="margin: 75px 10px 10px 0px;">
+      <mat-card-footer class="example-card-footer">
+        Category: <span>{{ getCategory(task.taskCategories[0]) }}</span>
+      </mat-card-footer>
+      <br />
+      <mat-card-actions style="margin: 75px 10px 10px 0px">
         <span class="example-spacer"></span>
         <button
           mat-fab

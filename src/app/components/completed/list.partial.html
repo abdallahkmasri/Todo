@@ -14,6 +14,9 @@
       </mat-card-header>
       <mat-card-footer class="example-card-footer">
         Status: <strong class="custom-green">{{ task.status }}</strong>
+        <div>
+          Category: <strong>{{getCategory(task.taskCategories[0])}}</strong>
+        </div>
       </mat-card-footer>
     </mat-card></a
   >

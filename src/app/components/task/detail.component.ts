@@ -77,22 +77,20 @@ export class TaskDetailComponent implements OnInit {
   }
 
   Delete() {
-    this.taskService
-      .deleteTask(this.id).subscribe({
-        next: () => {
-          this.taskState.removeItem(this.id);
-          this.Back();
-        }
-      })
+    this.taskService.deleteTask(this.id).subscribe({
+      next: () => {
+        this.taskState.removeItem(this.id);
+        this.Back();
+      },
+    });
   }
 
   markComplete() {
-    this.taskService
-      .markComplete(this.id).subscribe({
-        next: () => {
-          this.Back();
-        }
-      })
+    this.taskService.markComplete(this.id).subscribe({
+      next: () => {
+        this.Back();
+      },
+    });
   }
 
   openDialog(task: ITask): void {
@@ -108,5 +106,9 @@ export class TaskDetailComponent implements OnInit {
     this.router.navigate([`/search/`], {
       queryParams: { searchTerm: searchTerm },
     });
+  }
+
+  getCategory(category: string): string {
+    return category ? category : 'No Category';
   }
 }

@@ -11,7 +11,13 @@ import { ITask } from 'src/app/models/task.model';
   templateUrl: './list.partial.html',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, MatCardModule, MatIconModule, RouterModule, MatPaginatorModule],
+  imports: [
+    CommonModule,
+    MatCardModule,
+    MatIconModule,
+    RouterModule,
+    MatPaginatorModule,
+  ],
 })
 export class TaskListPartial {
   @Input() tasks: ITask[];
@@ -25,7 +31,9 @@ export class TaskListPartial {
 
   get sorted(): ITask[] {
     if (this.tasks) {
-      return this.tasks.sort((a, b) => this.compareTasks(a, b)).filter(t => t.status !== "Completed");
+      return this.tasks
+        .sort((a, b) => this.compareTasks(a, b))
+        .filter((t) => t.status !== 'Completed');
     } else {
       return [];
     }
@@ -33,11 +41,15 @@ export class TaskListPartial {
 
   // Method to compare tasks based on priority and due date
   compareTasks(task1: ITask, task2: ITask): number {
-    const priorityOrder = this.getPriorityOrder(task1.priority) - this.getPriorityOrder(task2.priority);
+    const priorityOrder =
+      this.getPriorityOrder(task1.priority) -
+      this.getPriorityOrder(task2.priority);
     if (priorityOrder !== 0) {
       return priorityOrder;
     }
-    return new Date(task1.dueDate).getTime() - new Date(task2.dueDate).getTime();
+    return (
+      new Date(task1.dueDate).getTime() - new Date(task2.dueDate).getTime()
+    );
   }
 
   // Method to assign a numeric value to each priority for comparison
@@ -60,8 +72,8 @@ export class TaskListPartial {
     const startIndex = this.pageIndex * this.pageSize;
     return this.sorted.slice(startIndex, startIndex + this.pageSize);
   }
-  
+
   getCategory(category: string): string {
-    return category ? category : "No Category";
-}
+    return category ? category : 'No Category';
+  }
 }

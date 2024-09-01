@@ -77,25 +77,11 @@
       <p>
         <mat-label><strong>Category</strong></mat-label>
       </p>
-      <mat-radio-group
-        formControlName="category"
-        style="display: flex; align-items: center"
-      >
-        <span>Work</span>
-        <mat-radio-button [value]="categories[0]"></mat-radio-button>
-
-        <span>Family</span>
-        <mat-radio-button [value]="categories[1]"></mat-radio-button>
-
-        <span>Health</span>
-        <mat-radio-button [value]="categories[2]"></mat-radio-button>
-
-        <span>Finacial</span>
-        <mat-radio-button [value]="categories[3]"></mat-radio-button>
-
-        <span>Other</span>
-        <mat-radio-button [value]="categories[4]"></mat-radio-button>
-      </mat-radio-group>
+      <div formArrayName="taskCategories">
+        <div *ngFor="let category of categories; let i = index">
+          <mat-checkbox [formControlName]="i">{{ category }}</mat-checkbox>
+        </div>
+      </div>
       <p>
         <mat-form-field appearance="outline" style="width: 100%">
           <mat-label>Description</mat-label>

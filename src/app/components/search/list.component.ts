@@ -46,7 +46,7 @@ export class SearchListComponent implements OnInit {
     private taskService: TaskService,
     private signinService: SigninService,
     private route: ActivatedRoute,
-    private fb: FormBuilder,
+    private fb: FormBuilder
   ) {
     this.searchForm = this.fb.group({
       item: new FormControl(''),

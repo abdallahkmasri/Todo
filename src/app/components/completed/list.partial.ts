@@ -11,7 +11,13 @@ import { RouterModule } from '@angular/router';
   templateUrl: './list.partial.html',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, MatIconModule, MatCardModule, RouterModule, MatPaginatorModule]
+  imports: [
+    CommonModule,
+    MatIconModule,
+    MatCardModule,
+    RouterModule,
+    MatPaginatorModule,
+  ],
 })
 export class CompletedListPartial {
   @Input() tasks: ITask[];
@@ -23,20 +29,25 @@ export class CompletedListPartial {
   }
 
   get Completed() {
-    if(this.tasks){
+    if (this.tasks) {
       return this.tasks.filter((s) => s.status === 'Completed');
-    }
-    else{
+    } else {
       return null;
     }
   }
 
   tasksLength(): number {
-    return this.Completed?.filter(task => task.status === 'Completed').length || 0;
+    return (
+      this.Completed?.filter((task) => task.status === 'Completed').length || 0
+    );
   }
 
   get paginatedTasks(): ITask[] {
     const startIndex = this.pageIndex * this.pageSize;
     return this.Completed.slice(startIndex, startIndex + this.pageSize);
+  }
+
+  getCategory(category: string): string {
+    return category ? category : 'No Category';
   }
 }

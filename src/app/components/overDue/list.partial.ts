@@ -11,7 +11,13 @@ import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
   templateUrl: './list.partial.html',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, MatCardModule, MatIconModule, RouterModule, MatPaginatorModule],
+  imports: [
+    CommonModule,
+    MatCardModule,
+    MatIconModule,
+    RouterModule,
+    MatPaginatorModule,
+  ],
 })
 export class TaskOverDuelList {
   @Input() tasks: ITask[];
@@ -25,9 +31,11 @@ export class TaskOverDuelList {
 
   get sorted(): ITask[] {
     if (this.tasks) {
-      return this.tasks.sort((a, b) => {
-        return <any>new Date(a.dueDate) - <any>new Date(b.dueDate);
-      }).filter(t => t.status !== "Completed");
+      return this.tasks
+        .sort((a, b) => {
+          return <any>new Date(a.dueDate) - <any>new Date(b.dueDate);
+        })
+        .filter((t) => t.status !== 'Completed');
     } else {
       return null;
     }
@@ -45,5 +53,9 @@ export class TaskOverDuelList {
   get paginatedTasks(): ITask[] {
     const startIndex = this.pageIndex * this.pageSize;
     return this.sorted.slice(startIndex, startIndex + this.pageSize);
+  }
+
+  getCategory(category: string): string {
+    return category ? category : 'No Category';
   }
 }
