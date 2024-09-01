@@ -200,74 +200,98 @@ namespace TodoApp.Controllers
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            // Parse categoryIds from string to integer
-            List<int> parsedCategoryIds = new List<int>();
-            if (categoryIds.Any())
+            if (HttpContext.Items.TryGetValue("UserId", out var userIdObj) && int.TryParse(userIdObj.ToString(), out int userId))
             {
-                foreach (var categoryId in categoryIds)
+                // Parse categoryIds from string to integer
+                List<int> parsedCategoryIds = new List<int>();
+                if (categoryIds.Any())
                 {
-                    if (int.TryParse(categoryId, out int parsedId))
+                    foreach (var categoryId in categoryIds)
                     {
-                        parsedCategoryIds.Add(parsedId);
-                    }
-                    else
-                    {
-                        return BadRequest("Invalid category ID format.");
-                    }
-                }
-            }
-
-            // Check for duplicate task title within any provided category (excluding the current task)
-            if (parsedCategoryIds.Count > 0)
-            {
-                foreach (var categoryId in parsedCategoryIds)
-                {
-                    if (await _taskService.IsDuplicateTask(taskModel.Title, categoryId, id)) // Pass task ID to exclude current task
-                    {
-                        return BadRequest("Task with the same title already exists in one of the selected categories.");
+                        if (int.TryParse(categoryId, out int parsedId))
+                        {
+                            parsedCategoryIds.Add(parsedId);
+                        }
+                        else
+                        {
+                            return BadRequest("Invalid category ID format.");
+                        }
                     }
                 }
-            }
 
-            var task = await _taskService.GetTaskByIdAsync(id);
-            if (task == null) return NotFound();
+                // Retrieve the existing task
+                var task = await _taskService.GetTaskByIdAsync(id);
+                if (task == null) return NotFound();
 
-            // Update task properties
-            task.Title = taskModel.Title;
-            task.Description = taskModel.Description;
-            task.DueDate = taskModel.DueDate;
-            task.Priority = taskModel.Priority;
-            task.Status = taskModel.Status;
-
-            // Update categories if provided
-            if (parsedCategoryIds.Count > 0)
-            {
-                // Clear existing categories and add the new ones
-                task.TaskCategories.Clear();
-                task.TaskCategories = parsedCategoryIds.Select(categoryId => new TaskCategory
+                if (parsedCategoryIds.Count < 1)
                 {
-                    TaskId = task.ID,
-                    CategoryId = categoryId
-                }).ToList();
+                    task.Title = taskModel.Title;
+                    task.Description = taskModel.Description;
+                    task.DueDate = taskModel.DueDate;
+                    task.Priority = taskModel.Priority;
+                    task.Status = taskModel.Status;
+                    task.TaskCategories.Clear();
+                    await _taskService.UpdateTaskAsync(task);
+                }
+                else
+                {
+                    // Update the existing task with the first category (if any)
+                    if (parsedCategoryIds.Count > 0)
+                    {
+                        task.Title = taskModel.Title;
+                        task.Description = taskModel.Description;
+                        task.DueDate = taskModel.DueDate;
+                        task.Priority = taskModel.Priority;
+                        task.Status = taskModel.Status;
+
+                        // Clear existing categories and assign the first one
+                        task.TaskCategories.Clear();
+                        task.TaskCategories.Add(new TaskCategory { TaskId = task.ID, CategoryId = parsedCategoryIds[0] });
+
+                        await _taskService.UpdateTaskAsync(task);
+                    }
+
+                    // Create new tasks for each additional category
+                    if (parsedCategoryIds.Count > 1)
+                    {
+                        for (int i = 1; i < parsedCategoryIds.Count; i++)
+                        {
+                            var newTask = new TaskModel
+                            {
+                                Title = taskModel.Title,
+                                Description = taskModel.Description,
+                                DueDate = taskModel.DueDate,
+                                Priority = taskModel.Priority,
+                                Status = taskModel.Status,
+                                UserId = userId,
+                                CreatedDate = taskModel.CreatedDate,
+                                TaskCategories = new List<TaskCategory> { new TaskCategory { CategoryId = parsedCategoryIds[i] } },
+                            };
+
+                            await _taskService.AddTaskAsync(newTask);
+                        }
+                    }
+                }
+
+                // Prepare the response DTO for the updated task
+                var taskDto = new TaskDto
+                {
+                    ID = task.ID,
+                    Title = task.Title,
+                    Description = task.Description,
+                    DueDate = task.DueDate,
+                    Priority = task.Priority,
+                    Status = task.Status.ToString(),
+                    CreatedDate = task.CreatedDate,
+                    TaskCategories = task.TaskCategories.Select(tc => tc.Category?.Name).ToList(),
+                };
+
+                return Ok(taskDto);
             }
 
-            await _taskService.UpdateTaskAsync(task);
-
-            // Create DTO to return
-            var taskDto = new TaskDto
-            {
-                ID = task.ID,
-                Title = task.Title,
-                Description = task.Description,
-                DueDate = task.DueDate,
-                Priority = task.Priority,
-                Status = task.Status.ToString(),
-                CreatedDate = task.CreatedDate,
-                TaskCategories = task.TaskCategories.Select(tc => tc.Category?.Name).ToList(),
-            };
-
-            return Ok(taskDto);
+            return Unauthorized();
         }
+
 
         // DELETE: api/tasks/{id}
         [HttpDelete("{id}")]

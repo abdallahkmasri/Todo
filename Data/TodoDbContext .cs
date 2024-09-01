@@ -51,7 +51,8 @@ namespace TodoApp.Data
 
             modelBuilder.Entity<TaskCategory>(entity =>
             {
-                entity.HasKey(tc => tc.ID);
+
+                entity.HasKey(tc => new { tc.TaskId, tc.CategoryId });
 
                 entity.HasOne(tc => tc.Task)
                       .WithMany(t => t.TaskCategories)

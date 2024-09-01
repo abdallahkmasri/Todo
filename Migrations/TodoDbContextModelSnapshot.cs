@@ -41,23 +41,15 @@ namespace TodoApp.Migrations
 
             modelBuilder.Entity("TodoApp.Models.TaskCategory", b =>
                 {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
+                    b.Property<int>("TaskId")
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
 
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
-                    b.Property<int>("TaskId")
-                        .HasColumnType("int");
-
-                    b.HasKey("ID");
+                    b.HasKey("TaskId", "CategoryId");
 
                     b.HasIndex("CategoryId");
-
-                    b.HasIndex("TaskId");
 
                     b.ToTable("TaskCategories");
                 });
