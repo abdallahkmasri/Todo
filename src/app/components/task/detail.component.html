@@ -73,7 +73,13 @@
         {{ task.description }}
       </mat-card-content>
       <mat-card-footer class="example-card-footer">
-        Category: <span>{{ getCategory(task.taskCategories[0]) }}</span>
+        <div *ngIf="task.taskCategories.length > 0">
+          Category(s): 
+        <span *ngFor="let item of task.taskCategories">{{ item }}, </span>
+      </div>
+      <div *ngIf="task.taskCategories.length <= 0">
+        Category(s): No Category
+      </div>
       </mat-card-footer>
       <br />
       <mat-card-actions style="margin: 75px 10px 10px 0px">

@@ -72,4 +72,8 @@ export class SearchListComponent implements OnInit {
     const searchTerm = searchparams.item;
     this.tasks$ = this.taskService.searchTasks(searchTerm);
   }
+
+  getCategory(category: string): string {
+    return category ? category : 'No Category';
+  }
 }

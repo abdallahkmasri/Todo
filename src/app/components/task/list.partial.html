@@ -38,7 +38,13 @@
                 Created on: {{ task.createdDate | date: 'dd/MM/yyyy' }}
               </span>
             </div>
-            <div>Category: {{ getCategory(task.taskCategories[0]) }}</div>
+            <div *ngIf="task.taskCategories.length > 0">
+              Category(s): 
+            <span *ngFor="let item of task.taskCategories">{{ item }}, </span>
+          </div>
+          <div *ngIf="task.taskCategories.length <= 0">
+            Category(s): No Category
+          </div>
             <div>Due on: {{ task.dueDate | date: 'dd/MM/yyyy' }}</div>
           </mat-card-content>
         </a>

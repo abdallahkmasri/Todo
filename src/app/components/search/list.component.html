@@ -72,6 +72,13 @@
                     {{ task.priority }}</strong
                   ></span
                 >
+                <div *ngIf="task.taskCategories.length > 0">
+                  Category(s): 
+                <span *ngFor="let item of task.taskCategories">{{ item }}, </span>
+              </div>
+              <div *ngIf="task.taskCategories.length <= 0">
+                Category(s): No Category
+              </div>
                 <span>
                   <p>
                     Status:

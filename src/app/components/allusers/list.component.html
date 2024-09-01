@@ -24,8 +24,13 @@
               <li><strong>Status:</strong> {{ task.status }}</li>
               <br />
               <li>
-                <strong>Category:</strong>
-                {{ getCategory(task.taskCategories[0]) }}
+                <div *ngIf="task.taskCategories.length > 0">
+                  <strong>Category(s): </strong>
+                <span *ngFor="let item of task.taskCategories">{{ item }}, </span>
+              </div>
+              <div *ngIf="task.taskCategories.length <= 0">
+              <strong>Category(s): </strong>No Category
+              </div>
               </li>
             </ul>
           </td>
