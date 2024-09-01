@@ -47,7 +47,7 @@ namespace TodoApp.Services
         public async Task MarkTaskAsCompletedAsync(int id) =>
             await _todoRepository.MarkTaskAsCompletedAsync(id);
 
-        public async Task<IEnumerable<TaskModel>> SearchTasksAsync(int userId, string searchTerm) =>
+        public async Task<IEnumerable<TaskDto>> SearchTasksAsync(int userId, string searchTerm) =>
             await _todoRepository.SearchTasksAsync(userId, searchTerm);
         
     }

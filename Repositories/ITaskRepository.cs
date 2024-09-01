@@ -11,7 +11,7 @@ namespace TodoApi.Repositories
         Task UpdateTaskAsync(TaskModel todoItem);
         Task DeleteTaskAsync(int id);
         Task SaveChangesAsync();
-        Task<IEnumerable<TaskModel>> SearchTasksAsync(int userId, string searchTerm);
+        Task<IEnumerable<TaskDto>> SearchTasksAsync(int userId, string searchTerm);
         Task MarkTaskAsCompletedAsync(int taskId);
         Task<IEnumerable<TaskModel>> GetAllUsersTasks();
         Task<bool> IsDuplicateTask(string title, int? categoryId, int? taskId = null);

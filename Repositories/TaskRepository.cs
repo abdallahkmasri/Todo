@@ -48,7 +48,7 @@ namespace TodoApp.Repositories
                 .Include(t => t.User)
                 .Include(t => t.TaskCategories)
                 .ThenInclude(t => t.Category)
-                .OrderByDescending(t => t.ID)
+                .OrderByDescending(t => t.UserId)
                 .ToListAsync();
 
             return tasks;
@@ -86,7 +86,7 @@ namespace TodoApp.Repositories
         public async Task SaveChangesAsync() =>
             await _context.SaveChangesAsync();
 
-        public async Task<IEnumerable<TaskModel>> SearchTasksAsync(int userId, string searchTerm)
+        public async Task<IEnumerable<TaskDto>> SearchTasksAsync(int userId, string searchTerm)
         {
             // Attempt to parse the searchTerm as a DateOnly
             DateOnly parsedDueDate;
@@ -98,15 +98,31 @@ namespace TodoApp.Repositories
             if (isDate)
             {
                 // If searchTerm is a date, search by DueDate
-                query = query.Where(t => t.DueDate == parsedDueDate);
+                query = query.Where(t => t.DueDate == parsedDueDate)
+                                .Include(t => t.TaskCategories)
+                                .ThenInclude(tc => tc.Category);
             }
             else
             {
                 // Otherwise, search by Title
-                query = query.Where(t => t.Title.Contains(searchTerm));
+                query = query.Where(t => t.Title.Contains(searchTerm))
+                                .Include(t => t.TaskCategories)
+                                .ThenInclude(tc => tc.Category);
             }
 
-            return await query.ToListAsync();
+            var taskDtos = await query.Select(t => new TaskDto
+            {
+                ID = t.ID,
+                Title = t.Title,
+                Description = t.Description,
+                DueDate = t.DueDate,
+                Priority = t.Priority,
+                Status = t.Status.ToString(), // Assuming Status is an enum
+                CreatedDate = t.CreatedDate,
+                TaskCategories = t.TaskCategories.Select(tc => tc.Category.Name).ToList()
+            }).ToListAsync();
+
+            return taskDtos;
 
         }
 

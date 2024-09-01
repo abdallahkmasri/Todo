@@ -11,7 +11,7 @@ namespace TodoApp.Services
         Task UpdateTaskAsync(TaskModel todoItem);
         Task DeleteTaskAsync(int id);
         Task MarkTaskAsCompletedAsync(int id);
-        Task<IEnumerable<TaskModel>> SearchTasksAsync(int userId, string searchTerm);
+        Task<IEnumerable<TaskDto>> SearchTasksAsync(int userId, string searchTerm);
         Task<IEnumerable<TaskModel>> GetAllUsersTasks();
         Task<bool> IsDuplicateTask(string title, int? categoryId = null, int? taskId = null);
         Task AddTasksAsync(IEnumerable<TaskModel> tasks);
